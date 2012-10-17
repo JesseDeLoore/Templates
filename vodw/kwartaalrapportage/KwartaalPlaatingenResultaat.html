@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<cx:let name="date" value="$utilities.currentDate.previousMonth.previousMonth.previousMonth"> 
+<cx:let name="title" value="Resultaten van Plaatsingen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
+<head>
+	<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
+	<title><cx:write value="$title"/></title>
+	<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css" />
+	<style>
+/* OVERRIDES OF THE DEFAULT STYLESHEET */
+table {
+	margin-top: 1em;
+}
+table.center-align-th th {
+	text-align: center;
+}
+table.center-align-th th.left-align {
+	text-align: left;
+}
+table.center-align-td td {
+	text-align: center;
+}
+table.center-align-td td.left-align {
+	text-align: left;
+}
+th.visible-border {
+	border-right-color: silver;
+}
+th.visible-border+th {
+	border-left-color: silver;
+}
+caption {
+	text-align: left;
+}
+tfoot th, 
+tfoot td { /* copy of th.content */
+	background-color: #F0F0F0;
+	color: #555555;
+	border: 0 none;
+	text-align: left;
+	vertical-align: text-top;
+	padding: 2pt;
+}
+dt {
+	width: 10em;
+	float: left;
+	font-weight: bold;
+	padding-right: 2em;
+}
+ol {
+	list-style: decimal;
+}
+dd {
+	margin-left: 12em;
+}
+dd ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 15px;
+}
+.documentHeader h2 {
+	margin-top: 0px;
+}
+.documentHeader dl {
+	padding-left: 65px;
+}
+.documentHeader dt {
+	font-weight: normal;
+}
+.documentHeader dd {
+	font-weight: bold;
+}
+.viewport {
+	max-width: 780px;
+	width: 780px;
+	margin: auto;
+}
+@media print {
+	table, .page-break {
+		page-break-before: always;
+	}
+	.documentHeader table,
+	.no-page-break {
+		page-break-before: avoid;
+	}
+	th {
+		color: black !important;
+		border: 1px solid silver;
+	}
+}
+	</style>
+	<style>
+/* OVERRIDES FOR THE IMAGE PLACEHOLDERS */
+code {
+	color: red;
+	display: block;
+}
+.allow_space {
+	width: 100%;
+	height: 25em;
+	border: 1px solid silver;
+	margin-bottom: 1em;
+	display: block;
+}
+td.allow_space {
+	display: table-cell;
+}
+.allow_space.float {
+	width: 48%;
+	float: left;
+}
+.allow_space.float.right {
+	float: right;
+}
+	</style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+<cx:write value="var counts={},lostStatusses={},statussesPerPerson={}"/>;	
+	
+<cx:define tag="perQuarter">
+	<cx:let name='filter' expand="" value='@filter.creationDate>=(NSCalendarDate)"${_date}" AND creationDate<(NSCalendarDate)"${_date.nextMonth.nextMonth.nextMonth}"'>
+	<cx:let name="vacancies" value="$vacancies" invoke="$filter">
+	<cx:let name="id" expand="" value="Q${_date.quarterOfYear}_${_date.yearOfCommonEra}">
+	
+	<cx:let name="lost" value="$vacancies" invoke="$lostFilter">
+		counts.<cx:write value="$id"/> = {
+				total 		: <cx:write value="$vacancies.count"/>,
+				lost			:	<cx:write value="$lost.count"/>,
+				success		: <cx:let value="$vacancies" name="s" invoke="$successFilter"><cx:write value="$s.count"/></cx:let>,
+				rest			:	<cx:let value="$vacancies" name="r" invoke="$restFilter"><cx:write value="$r.count"/></cx:let>
+		};
+		
+		lostStatusses.<cx:write value="$id"/> = [];
+		
+		<cx:let name="perStatus" value="$lost.@group.toStatusNode.dataNodeID">
+		<cx:foreach list="$perStatus" item="group">
+			lostStatusses.<cx:write value="$id"/>.push({
+					value: "<cx:write value="$group.@first.toStatusNode.value"/>",
+					count: <cx:write value="$group.count"/>,
+					impressionable: <cx:let name="t" condition="$group.@first.toStatusNode.dataNodeID=4845 OR $group.@first.toStatusNode.dataNodeID=5442" iftrue="true" iffalse="false"><cx:write value="$t"/></cx:let>
+			});
+		</cx:foreach group>
+		</cx:let perStatus>
+	</cx:let lost>
+		
+	<cx:if condition="$_date.quarterOfYear = $date.quarterOfYear AND $_date.yearOfCommonEra = $date.yearOfCommonEra">
+		<cx:let name="perPerson" value="$vacancies.@group.owner.userID">
+		<cx:foreach list="$perPerson" item="personGroup">
+			statussesPerPerson["<cx:write value="$personGroup.@first.owner.lessFormalName"/>"] = {
+					name: "<cx:write value="$personGroup.@first.owner.lessFormalName"/>",
+					total: <cx:write value="$personGroup.count"/>,
+					success: <cx:let value="$personGroup" name="s" invoke="$successFilter"><cx:write value="$s.count"/></cx:let>,
+					lostStatusses: []
+			};
+			
+			<cx:let name="lostPerPerson" value="$personGroup" invoke="$lostFilter">
+			<cx:let name="perStatus" value="$lostPerPerson.@group.toStatusNode.dataNodeID">
+			<cx:foreach list="$perStatus" item="group">
+				statussesPerPerson["<cx:write value="$personGroup.@first.owner.lessFormalName"/>"].lostStatusses.push({
+						name: "<cx:write value="$personGroup.@first.owner.lessFormalName"/>",
+						value: "<cx:write value="$group.@first.toStatusNode.value"/>",
+						count: <cx:write value="$group.count"/>,
+						impressionable: <cx:let name="t" condition="$group.@first.toStatusNode.dataNodeID=4845 OR $group.@first.toStatusNode.dataNodeID=5442" iftrue="true" iffalse="false"><cx:write value="$t"/></cx:let>
+				});
+			</cx:foreach perStatus>
+			</cx:let perStatus>
+			</cx:let lostPerPerson>
+
+		</cx:foreach perStatusPerPerson>
+		</cx:let>
+	</cx:if>
+		
+	</cx:let id>
+	</cx:let vacancies>
+	</cx:let filter>
+	
+</cx:define perQuarter>
+
+<cx:let name="dateList" value="$date.midnight.previousMonth.previousMonth.previousMonth" invoke="datesUntilDate:" arg0="$date">
+<cx:let name="filter" value="@filter.quarterOfYear = ${date.quarterOfYear}" expand="">
+<cx:let name="firstDateOfQuarter" value="$dateList" invoke="$filter">
+<cx:let name="firstDateOfQuarter" value="$firstDateOfQuarter.@first">
+<cx:let name="successFilter" value="@filter.toStatusNode.exportCode = 'SUCCESS'">
+<cx:let name="lostFilter" value="@filter.toStatusNode.exportCode = 'LOST'">
+<cx:let name="restFilter" value="@filter.toStatusNode.exportCode <> 'SUCCESS' AND toStatusNode.exportCode <> 'LOST'">
+
+<cx:fetch list="vacancies" entity="CRVacancy" qualifier="(deleted=0)">
+	<cx:perQuarter date="$firstDateOfQuarter.previousYear"/>
+	<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth"/>
+	<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth"/>
+	<cx:perQuarter date="$firstDateOfQuarter.previousMonth.previousMonth.previousMonth"/>
+	<cx:perQuarter date="$firstDateOfQuarter"/>
+</cx:fetch vacancies>
+
+</cx:let restFilter>
+</cx:let lostFilter>
+</cx:let successFilter>
+</cx:let firstDateOfQuarter>
+</cx:let firstDateOfQuarter>
+</cx:let filter>
+</cx:let dateList>
+	</script>
+</head>
+
+<body>
+<div class="viewport">
+	<div class="documentHeader">
+		<table class="widenoborder center-align-th">
+			<tr>
+				<td style="width: 80%;">
+					<img style="float: left;" src="http://templates.carerix.com/images/CxDocument.png" />
+					<h2 id="documentTitle"><cx:write value="$title"/></h2>
+					<dl>
+						<dt>Uitgedraaid op:</dt>
+						<dd><cx:write value='$utilities.currentDate.formattedDate' /></dd>
+					</dl>
+				</td>
+				<td class="rt">
+					<!-- Display the logo of the customer, if it does not exist show the standard Carerix logo using JS -->
+					<cx:let name="logo" value="$activity.owner.agency.attachments" invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
+						<cx:if condition="$logo.count > 0">
+							<img style="max-height: 60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif"/>
+						</cx:if>
+						<!-- If the logo is not present, display the uploaded logo, if that one is also not present, display the standard cx logo -->
+						<cx:else>
+							<img style="max-height: 60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif" onerror="this.src='http://templates.carerix.com/images/cxlogo.gif'"/>
+						</cx:else>
+					</cx:let>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	
+	
+	
+	<table class="wideborder center-align-th center-align-td no-page-break" id="counts">
+		<caption><h4>Plaatsingen en succesratio</h4></caption>
+		<tbody>
+			<tr>
+				<th rowspan="4" class="border visible-border" style="vertical-align: middle; font-size: 200%;">Vacatures</th>
+				<th colspan="3" class="subcaption">Aanvragen</th>
+			</tr>
+			<tr>
+				<!-- TODO: Hieronder correcte aantal aanvragen (aangemaakte vacatures in periode) invullen -->
+				<td colspan="3" style="text-align: center;">60</td>
+			</tr>
+			<tr>
+				<th class="subcaption" style="width: 25%">Ingevuld</th>
+				<th class="subcaption" style="width: 25%">Vervallen</th>
+				<th class="subcaption" style="width: 25%">Overig</th>
+			</tr>
+			<tr>
+				<td style="text-align: center;">30</td><!-- TODO: aantal plaatsingen: gelijk aan vacatures met status 'geplaatst' -->
+				<td>25</td><!-- TODO: vacatures met andere status dan actief, oriëntatiefase en on hold -->
+				<td>5</td><!-- TODO: status actief, oriëntatiefase en on hold -->
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		<span class="allow_space" id="counts_pie">
+			<code>Hier komt een piechart: "Aanvragen van dit kwartaal"</code>
+		</span>
+	</p>
+	<h4>Ontwikkeling afgelopen 5 kwartalen</h4>
+	<p class="allow_space" id="counts_chart">
+		<code>Hier komt een barchart: Ontwikkeling aanvragen per kwartaal.</code>
+	</p>
+	
+	<dl>
+		<dt>Aanvragen</dt>
+		<dd>Het aantal vacatures dat dit kwartaal aangemaakt is. Dit <i>zou</i> gelijk moeten zijn aan de som van ingevuld, vervallen en overig</dd>
+		<dt>Plaatsingen</dt>
+		<dd>Het aantal vacatures met status 'geplaatst'</dd>
+		<dt>Vervallen</dt>
+		<dd>Het aantal vacatures met een status anders dan 'actief', 'oriëntatiefase' of 'on hold'</dd>
+		<dt>Overig</dt>
+		<dd>Aanvragen met de status 'actief', 'oriëntatiefase' of 'on hold'.</dd>
+	</dl>
+	
+	
+	<h4 class="page-break">Categoriën van vervallen</h4>
+	<p class="allow_space" id="lost_category_pie">
+		<code>Hier komt een piechart: "Inzicht in de categorie van vervallen"</code>
+	</p>
+	<p class="allow_space" id="lost_category_bar">
+		<code>Hier komt gestapelde barchart: "Ontwikkeling van de categorie van vervallen"</code>
+	</p>
+	<dl>
+		<dt>Aanvragen</dt>
+		<dd>Het aantal vacatures dat dit kwartaal aangemaakt is.</dd>
+		<dt>Vervallen</dt>
+		<dd>Het aantal vacatures met een status anders dan 'actief', 'oriëntatiefase' of 'on hold'</dd>
+		<dt>Beïnvloedbaar</dt>
+		<dd>
+			<ul>
+				<li>Opdracht zelf ingetrokken</li>
+				<li>Opdracht vergeven – Tarief te hoog</li>
+				<li>Opdracht vergeven – Kwaliteit</li>
+				<li>Opdracht vergeven – Geen enkele match</li>
+				<li>Opdracht vergeven – Matches niet beschikbaar</li>
+			</ul> 
+		</dd>
+		<dt>Niet beïnvloedbaar</dt>
+		<dd>
+			<ul>
+				<li>Geen reactie</li>
+				<li>Vervallen - Opdracht ingetrokken (geen externe partij)</li>
+			</ul>
+		</dd>
+	</dl>
+	
+	
+	<h4 class="page-break">Redenen van vervallen</h4>
+	<p class="allow_space" id="lost_reason_pie">
+		<code>Hier komt een piechart: "Inzicht in de reden van vervallen"</code>
+	</p>
+	<p class="allow_space" id="lost_reason_bar" style="height: 40em;">
+		<code>Hier komt barchart: "Ontwikkeling van de reden van vervallen"</code>
+	</p>
+	<dl>
+		<dt>Aanvragen</dt>
+		<dd>Het aantal vacatures dat dit kwartaal aangemaakt is.</dd>
+		<dt>Vervallen</dt>
+		<dd>Het aantal vacatures met een status anders dan 'actief', 'oriëntatiefase' of 'on hold'</dd>
+		<dt>Beïnvloedbaar</dt>
+		<dd>
+			<ul>
+				<li>Opdracht zelf ingetrokken</li>
+				<li>Opdracht vergeven – Tarief te hoog</li>
+				<li>Opdracht vergeven – Kwaliteit</li>
+				<li>Opdracht vergeven – Geen enkele match</li>
+				<li>Opdracht vergeven – Matches niet beschikbaar</li>
+			</ul> 
+		</dd>
+		<dt>Niet beïnvloedbaar</dt>
+		<dd>
+			<ul>
+				<li>Geen reactie</li>
+				<li>Vervallen - Opdracht ingetrokken (geen externe partij)</li>
+			</ul>
+		</dd>
+	</dl>
+	
+	<table class="wideborder center-align-th center-align-td" id="per_person">
+		<!-- TODO: Opmerking: uitgangspunt in deze tabel zijn de vacatures die in het betreffende kwartaal zijn aangemaakt.   -->
+		<caption><h4>Aanvragen per verantwoordelijke</h4></caption>
+		<thead>
+			<tr>
+				<th class="left-align">PC</th>
+				<th>Aanvragen (#)</th>
+				<th>Vervallen –<br/> niet beinvloedbaar (%)</th>
+				<th>Vervallen –<br/> beinvloedbaar (%)</th>
+				<th>Succesratio<br/> (plaatsingen) (%)</th>
+			</tr>
+		</thead>
+		<tfoot/>
+		<tbody/>
+	</table>
+	
+	<dl>
+		<dt>Aanvragen</dt>
+		<dd>Het aantal vacatures dat dit kwartaal aangemaakt is.</dd>
+		<dt>Vervallen</dt>
+		<dd>Het aantal vacatures met een status anders dan 'actief', 'oriëntatiefase' of 'on hold'</dd>
+		<dt>Beïnvloedbaar</dt>
+		<dd>
+			<ul>
+				<li>Opdracht zelf ingetrokken</li>
+				<li>Opdracht vergeven – Tarief te hoog</li>
+				<li>Opdracht vergeven – Kwaliteit</li>
+				<li>Opdracht vergeven – Geen enkele match</li>
+				<li>Opdracht vergeven – Matches niet beschikbaar</li>
+			</ul> 
+		</dd>
+		<dt>Niet beïnvloedbaar</dt>
+		<dd>
+			<ul>
+				<li>Geen reactie</li>
+				<li>Vervallen - Opdracht ingetrokken (geen externe partij)</li>
+			</ul>
+		</dd>
+	</dl>
+
+
+
+	
+</div>
+<script type="text/javascript">
+var charts = [], chart, success, it, tmp, tmp2, tmp3, reasonBarsIndex, maxSize = 0, found;
+
+function percentage(num, tot) {
+	return { v: Math.round(100 * num / tot) / 100 , f: Math.round(100 * num / tot) + '%' };
+}
+
+<cx:let name="obj" expand="" value="Q${date.quarterOfYear}_${date.yearOfCommonEra}">
+	$('#counts').find('tbody tr:eq(1) td:eq(0)').html(counts.<cx:write value="$obj"/>.total);
+	$('#counts').find('tbody tr:eq(3) td:eq(0)').html(counts.<cx:write value="$obj"/>.success);
+	$('#counts').find('tbody tr:eq(3) td:eq(1)').html(counts.<cx:write value="$obj"/>.lost);
+	$('#counts').find('tbody tr:eq(3) td:eq(2)').html(counts.<cx:write value="$obj"/>.rest);
+	
+	/**
+	 * Add the piechart for the types
+	 */
+	charts.push({
+		  id: 'counts_pie',
+		  chartType: 'PieChart',
+		  options: {
+			  title : 'Aanvragen dit Kwartaal (Q<cx:write value="$date.quarterOfYear"/> <cx:write value="$date.yearOfCommonEra"/>)',
+			  colors : ['rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)']
+			},
+		  data: [
+		         ['Plaatsingen', 'Aantal'],
+		         ['Ingevuld', counts.<cx:write value="$obj"/>.success],
+		         ['Vervallen', counts.<cx:write value="$obj"/>.lost],
+		         ['Overig', counts.<cx:write value="$obj"/>.rest]
+			]
+	});
+	
+	/**
+	 * Parse and add the piecharts for the lost reasons and categories
+	 */
+	var categoryPie = {
+			id : 'lost_category_pie',
+			chartType: 'PieChart',
+			options: {
+				title: 'Dit kwartaal',
+				colors : ['rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)']
+			},
+			data: [['Categorie','Aantal'],['Niet-beïnvloedbaar',0],['Beïnvloedbaar',0]]
+	};
+	var reasonPie = {
+			id : 'lost_reason_pie',
+			chartType: 'PieChart',
+			options: {
+				title: 'Dit kwartaal',
+				colors : ['rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)']
+			},
+			data: [['Categorie','Aantal']]
+	};
+	
+	for ( it = 0; it < lostStatusses.<cx:write value="$obj"/>.length; it++ ) {
+		tmp = lostStatusses.<cx:write value="$obj"/>[it];
+		categoryPie.data[tmp.impressionable ? 2: 1][1] += tmp.count;
+		reasonPie.data.push([tmp.value, tmp.count]);
+	} // for
+	
+	/**
+	 * Parse and add the barcharts for the lost reasons and categories
+	 */
+	var categoryBars = {
+			id : 'lost_category_bar',
+			chartType: 'ColumnChart',
+			options: {
+				title: 'Ontwikkeling van de categorie van vervallen',
+				colors : ['rgb(198,217,241)', 'rgb(79,129,189)'],
+				vAxis: { format: '#,#%', minValue: 0, maxValue: 1},
+				isStacked: true
+			},
+			data: [['Kwartaal', 'Vervallen - niet beïnvloedbaar', 'Vervallen - beïnvloedbaar']]
+	};
+	
+	var reasonBars = {
+			id : 'lost_reason_bar',
+			chartType: 'BarChart',
+			options: {
+				title: 'Ontwikkeling van de reden van vervallen',
+				hAxis: { format: '#,#%' },
+				chartArea: {left: '35%', width:'50%'},
+				colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)']
+			},
+			data: [['Kwartaal']],
+	};
+	
+	var impressionables = [];
+	for ( var q in lostStatusses ) {
+		tmp3 = [q.replace('_', ' '), 0, 0];
+		for ( it = 0; it < lostStatusses[q].length; it++ ) {
+			found = false;
+			tmp = lostStatusses[q][it];
+			tmp2 = percentage(tmp.count, counts[q].lost);
+			maxSize = Math.max(tmp2.v, maxSize);
+			for ( it2 = 1; !found && it2 < reasonBars.data.length; it2++ ) {
+				if ( reasonBars.data[it2][0] === tmp.value ) {
+					found = true;
+					reasonBars.data[it2][reasonBars.data[0].length] = tmp2;
+				}
+			} // for
+			if ( !found ) {
+				reasonBars.data.push([tmp.value]);
+				reasonBars.data[reasonBars.data.length - 1][reasonBars.data[0].length] = tmp2;
+			}
+			if ( tmp.impressionable & !~impressionables.indexOf(tmp.value) ) {
+				impressionables.push(tmp.value);
+			}
+			
+			tmp3[tmp.impressionable ? 2 : 1] += tmp.count;
+		} // for
+		
+		tmp = tmp3[1] + tmp3[2]; 
+		tmp3[1] = percentage(tmp3[1], tmp);
+		tmp3[2] = percentage(tmp3[2], tmp + 0.0000000001);
+		categoryBars.data.push(tmp3);
+		reasonBars.data[0].push(q.replace('_', ' '));
+	} // for
+		
+	for ( it = 1; it < reasonBars.data.length; it++ ) {
+		for ( tmp = 0; tmp < reasonBars.data[0].length; tmp++ ) {
+			if ( typeof reasonBars.data[it][tmp] === typeof undefined ) {
+				reasonBars.data[it][tmp] = 0;
+			}
+		} // for
+	} // for
+	reasonBars.options.hAxis.maxValue = Math.ceil(10 * maxSize) / 10;
+	
+	reasonBars.data.sort(function(a,b){
+		if ( a[0] === 'Kwartaal' ) return -1;
+		if ( !~impressionables.indexOf(a[0]) === !~impressionables.indexOf(b[0]) ) {
+			return a[0] < b[0] ? -1 : 1;
+		} else {
+			return !~impressionables.indexOf(a[0]) ? -1 : 1; 
+		}
+	});
+	
+	charts.push(categoryPie);
+	charts.push(reasonPie);
+	charts.push(categoryBars);
+	charts.push(reasonBars);
+</cx:let>
+
+chart = {
+		id: "counts_chart",
+		chartType: 'ComboChart',
+		options: {
+			title:'Aanvragen per Kwartaal',
+			seriesType: 'bars',
+			interpolateNulls: true,
+			series: {4: {'type': 'line', 'targetAxisIndex': 1}},
+			pointSize: 5,
+			colors : ['rgb(55,96,146)', 'rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)', 'rgb(146,208,80)'],
+			vAxes:[
+				{minValue: 0, maxValue: 1},
+				{minValue: 1, maxValue: 0, format: '#,#%', baselineColor: 'transparent'}
+			]
+		},
+		data: [['Kwartaal','Totaal','Ingevuld','Vervallen', 'Overig', 'Succesratio']]
+};
+for ( it in counts ) {
+	if ( counts[it].total ) {
+		success = percentage(counts[it].success, counts[it].total);
+		chart.options.vAxes[0].maxValue = Math.max(counts[it].total * 2, chart.options.vAxes[0].maxValue);
+		chart.options.vAxes[1].maxValue = Math.max(success.v, chart.options.vAxes[1].maxValue);
+	} else {
+		success = 0;
+	}
+	chart.data.push([
+	 		it.replace('_', ' '),
+	 		counts[it].total,
+	 		counts[it].success,
+	 		counts[it].lost,
+	 		counts[it].rest,
+	 		success
+ 	]);
+} // for
+chart.options.vAxes[1].minValue = -chart.options.vAxes[1].maxValue;
+charts.push(chart);
+
+
+/**
+ * Fill the aanvragen per verantwoordelijke table
+ */
+var endrow=['Totaal',0,0,0,0], $table = $('#per_person'), $tbody = $table.find('tbody');
+$.each(statussesPerPerson, function() {
+	var row = [this.name, this.total, 0, 0, '0%'];
+	endrow[1] += this.total;
+	if ( this.total !== 0 ) {
+		row[4] = Math.round(100 * this.success / this.total);
+		$.each(this.lostStatusses, function() {
+			row[this.impressionable ? 3 : 2] += this.count;
+			endrow[this.impressionable ? 3 : 2] += this.count; 
+		});
+		row[2] = Math.round(100 * row[2] / this.total);
+		row[3] = Math.round(100 * row[3] / this.total);
+	}
+	$tbody.append('<tr>'
+		+ '<td class="left-align">' + row[0] + '</td>'
+		+ '<td>' + row[1] + '</td>'
+		+ '<td>' + row[2] + '%</td>'
+		+ '<td>' + row[3] + '%</td>'
+		+ '<td>' + row[4] + '%</td>'
+		+ '</tr>'
+	);
+});
+endrow[2] = Math.round(100 * endrow[2] / endrow[1]);
+endrow[3] = Math.round(100 * endrow[3] / endrow[1]);
+$table.find('tfoot').html('<tr>'
+		+ '<th class="left-align">' + endrow[0] + '</th>'
+		+ '<td>' + endrow[1] + '</td>'
+		+ '<td>' + endrow[2] + '%</td>'
+		+ '<td>' + endrow[3] + '%</td>'
+		+ '<td>' + endrow[4] + '%</td>'
+		+ '</tr>'
+);
+ 
+/**
+ * Draws each of the charts as given in their description.
+ * @see https://google-developers.appspot.com/chart/interactive/docs/gallery
+ */
+function drawChart() {
+	var $container = $('#' + this.id),
+			data = new google.visualization.DataTable(),
+			chart = new google.visualization[this.chartType]($container.get(0));
+
+	
+	//data = google.visualization.arrayToDataTable([]);
+	data.addColumn('string', this.data[0][0]);
+	for ( var it = 1; it < this.data[0].length; it++ ) {
+		data.addColumn('number', this.data[0][it]);	
+	}
+	this.data.shift();
+	data.addRows(this.data);
+	
+	this.options.width = $container.width()
+	this.options.height = $container.height();
+	
+	if ( this.options.chartArea && this.options.chartArea.left ) {
+		this.options.width -= this.options.chartArea.left / 2;  
+	}
+	if ( this.options.chartArea && this.options.chartArea.right ) {
+		this.options.width -= this.options.chartArea.right / 2;  
+	}
+	chart.draw(data, this.options);
+} // drawCharts();
+
+google.load('visualization', '1.0', {'packages':['corechart']});
+google.setOnLoadCallback(function() { $.each(charts, drawChart); });
+</script>
+
+</cx:let title>
+</cx:let date>
+</body>
+</html>

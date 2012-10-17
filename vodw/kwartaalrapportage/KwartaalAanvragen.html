@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<cx:let name="date" value="$utilities.currentDate.previousMonth.previousMonth.previousMonth"> 
+<cx:let name="title" value="Aanvragen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
+<head>
+	<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
+	<title><cx:write value="$title"/></title>
+	<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css" />
+	<style>
+/* OVERRIDES OF THE DEFAULT STYLESHEET */
+table {
+	margin-top: 1em;
+}
+table.center-align-th th {
+	text-align: center;
+}
+table.center-align-th th.left-align {
+	text-align: left;
+}
+table.center-align-td td {
+	text-align: center;
+}
+table.center-align-td td.left-align {
+	text-align: left;
+}
+th.visible-border {
+	border-right-color: silver;
+}
+th.visible-border+th {
+	border-left-color: silver;
+}
+caption {
+	text-align: left;
+}
+caption h4 {
+	padding-top: 0px;
+}
+h4 {
+	padding-top: 1em;
+}
+tfoot th, 
+tfoot td { /* copy of th.content */
+	background-color: #F0F0F0;
+	color: #555555;
+	border: 0 none;
+	text-align: left;
+	vertical-align: text-top;
+	padding: 2pt;
+}
+dl {
+	padding-bottom: 2em;
+}
+dt {
+	width: 10em;
+	float: left;
+	font-weight: bold;
+	padding-right: 2em;
+}
+ol {
+	list-style: decimal;
+}
+dd {
+	margin-left: 12em;
+}
+dd ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 15px;
+}
+.documentHeader h2 {
+	margin-top: 0px;
+}
+.documentHeader dl {
+	padding-left: 65px;
+}
+.documentHeader dt {
+	font-weight: normal;
+}
+.documentHeader dd {
+	font-weight: bold;
+}
+.viewport {
+	max-width: 780px;
+	width: 780px;
+	margin: auto;
+}
+@media print {
+	table {
+		page-break-before: always;
+	}
+	.documentHeader table,
+	.no-page-break {
+		page-break-before: avoid;
+	}
+	th {
+		color: black !important;
+		border: 1px solid silver;
+	}
+}
+	</style>
+	<style>
+/* OVERRIDES FOR THE IMAGE PLACEHOLDERS */
+code {
+	color: red;
+	display: block;
+}
+.allow_space {
+	width: 100%;
+	height: 40em;
+	border: 1px solid silver;
+	margin-bottom: 1em;
+	display: block;
+}
+td.allow_space {
+	display: table-cell;
+}
+.allow_space.float {
+	width: 48%;
+	float: left;
+}
+.allow_space.float.right {
+	float: right;
+}
+	</style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+	if (!Array.prototype.indexOf) {
+	  Array.prototype.indexOf = function(elt) {
+	    var len = this.length >>> 0;
+	    var from = Number(arguments[1]) || 0;
+	    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+	    if (from < 0) from += len;
+	    for (; from < len; from++) {
+	      if (from in this && this[from] === elt) return from;
+	    }
+	    return -1;
+	  };
+	}
+	
+	<cx:write value="var "/>removeRegexp = /^\("(.*)"\)$/;
+	<cx:write value="function "/>parseName(name) {
+		if ( removeRegexp.test(name) ) {
+			<cx:write value="var "/>names = name.substring(2,name.length-2).split('", "');
+			names.sort();
+			name = names.pop();
+			if ( names.length > 0 ) {
+				name = names.join(', ') + ' en ' + name;	
+			}
+		} <cx:write value="else if"/>( name === '()' ) {
+			name = '';
+		}
+		<cx:write value="return "/>name;
+	}
+	<cx:write value="function "/>addName(arr, name) {
+		if ( !~arr.indexOf(name) ) {
+			arr.push(name);
+		}
+	};
+	
+	<cx:define tag="perQuarter">
+		<cx:let name='filter' expand="" value='@filter.startDate>=(NSCalendarDate)"${_date}" AND startDate<(NSCalendarDate)"${_date.nextMonth.nextMonth.nextMonth}"'>
+		<cx:let name="id" expand="" value="stats.Q${_date.quarterOfYear}_${_date.yearOfCommonEra}">
+			<cx:perGroup filter="$filter" id="$id"/>
+		</cx:let filter>
+		</cx:let id>
+	</cx:define perQuarter>
+		
+	<cx:define tag="perGroup">
+		<cx:write value="$_id"/> = <cx:write value="temp()"/>;
+		<cx:let name="v" value="$vacancies" invoke="$_filter">
+		
+			<cx:let name="group" value="$v.@group.toCompany.toBrancheLevel1.dataNodeID">
+				<cx:buildObject group="$group" id="$_id" tag="sector" name="toCompany.toBrancheLevel1.value"/>
+			</cx:let group>
+			
+			<cx:let name="group" value="$v.@group.toCompany.groupNodes.dataNodeID">
+				<cx:buildObject group="$group" id="$_id" tag="opdrachtgevergroep" name="toCompany.groupNodes.value"/>
+			</cx:let group>
+			
+			<cx:let name="group" value="$v.@group.toSourceNode.dataNodeID">
+				<cx:buildObject group="$group" id="$_id" tag="bron" name="toSourceNode.value"/>
+			</cx:let group>
+			
+			<cx:let name="group" value="$v.@group.toFunctionLevel1.dataNodeID">
+				<cx:buildObject group="$group" id="$_id" tag="functie" name="toFunctionLevel1.value"/>
+			</cx:let group>
+			
+			<cx:let name="group" value="$v.@group.toWorkLevelNode.dataNodeID">
+				<cx:buildObject group="$group" id="$_id" tag="niveau" name="toWorkLevelNode.value"/>
+			</cx:let group>
+			
+			<cx:write value="$_id"/>.total = {
+					name			: 'Totaal',
+					vacancies	: <cx:write value="$v.count"/>,
+					lost			:	<cx:let value="$v" name="v" invoke="$lostFilter"><cx:write value="$v.count"/></cx:let>,
+					success		: <cx:let value="$v" name="v" invoke="$successFilter"><cx:write value="$v.count"/></cx:let>,
+					rest			:	<cx:let value="$v" name="v" invoke="$restFilter"><cx:write value="$v.count"/></cx:let>,
+			};
+			
+		</cx:let v>
+	</cx:define perGroup>
+	
+	<cx:define tag="buildObject">
+		<cx:foreach list="$_group" item="g">
+			<cx:let name="name" value="$g.@first" invoke="$_name">
+				name =  parseName('<cx:write value="$name"/>');
+				addName(names.<cx:write value="$_tag"/>, name);
+				<cx:write value="$_id"/>.<cx:write value="$_tag"/>.push({
+						name			: name,
+						vacancies	: <cx:write value="$g.count"/>,
+						lost			:	<cx:let value="$g" name="g" invoke="$lostFilter"><cx:write value="$g.count"/></cx:let>,
+						success		: <cx:let value="$g" name="g" invoke="$successFilter"><cx:write value="$g.count"/></cx:let>,
+						rest			:	<cx:let value="$g" name="g" invoke="$restFilter"><cx:write value="$g.count"/></cx:let>
+				});
+			</cx:let name>
+		</cx:foreach group>
+	</cx:define buildObject>
+	
+	<cx:write value="function temp() { return {"/>
+			sector: [],
+			opdrachtgevergroep: [],
+			bron: [],
+			functie: [],
+			niveau: [],
+			total: {}
+		};
+	};
+	<cx:write value="var stats = {}, tmp, names = temp(), name;"/>
+	
+	<cx:let name="dateList" value="$date.midnight.previousMonth.previousMonth.previousMonth" invoke="datesUntilDate:" arg0="$date">
+	<cx:let name="filter" value="@filter.quarterOfYear = ${date.quarterOfYear}" expand="">
+	<cx:let name="firstDateOfQuarter" value="$dateList" invoke="$filter">
+	<cx:let name="firstDateOfQuarter" value="$firstDateOfQuarter.@first">
+	<cx:let name="successFilter" value="@filter.toStatusNode.exportCode = 'SUCCESS'">
+	<cx:let name="lostFilter" value="@filter.toStatusNode.exportCode = 'LOST'">
+	<cx:let name="restFilter" value="@filter.toStatusNode.exportCode <> 'SUCCESS' AND toStatusNode.exportCode <> 'LOST'">
+	
+	<cx:fetch list="vacancies" entity="CRVacancy" qualifier="(deleted=0)">
+		<cx:perQuarter date="$firstDateOfQuarter.previousYear"/>
+		<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth"/>
+		<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth"/>
+		<cx:perQuarter date="$firstDateOfQuarter.previousMonth.previousMonth.previousMonth"/>
+		<cx:perQuarter date="$firstDateOfQuarter"/>
+	</cx:fetch vacancies>
+	
+	</cx:let restFilter>
+	</cx:let lostFilter>
+	</cx:let successFilter>
+	</cx:let firstDateOfQuarter>
+	</cx:let firstDateOfQuarter>
+	</cx:let filter>
+	</cx:let dateList>
+	</script>
+</head>
+
+<body>
+<div class="viewport">
+	<div class="documentHeader">
+		<table class="widenoborder center-align-th">
+			<tr>
+				<td style="width: 80%;">
+					<img style="float: left;" src="http://templates.carerix.com/images/CxDocument.png" />
+					<h2 id="documentTitle"><cx:write value="$title"/></h2>
+					<dl>
+						<dt>Uitgedraaid op:</dt>
+						<dd><cx:write value='$utilities.currentDate.formattedDate' /></dd>
+					</dl>
+				</td>
+				<td class="rt">
+					<!-- Display the logo of the customer, if it does not exist show the standard Carerix logo using JS -->
+					<cx:let name="logo" value="$activity.owner.agency.attachments" invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
+						<cx:if condition="$logo.count > 0">
+							<img style="max-height: 60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif"/>
+						</cx:if>
+						<!-- If the logo is not present, display the uploaded logo, if that one is also not present, display the standard cx logo -->
+						<cx:else>
+							<img style="max-height: 60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif" onerror="this.src='http://templates.carerix.com/images/cxlogo.gif'"/>
+						</cx:else>
+					</cx:let>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<!-- TODO: Opmerking: op sector-niveau sorteren op #aanvragen van groot naar klein -->
+	<table class="wideborder center-align-th center-align-td no-page-break" id="sector">
+		<caption><h4>Aanvragen per Sector</h4></caption>
+		<thead>
+			<tr>
+				<th class="left-align">Aantallen</th>
+				<th>Aanvragen (%)</th>
+				<th>Aanvragen (#)</th>
+				<th>Vervallen (#)</th>
+				<th>Ingevuld (#)</th>
+				<th>Overig (#)</th>
+				<th>Succes&#xad;ratio (%)</th>
+			</tr>
+		</thead>
+		<tfoot/>
+		<tbody/>
+	</table>
+
+	<p>
+		<span class="allow_space" id="sector_chart">
+			<code>Hier komt een barchart: "De ontwikkeling van de aanvragen per sector"</code>
+			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per sector" here! -->
+		</span>
+	</p>
+
+	<dl>
+		<dt>Aanvragen</dt>
+		<dd>Het aantal vacatures dat dit kwartaal aangemaakt is. Dit <i>zou</i> gelijk moeten zijn aan de som van ingevuld, vervallen en overig</dd>
+		<dt>Vervallen</dt>
+		<dd>Het aantal vacatures met een status anders dan 'actief', 'oriëntatiefase' of 'on hold'</dd>
+		<dt>Ingevuld</dt>
+		<dd>Het aantal vacatures met status 'geplaatst'</dd>
+		<dt>Overig</dt>
+		<dd>Aanvragen met de status 'actief', 'oriëntatiefase' of 'on hold'.</dd>
+		<dt>Succesratio</dt>
+		<dd>(#ingevuld / #aanvragen) * 100%</dd>
+	</dl>
+
+
+	
+	<!-- TODO: Hier willen we eigenlijk alle mogelijkheden zien van de combinatie 
+		van opdrachtgever groepen. We hebben nu alleen de key-accounts maar we gaan 
+		spoedig al preferred suppliers toevoegen. Dan is de derde categorie dus 
+		key-account en preferred supplier. De eerste groep is key-account en geen 
+		preferred supplier en de tweede groep is preferred supplier en geen 
+		key-account.
+	-->
+	<!-- TODO: Gesorteerd op aantal aanvragen, groot naar klein. -->
+	<table class="wideborder center-align-th center-align-td" id="opdrachtgevergroep">
+		<caption><h4>Aanvragen per Opdrachtgevergroep</h4></caption>
+		<thead>
+			<tr>
+				<th class="left-align">Aantallen</th>
+				<th>Aanvragen (%)</th>
+				<th>Aanvragen (#)</th>
+				<th>Vervallen (#)</th>
+				<th>Ingevuld (#)</th>
+				<th>Overig (#)</th>
+				<th>Succes&#xad;ratio (%)</th>
+			</tr>
+		</thead>
+		<tfoot/>
+		<tbody/>
+	</table>
+	
+	<p>
+		<span class="allow_space" id="opdrachtgevergroep_chart">
+			<code>Hier komt een barchart: "De ontwikkeling van de aanvragen per opdrachtgevergroep"</code>
+			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
+		</span>
+	</p>
+	
+	<dl>
+		<dt>Aanvragen</dt>
+		<dd>Het aantal vacatures dat dit kwartaal aangemaakt is. Dit <i>zou</i> gelijk moeten zijn aan de som van ingevuld, vervallen en overig</dd>
+		<dt>Vervallen</dt>
+		<dd>Het aantal vacatures met een status anders dan 'actief', 'oriëntatiefase' of 'on hold'</dd>
+		<dt>Ingevuld</dt>
+		<dd>Het aantal vacatures met status 'geplaatst'</dd>
+		<dt>Overig</dt>
+		<dd>Aanvragen met de status 'actief', 'oriëntatiefase' of 'on hold'.</dd>
+		<dt>Succesratio</dt>
+		<dd>(#ingevuld / #aanvragen) * 100%</dd>
+	</dl>
+	<!-- TODO: Hier willen we eigenlijk alle mogelijkheden zien van de combinatie 
+		van opdrachtgever groepen. We hebben nu alleen de key-accounts maar we gaan 
+		spoedig al preferred suppliers toevoegen. Dan is de derde categorie dus 
+		key-account en preferred supplier. De eerste groep is key-account en geen 
+		preferred supplier en de tweede groep is preferred supplier en geen 
+		key-account.
+	-->
+	<!-- TODO: Gesorteerd op aantal aanvragen, groot naar klein. -->
+	<table class="wideborder center-align-th center-align-td" id="bron">
+		<caption><h4>Aanvragen per Bron</h4></caption>
+		<thead>
+			<tr>
+				<th class="left-align">Aantallen</th>
+				<th>Aanvragen (%)</th>
+				<th>Aanvragen (#)</th>
+				<th>Vervallen (#)</th>
+				<th>Ingevuld (#)</th>
+				<th>Overig (#)</th>
+				<th>Succes&#xad;ratio (%)</th>
+			</tr>
+		</thead>
+		<tfoot/>
+		<tbody/>
+	</table>
+	
+	<p>
+		<span class="allow_space" id="bron_chart">
+			<code>Hier komt een barchart: "De ontwikkeling van de aanvragen per opdrachtgevergroep"</code>
+			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
+		</span>
+	</p>
+	
+	<p>
+		<span class="allow_space" id="bron_successratio_chart">
+			<code>Hier komt een barchart: "De ontwikkeling van de aanvragen per opdrachtgevergroep"</code>
+			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
+		</span>
+	</p>
+	
+	<dl>
+		<dt>Aanvragen</dt>
+		<dd>Het aantal vacatures dat dit kwartaal aangemaakt is. Dit <i>zou</i> gelijk moeten zijn aan de som van ingevuld, vervallen en overig</dd>
+		<dt>Vervallen</dt>
+		<dd>Het aantal vacatures met een status anders dan 'actief', 'oriëntatiefase' of 'on hold'</dd>
+		<dt>Ingevuld</dt>
+		<dd>Het aantal vacatures met status 'geplaatst'</dd>
+		<dt>Overig</dt>
+		<dd>Aanvragen met de status 'actief', 'oriëntatiefase' of 'on hold'.</dd>
+		<dt>Succesratio</dt>
+		<dd>(#ingevuld / #aanvragen) * 100%</dd>
+	</dl>
+	<!-- TODO: Hier willen we eigenlijk alle mogelijkheden zien van de combinatie 
+		van opdrachtgever groepen. We hebben nu alleen de key-accounts maar we gaan 
+		spoedig al preferred suppliers toevoegen. Dan is de derde categorie dus 
+		key-account en preferred supplier. De eerste groep is key-account en geen 
+		preferred supplier en de tweede groep is preferred supplier en geen 
+		key-account.
+	-->
+	<!-- TODO: Gesorteerd op aantal aanvragen, groot naar klein. -->
+	<table class="wideborder center-align-th center-align-td" id="functie">
+		<caption><h4>Aanvragen per Functiegroep</h4></caption>
+		<thead>
+			<tr>
+				<th class="left-align">Aantallen</th>
+				<th>Aanvragen (%)</th>
+				<th>Aanvragen (#)</th>
+				<th>Vervallen (#)</th>
+				<th>Ingevuld (#)</th>
+				<th>Overig (#)</th>
+				<th>Succes&#xad;ratio (%)</th>
+			</tr>
+		</thead>
+		<tfoot/>
+		<tbody/>
+	</table>
+	
+	<p>
+		<span class="allow_space" id="functie_chart">
+			<code>Hier komt een barchart: "De ontwikkeling van de aanvragen per opdrachtgevergroep"</code>
+			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
+		</span>
+	</p>
+	
+	<dl>
+		<dt>Aanvragen</dt>
+		<dd>Het aantal vacatures dat dit kwartaal aangemaakt is. Dit <i>zou</i> gelijk moeten zijn aan de som van ingevuld, vervallen en overig</dd>
+		<dt>Vervallen</dt>
+		<dd>Het aantal vacatures met een status anders dan 'actief', 'oriëntatiefase' of 'on hold'</dd>
+		<dt>Ingevuld</dt>
+		<dd>Het aantal vacatures met status 'geplaatst'</dd>
+		<dt>Overig</dt>
+		<dd>Aanvragen met de status 'actief', 'oriëntatiefase' of 'on hold'.</dd>
+		<dt>Succesratio</dt>
+		<dd>(#ingevuld / #aanvragen) * 100%</dd>
+	</dl>
+	
+	<h4>Aanvragen status dit kwartaal per functieniveau</h4>
+	<p>
+		<span class="allow_space" id="niveau_chart">
+			<code>Hier komt een barchart: "Aanvragen per functieniveau"</code>
+			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
+		</span>
+	</p>
+	
+
+</div>
+<script type="text/javascript">
+var charts = [], chart;
+
+function percentage(num, tot) {
+	return { v: Math.round(100 * num / tot) / 100 , f: Math.round(100 * num / tot) + '%' };
+}
+
+/**
+ * Fills the tables in the reports.
+ */
+function report(data, id) {
+	var html = '<tr>',
+			$table = $('#' + id);
+
+	$.each(data[id], function() {
+		html += '<tr>'
+					+ '<td class="left-align">' + this.name + '</td>'
+					+ '<td>' + parseInt(100 * this.vacancies / data.total.vacancies) + '%</td>'
+					+ '<td>' + this.vacancies + '</td>'
+					+ '<td>' + this.lost + '</td>'
+					+ '<td>' + this.success + '</td>'
+					+ '<td>' + this.rest + '</td>'
+					+ '<td>' + parseInt(100 * this.success / this.vacancies) + '%</td>'
+					+ '</tr>'
+	});
+
+	$table.find('tbody').html(html);
+	$table.find('tfoot').html('<tr>'
+			+ '<th class="left-align">' + data.total.name + '</th>'
+			+ '<td>' + parseInt(100 * data.total.vacancies / data.total.vacancies) + '%</td>'
+			+ '<td>' + data.total.vacancies + '</td>'
+			+ '<td>' + data.total.lost + '</td>'
+			+ '<td>' + data.total.success + '</td>'
+			+ '<td>' + data.total.rest + '</td>'
+			+ '<td>' + parseInt(100 * data.total.success / data.total.vacancies) + '%</td>'
+			+ '</tr>'
+	);
+	
+	chart = createChart(id, 'vacancies');
+	charts.push(chart);
+} // report();
+
+function createChart(id, field) {
+	var rows = [['Kwartaal']],
+			row,
+			found,
+			it;
+	
+	chart = {
+			id: id + '_chart',
+			chartType: 'BarChart',
+			options: {
+				title: 'Ontwikkeling van de aanvragen per ' + id,
+				interpolateNulls: true,
+				colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)'],
+				hAxis : { format: '#,#%' }
+			},
+			data: []
+	};
+	
+	for ( it in stats ) {
+		rows[0].push(it.replace('_', ' '));
+	} // for
+	
+	for ( it = 0; it < names[id].length; it++ ) {
+		row = [names[id][it]];
+		for ( it2 in stats ) {
+			found = false;
+			for ( it3 = 0; it3 < stats[it2][id].length; it3++ ) {
+				if ( stats[it2][id][it3].name === names[id][it] ) {
+					row.push(percentage(stats[it2][id][it3][field], stats[it2].total.vacancies));
+					found = true;
+					break;
+				}
+			} // for
+			if ( !found ) {
+				row.push(0);
+			}
+		} // for
+		rows.push(row);
+	} // for
+
+	chart.data = rows;
+	return chart;
+} // createChart();
+
+<cx:let name="obj" expand="" value="stats.Q${date.quarterOfYear}_${date.yearOfCommonEra}">
+	report(<cx:write value="$obj"/>, 'sector');
+	report(<cx:write value="$obj"/>, 'opdrachtgevergroep');
+	report(<cx:write value="$obj"/>, 'bron');
+	report(<cx:write value="$obj"/>, 'functie');
+
+/**
+ * Exceptional chart: successratio per bron
+ */
+chart = createChart('bron', 'success');
+chart.id = 'bron_successratio_chart';
+chart.options.title = 'Ontwikkeling van de succesratio per bron';
+charts.push(chart);
+
+/**
+ * Exceptional chart: Aanvragen per functieniveau.
+ */
+ chart = {
+		id: "niveau_chart",
+		chartType: 'ComboChart',
+		options: {
+			title:'Aanvragen per Kwartaal',
+			seriesType: 'bars',
+			interpolateNulls: true,
+			series: {4: {'type': 'line', 'targetAxisIndex': 1}},
+			pointSize: 5,
+			colors : ['rgb(55,96,146)', 'rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)', 'rgb(146,208,80)'],
+			vAxes:[
+				{minValue: 0, maxValue: 1},
+				{minValue: 1, maxValue: 0, format: '#,#%', baselineColor: "transparent"}
+			],
+			hAxis: {slantedText: true}
+		},
+		data: [['Kwartaal','Totaal','Ingevuld','Vervallen', 'Overig', 'Succesratio']]
+};
+
+$.each(<cx:write value="$obj"/>.niveau, function() {
+	var perc = percentage(this.success, this.vacancies); 
+	chart.data.push([
+		this.name.substring(0, this.name.indexOf('(')),
+		this.vacancies,
+		this.success,
+		this.lost,
+		this.rest,
+		perc
+	]);
+	chart.options.vAxes[0].maxValue = Math.max(this.vacancies, chart.options.vAxes[0].maxValue);
+	chart.options.vAxes[1].maxValue = Math.max(perc.v, chart.options.vAxes[1].maxValue);
+}); // for
+chart.options.vAxes[0].maxValue *= 2;
+chart.options.vAxes[1].minValue = -chart.options.vAxes[1].maxValue;
+charts.push(chart);
+</cx:let>
+
+/**
+ * Draws each of the charts as given in their description.
+ * @see https://google-developers.appspot.com/chart/interactive/docs/gallery
+ */
+ function drawChart() {
+		var $container = $('#' + this.id),
+				data = new google.visualization.DataTable(),
+				chart = new google.visualization[this.chartType]($container.get(0));
+
+		//data = google.visualization.arrayToDataTable([]);
+		data.addColumn('string', this.data[0][0]);
+		for ( var it = 1; it < this.data[0].length; it++ ) {
+			data.addColumn('number', this.data[0][it]);	
+		}
+		this.data.shift();
+		data.addRows(this.data);
+		
+		this.options.width = $container.width()
+		this.options.height = $container.height();
+		
+		if ( this.options.chartArea && this.options.chartArea.left ) {
+			this.options.width -= this.options.chartArea.left / 2;  
+		}
+		if ( this.options.chartArea && this.options.chartArea.right ) {
+			this.options.width -= this.options.chartArea.right / 2;  
+		}
+		chart.draw(data, this.options);
+	} // drawCharts();
+
+google.load('visualization', '1.0', {'packages':['corechart']});
+google.setOnLoadCallback(function() { $.each(charts, drawChart); });
+</script>
+
+</cx:let title>
+</cx:let date>
+</body>
+</html>

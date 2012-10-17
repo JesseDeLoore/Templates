@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Changelog:
+Created: ? / ?
+Edit #1: ??-??-???? / [IM] / MultiLingual & Style correct
+Edit #2: 07-06-2007 / [IM] / Fixed character encoding for encodings other than utf-8 AND fixed the way the language is detected
+Edit #3: 10-12-2007 / [IM] / Fixed: 3 months instead of three years!
+Edit #4: 18-12-2007 / [IM] / Modified layout
+Edit #5: 12-01-2009 / [PK] / Fixed some typo's and a minor bug.
+Edit #6: 17-09-2010 / [BJ] / New R45 layout
+Edit #7: 05-01-2011 / [PK] / Complete re-write of this template. It did not even work properly, but now it does!
+-->
+<cx:let name="language" value="PRLocalizationManager" invoke="namedClass.sharedInstance.defaultLanguage" keep="" />
+<head>
+<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"/></cx:let>
+<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
+<title><cx:write value="Overzicht" invoke="localizedString" />	<cx:write value="$activity.owner.agency.name" /></title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).on('click', '[data-toggle-rows]', function() {
+	$('[data-toggle-rows="' + $(this).data('toggle-rows') + '"]').closest('tr').next('tr').toggle();
+});
+$(document).on('group_change', function() {
+	var $el = $('#' + $('#company_group_selector').val());
+	$el.closest('table').find('> tbody').hide();
+	$el.show();
+});
+$(document).on('change', '#company_group_selector', function() {
+	$(this).trigger('group_change');
+});
+$(document).ready(function() {
+	$(this).trigger('group_change');
+});
+</script>
+</head>
+<body>
+	<!-- Get the dates -->
+	<cx:let name="e" keep=""
+		condition="$activity.fspec.hints.endDate<>$nil"
+		iftrue="$activity.fspec.hints.endDate"
+		iffalse="$utilities.currentDate.nextDay.midnight" />
+	<cx:let name="s" keep=""
+		condition="$activity.fspec.hints.startDate<>$nil"
+		iftrue="$activity.fspec.hints.startDate"
+		iffalse="$e.previousMonth.previousMonth.previousMonth" />
+
+	<!-- Block that gets instantiated multiple times -->
+	<cx:define tag="info">
+		<cx:if not="" condition="$_records.count>0">
+			<tr>
+				<th class="detailborder-tb" colspan="5"><cx:write value="$_title" invoke="localizedString" /></th>
+				<th class="detailborder-tb"><cx:write value="$_records.count" /></th>
+			</tr>
+		</cx:if>
+		<cx:if condition="$_records.count>0">
+			<tr>
+				<th class="detailborder-tb" colspan="5"><a style="cursor: pointer;" data-toggle-rows="<cx:write value="$_togglerowid"/>">
+					<u><cx:write value="$_title" /></u> 
+				</a></th>
+				<th class="detailborder-tb"><cx:write value="$_records.count" /></th>
+			</tr>
+			<tr style="display:none; margin: 0px; padding: 0px; border: 0px solid;">
+				<td colspan="6">
+					<table class="widenoborder">
+						<cx:if condition="$_entity = 'CRJob'">
+							<tr>
+								<th class="detailborder-tb"><cx:write value="Plaatsing" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Datum" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Kandidaat" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Vacature" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Contactpersoon" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Opdrachtgever" invoke="localizedString" /></th>
+							</tr>
+						</cx:if>
+						<cx:if condition="$_entity = 'CRVacancy'">
+							<tr>
+								<th class="detailborder-tb"><cx:write value="ID" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Datum" invoke="localizedString" /></th>
+								<th class="detailborder-tb" colspan="2"><cx:write value="Vacature" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Contactpersoon" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Opdrachtgever" invoke="localizedString" /></th>
+							</tr>
+						</cx:if>
+						<cx:if condition="$_entity = 'CRToDo'">
+							<tr>
+								<th class="detailborder-tb"><cx:write value="ID" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Datum" invoke="localizedString" /></th>
+								<th class="detailborder-tb" colspan="2"><cx:write value="Kandidaat" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Contactpersoon" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Opdrachtgever" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Onderwerp" invoke="localizedString" /></th>
+							</tr>
+						</cx:if>
+						<cx:if condition="$_entity = 'CRMatch'">
+							<tr>
+								<th class="detailborder-tb"><cx:write value="ID" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Datum" invoke="localizedString" /></th>
+								<th class="detailborder-tb" colspan="2"><cx:write value="Kandidaat" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Contactpersoon" invoke="localizedString" /></th>
+								<th class="detailborder-tb"><cx:write value="Opdrachtgever" invoke="localizedString" /></th>
+							</tr>
+						</cx:if>
+						<cx:foreach list="$_records" item="record">
+							<cx:if condition="$_entity='CRJob'">
+								<tr>
+									<td class="borderdot-tb"><cx:write value="$record.jobID" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.creationDate.formattedDate" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toEmployee.sortName" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toVacancy.jobTitle" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toVacancy.toUser.sortName" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toVacancy.toCompany.name" /></td>
+								</tr>
+							</cx:if>
+							<cx:if condition="$_entity='CRVacancy'">
+								<tr>
+									<td class="borderdot-tb"><cx:write value="$record.vacancyID" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.creationDate.formattedDate" /></td>
+									<td class="borderdot-tb" colspan="2"><cx:write value="$record.jobTitle" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toUser.sortName" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toCompany.name" /></td>
+								</tr>
+							</cx:if>
+							<cx:if condition="$_entity='CRToDo'">
+								<tr>
+									<td class="borderdot-tb"><cx:write value="$record.todoID" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.deadline.formattedDate" /></td>
+									<td class="borderdot-tb" colspan="2"><cx:write value="$record.toEmployee.sortName" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toUser.sortName" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toCompany.name" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.subject" /></td>
+								</tr>
+							</cx:if>
+							<cx:if condition="$_entity='CRMatch'">
+								<tr>
+									<td class="borderdot-tb"><cx:write value="$record.toVacancy.vacancyID" />.<cx:write value="$record.toEmployee.employeeID" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.creationDate.formattedDate" /></td>
+									<td class="borderdot-tb" colspan="2"><cx:write value="$record.toEmployee.sortName" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toLevel1User.sortName" /></td>
+									<td class="borderdot-tb"><cx:write value="$record.toCompany.name" /></td>
+								</tr>
+							</cx:if>
+						</cx:foreach>
+					</table>
+				</td>
+			</tr>
+		</cx:if>
+	</cx:define>
+
+	<!-- Template Header -->
+	<div class="documentHeader">
+		<table class="widenoborder">
+			<tr>
+				<td style="width: 80%;"><img style="float: left;"
+					src="http://templates.carerix.com/images/CxDocument.png" />
+					<h2 id="documentTitle" style="margin: 0;">
+						<cx:write value="Overzicht" invoke="localizedString" />
+						<cx:write value="$activity.owner.agency.name" />
+					</h2>
+					<p id="documentSubTitle"></p>
+				</td>
+				<td class="rt">
+					<cx:let name="logo"
+						value="$activity.owner.agency.attachments"
+						invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
+						<cx:if condition="$logo.count > 0">
+							<img style="max-height: 60px;" border="0" alt="logo"
+								src="data:image/gif;base64,<cx:write value='$logo.toAttachmentData.content.@first.base64String'/>">
+						</cx:if>
+						<cx:else>
+							<img style="max-height: 60px;" border="0" alt="logo"
+								src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif" onerror="this.src='http://templates.carerix.com/images/cxlogo.gif'">
+						</cx:else>
+					</cx:let>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<cx:fetch entity="CRDataNode" qualifier="notActive=0 AND deleted=0 AND type.typeID=157" list="companygroups">
+	<cx:fetch entity="CRUser" qualifier="deleted=0 AND isActive=1" list="recruiters">
+	
+	<!-- Table with information at top of page -->
+	<table>
+		<tr>
+			<td><cx:write value="Datum" invoke="localizedString" /> <cx:write value="Rapport" invoke="localizedString" />:</td>
+			<td><cx:write value="$utilities.currentDate"
+					dateformat="%A %e %B %Y  (%H:%M:%S)" language="$language" /> - <cx:write
+					value="Weeknummer" invoke="localizedString" /> <cx:write
+					value="$utilities.currentDate.calendarWeek" /></td>
+		</tr>
+		<tr>
+			<td><cx:write value="Periode" invoke="localizedString" /></td>
+			<td><cx:write value="$s" dateformat="%A %e %B %Y  (%H:%M:%S)"
+					language="$language" /> - <cx:write value="$e"
+					dateformat="%A %e %B %Y  (%H:%M:%S)" language="$language" /></td>
+		</tr>
+		<tr>
+			<td><cx:write value="Groep" invoke="localizedString" /></td>
+			<td><select id="company_group_selector">
+			<option value="ALLEMAAL">&lt;Alle groepen&gt;</option>
+			<cx:foreach list="$companygroups" item="group">
+				<cx:element tag="option">
+					<cx:parameter name="value" value="$group.dataNodeID"/>
+					<cx:write value="$group.value"/>
+				</cx:element> 
+			</cx:foreach>
+			</select></td>
+		</tr>
+	</table>
+	<br>
+	
+	<cx:define tag="gatherRecords">
+		<cx:fetch list="records" entity="$_entity" qualifier="$_qualifier">
+			<cx:if condition="$_filter<>'NOFILTER'">
+				<cx:let name="records" value="$records" invoke="$_filter">
+					<cx:info title="$_title" records="$records" entity="$_entity" togglerowid="$_togglerowid"/>
+				</cx:let>
+			</cx:if>
+			<cx:else>
+				<cx:info title="$_title" records="$records" entity="$_entity" togglerowid="$_togglerowid"/>
+			</cx:else>
+		</cx:fetch>
+	</cx:define>
+
+	<cx:define tag="perGroup"> 
+		<tbody id="<cx:write value="$_groupid"/>">
+			<cx:foreach list="$recruiters" item="recruiter" index="it">
+				<tr>
+					<th class="border" colspan="6">
+						<h5>
+							<cx:write value="Verantwoordelijke" invoke="localizedString" /> [<cx:write value="$recruiter.userID" />]: <cx:write value="$recruiter.informalName" />
+						</h5>
+					</th>
+				</tr>
+				<tr>
+					<th class="subborder" colspan="6"><cx:write value="PortefeuilleOpdrachten" invoke="localizedString" /></th>
+				</tr>
+				
+				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toVacancy.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="togglerowid" value="${recruiter.userID}.1" expand="">
+					<cx:gatherRecords 
+							title="Nieuwe Plaatsingen" 
+							entity="CRJob" 
+							filter="$filter"
+							togglerowid="$togglerowid"
+							qualifier="(owner.userID = $recruiter.userID) AND (creationDate >= $s) AND (creationDate < $e)"
+					/>
+				</cx:let>
+				</cx:let>
+
+				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="togglerowid" value="${recruiter.userID}.2" expand="">
+					<cx:gatherRecords 
+							title="Nieuwe Vacatures" 
+							entity="CRVacancy" 
+							filter="$filter"
+							togglerowid="$togglerowid"
+							qualifier="(owner.userID = $recruiter.userID) AND (creationDate >= $s) AND (creationDate < $e)"
+					/>
+				</cx:let>
+				</cx:let>
+
+				<tr>
+					<td class="border" colspan="6">&nbsp;</td>
+				</tr>
+				<tr>
+					<th class="subborder" colspan="6"><cx:write value="Kandidaten" invoke="localizedString" /></th>
+				</tr>
+				
+				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toEmployee.toUser.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="togglerowid" value="${recruiter.userID}.3" expand="">
+					<cx:gatherRecords 
+							title="Afspraken" 
+							entity="CRToDo" 
+							filter="$filter"
+							togglerowid="$togglerowid"
+							qualifier="(owner.userID = $recruiter.userID) AND (deadline >= $s) AND (deadline < $e) AND (todoTypeKey =1) AND (toEmployee <> nil)"
+					/>
+				</cx:let>
+				</cx:let>
+				
+				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toEmployee.toUser.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="togglerowid" value="${recruiter.userID}.4" expand="">
+					<cx:gatherRecords 
+							title="Notities" 
+							entity="CRToDo" 
+							filter="$filter"
+							togglerowid="$togglerowid"
+							qualifier="(owner.userID = $recruiter.userID) AND (deadline >= $s) AND (deadline < $e) AND (todoTypeKey =4) AND (toEmployee <> nil)"
+					/>
+				</cx:let>
+				</cx:let>
+				
+				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toVacancy.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="togglerowid" value="${recruiter.userID}.5" expand="">
+					<cx:gatherRecords 
+							title="Matches" 
+							entity="CRMatch" 
+							filter="$filter"
+							togglerowid="$togglerowid"
+							qualifier="(owner.userID = $recruiter.userID) AND (creationDate >= $s) AND (creationDate < $e)"
+					/>
+				</cx:let>
+				</cx:let>
+
+				<tr>
+					<td class="border" colspan="6">&nbsp;</td>
+				</tr>
+				<tr>
+					<th class="subborder" colspan="6"><cx:write value="Klanten" invoke="localizedString" />/<cx:write value="Contactpersonen" invoke="localizedString" /></th>
+				</tr>
+
+				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toContact.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="togglerowid" value="${recruiter.userID}.6" expand="">
+					<cx:gatherRecords 
+							title="Afspraken" 
+							entity="CRToDo" 
+							filter="$filter"
+							togglerowid="$togglerowid"
+							qualifier="(owner.userID = $recruiter.userID) AND (deadline >= $s) AND (deadline < $e) AND (todoTypeKey = 1) AND (toContact <> nil)"
+					/>
+				</cx:let>
+				</cx:let>
+				
+				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toContact.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="togglerowid" value="${recruiter.userID}.7" expand="">
+					<cx:gatherRecords 
+							title="Notities" 
+							entity="CRToDo" 
+							filter="$filter"
+							togglerowid="$togglerowid"
+							qualifier="(owner.userID = $recruiter.userID) AND (deadline >= $s) AND (deadline < $e) AND (todoTypeKey =4) AND (toContact <> nil)"
+					/>
+				</cx:let>
+				</cx:let>
+
+				<tr>
+					<td class="border" colspan="6">&nbsp;</td>
+				</tr>
+			</cx:foreach>
+		</tbody>
+	</cx:define>
+
+<!-- Template content -->
+	<table class="border" style="width: 800px;">
+		<cx:perGroup groupid="ALLEMAAL"/>
+		<cx:foreach list="$companygroups" item="companygroup">
+			<cx:perGroup groupid="$companygroup.dataNodeID"/>
+		</cx:foreach>
+	</table>
+	
+	</cx:fetch>
+	</cx:fetch>
+
+	<!-- Template Footer -->
+	<div class="documentFooter">
+		<table class="widenoborder">
+			<tr>
+				<td class="tiny noprint" width="60%"><cx:write value="$template" /></td>
+				<td class="rt"><cx:write value="$utilities.currentDate" dateformat="%e %B %Y, %H:%M" language="$language" /> - <cx:write value="$activity.owner.informalName" /></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+</html>

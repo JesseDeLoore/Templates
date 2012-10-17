@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Log
+@author Jasper Stafleu <j.stafleu@jcgroep.nl> (Carerix)
+@created Report created on 2012-10-08
+-->
+<cx:let name="s" condition="$activity.fspec.hints.startDate<>$nil" iftrue="$activity.fspec.hints.startDate" iffalse="$utilities.currentDate.firstDayOfWeek" keep=""/>
+<cx:let name="e" condition="$activity.fspec.hints.endDate<>$nil" iftrue="$activity.fspec.hints.endDate" iffalse="$utilities.currentDate.lastDayOfWeek" keep=""/>
+<cx:let name='dateFilter' expand="" value='@filter.creationDate>=(NSCalendarDate)"${s}" AND creationDate<(NSCalendarDate)"${e}"' keep=""/>
+
+<head>
+<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
+<title>Kandidaatrapportage</title>
+<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
+<style>
+/* OVERRIDES OF THE DEFAULT STYLESHEET */
+table {
+	margin-top: 1em;
+}
+table.center-align-th th {
+	text-align: center;
+}
+table.center-align-th th.left-align {
+	text-align: left;
+}
+table.center-align-td td {
+	text-align: center;
+}
+table.center-align-td td.left-align {
+	text-align: left;
+}
+th.visible-border {
+	border-right-color: silver;
+}
+th.visible-border+th {
+	border-left-color: silver;
+}
+caption {
+	text-align: left;
+}
+caption h4 {
+	padding-top: 0px;
+}
+h4 {
+	padding-top: 1em;
+}
+tfoot th, 
+tfoot td { /* copy of th.content */
+	background-color: #F0F0F0;
+	color: #555555;
+	border: 0 none;
+	text-align: left;
+	vertical-align: text-top;
+	padding: 2pt;
+}
+dl {
+	padding-bottom: 2em;
+}
+dt {
+	width: 10em;
+	float: left;
+	font-weight: bold;
+	padding-right: 2em;
+}
+ol {
+	list-style: decimal;
+}
+dd {
+	margin-left: 12em;
+}
+dd ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 15px;
+}
+.documentHeader h2 {
+	margin-top: 0px;
+}
+.documentHeader dl {
+	padding-left: 65px;
+	padding-bottom: 0px;
+}
+.documentHeader dt {
+	font-weight: normal;
+}
+.documentHeader dd {
+	font-weight: bold;
+}
+.viewport {
+	max-width: 780px;
+	width: 780px;
+	margin: auto;
+}
+@media print {
+	table {
+		page-break-before: always;
+	}
+	.documentHeader table,
+	.no-page-break {
+		page-break-before: avoid;
+	}
+	th {
+		color: black !important;
+		border: 1px solid silver;
+	}
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script type="text/javascript"><!--
+jQuery.fn.outer = function() {
+	return ('outerHTML' in this) ? this.outerHTML : $('<div/>').html(this.clone()).html();
+} // outer();
+
+/**
+ * Sort each tbody by the value of its success row primarily and the number of 
+ * matches secondarily.
+ */
+function sortTBody() {
+	var $tbody = $(this), $rows = $tbody.find('tr'), html;
+	$rows.each(function() { 
+		var $row = $(this);
+		$row.data('sort-value', parseInt($row.find("[data-sort-code='SUCCESS']").html()+0)*10000+parseInt($row.find("td:eq(2)").html()+0)); 
+	});
+	$rows.sort(function(a,b) {
+		a = $(a).data('sort-value');
+		b = $(b).data('sort-value');
+		return a < b ? 1 : -1;
+	});
+	html = '';
+	$rows.each(function() { html += $(this).outer(); });
+	$tbody.html(html);
+} // sortTBody();
+--></script>
+</head>
+<body>
+<div class="viewport">
+<div class="documentHeader">
+	<table class="widenoborder center-align-th">
+		<tr>
+			<td style="width: 80%;">
+				<img style="float: left;" src="http://templates.carerix.com/images/CxDocument.png" />
+				<h2 id="documentTitle">Kandidaten Rapportage</h2>
+				<p id="documentSubTitle" style="padding-left: 65px;">
+					<dl>
+						<dt>Van:</dt>
+						<dd><cx:write value='$s.formattedDate'/></dd>
+						<dt>Tot:</dt>
+						<dd><cx:write value='$e.formattedDate'/></dd>
+						<dt>Uitgedraaid op:</dt>
+						<dd><cx:write value='$utilities.currentDate.formattedDate'/></dd>
+					</dl>
+				</p>
+			</td>
+			<td class="rt">
+				<cx:let name="logo" value="$activity.owner.agency.attachments"
+					invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
+					<cx:if condition="$logo.count > 0">
+						<img style="max-height: 60px;" border="0" alt="logo"
+							src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif"/>
+					</cx:if>
+					<cx:else>
+						<img style="max-height: 60px;" border="0" alt="logo"
+							src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif" onerror="this.src='http://templates.carerix.com/images/cxlogo.gif'"/>
+          </cx:else>
+				</cx:let>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<cx:fetch entity="CRStatusInfo" qualifier="isFinal=1 AND notActive=0" list="statusses">
+<cx:fetch entity="CRMatch" list="matches" qualifier="statusInfo.isFinal=1">
+
+<cx:let name="groups" value="$statusses.@group.statusGroupID" keep=""/>
+<cx:let name="groups" value="$groups.@self.allValues.@sortAscending.@min.sortOrder" keep=""/>
+
+<table class="wideborder center-align-th center-align-td no-page-break" id="matches_per_candidate">
+	<caption><h4>Matches per kandidaat</h2></caption>
+	<thead>
+		<tr>
+			<th rowspan="2" class="border left-align">Kandidaat</th>
+			<th rowspan="2" class="border">Status</th>
+			<th rowspan="2" class="border visible-border"># match</th>
+			<cx:foreach list="$groups" item="group">
+				<th colspan="<cx:write value="$group.count"/>" class="border visible-border"><cx:write value="$group.@first.statusGroupID"/></th>	
+			</cx:foreach group>
+		</tr>
+		<tr>
+			<cx:foreach list="$groups" item="group">
+			<cx:foreach list="$group.@sortAscending.sortOrder" item="status">
+				<th class="subborder"><cx:write value="$status.displayName"/></th>
+			</cx:foreach status>
+			</cx:foreach group>
+		</tr>
+	</thead>
+	
+<cx:define tag="tableRow"><cx:bare-string-format>
+	
+	<cx:element tag="tr">
+		<cx:parameter name="class" value="$_class"/>
+		<cx:element tag="td">
+			<cx:parameter name="class" value="left-align"/>
+			<cx:write value="$_matches.@first.toEmployee.lessFormalName"/>
+		</cx:element>
+		<td><cx:write value="$_matches.@first.toEmployee.toStatusNode.value"/></td>
+		<td><cx:write value="$_matches.count"/></td>
+		
+		<cx:foreach list="$groups" item="group">
+		<cx:foreach list="$group.@sortAscending.sortOrder" item="status">
+			<cx:let name="filter" value="@filter.statusInfo.statusInfoID = ${status.statusInfoID}" expand="">
+				<cx:element tag="td">
+					<cx:parameter name="data-sort-code" value="$status.statusName"/>
+					<cx:let name="v" value="$_matches" invoke="$filter"><cx:let name="v" condition="$v.count > 0" iftrue="$v.count" iffalse="$nil"><cx:write value="$v"/></cx:let></cx:let>
+				</cx:element>
+			</cx:let filter>
+		</cx:foreach groups>
+		</cx:foreach group>
+	</cx:element>
+</cx:bare-string-format></cx:define>
+
+<cx:let name="matches" value="$matches" invoke="$dateFilter" keep=""/>
+<cx:let name="matches" value="$matches.@group.toEmployee.toStatusNode.dataNodeID" keep=""/>
+<cx:let name="matches" value="$matches.@self.allValues.@sortAscending.@first.toEmployee.toStatusNode.sortOrder" keep=""/>
+
+<cx:foreach list="$matches" item="matchesPerStatus">
+	<tbody>
+	<cx:let name="matchesPerEmployee" value="$matchesPerStatus.@group.toEmployee.employeeID">
+	<cx:let name="matchesPerEmployee" value="$matchesPerEmployee.@self.allValues.@sortDescending.count">
+		<cx:foreach list="$matchesPerEmployee" item="matches" index="it">
+			<cx:let name="class" condition="$it.intSucc isEvenlyDivisibleBy: 2" iftrue="even" iffalse="odd">
+				<cx:tableRow matches="$matches" class="$class"/>
+			</cx:let>
+		</cx:foreach matches>
+	</cx:let matchesPerEmployee>
+	</cx:let matchesPerEmployee>
+	</tbody>
+</cx:foreach group>
+
+</table>
+
+</cx:fetch matches>
+</cx:fetch statusses>
+
+<p>
+<dl>
+	<dt>Match</dt>
+	<dd>Het aantal vacatures waar iemand voor geselecteerd is</dd>
+</dl>
+
+</div>
+<script type="text/javascript">
+	$('#matches_per_candidate tbody').each(sortTBody);
+	$('#matches_per_candidate tbody tr').each(function(it) {
+		$(this).removeClass('odd even').addClass(it%2?'even':'odd');
+	});
+</script>
+</body>
+
+</html>

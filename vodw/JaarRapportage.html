@@ -1,0 +1,916 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Log
+@author Jasper Stafleu <j.stafleu@jcgroep.nl> (Carerix)
+@created Report created on 2012-10-08
+-->
+<head>
+<cx:let name="s" condition="$activity.fspec.hints.startDate<>$nil" iftrue="$activity.fspec.hints.startDate.firstDayOfYear" iffalse="$utilities.currentDate.firstDayOfYear" keep=""/>
+<cx:let name="e" value="$s.lastDayOfYear.nextDay" keep=""/>
+<cx:let name="y" value="$s.yearOfCommonEra" keep=""/>
+<cx:let name='yearFilter' expand="" value='@filter.creationDate>=(NSCalendarDate)"${s}" AND creationDate<(NSCalendarDate)"${e}"' keep=""/>
+<cx:let name='lastYearFilter' expand="" value='@filter.creationDate>=(NSCalendarDate)"${s.previousYear}" AND creationDate<(NSCalendarDate)"${e.previousYear}"' keep=""/>
+<cx:let name='fiveYearFilter' expand="" value='@filter.creationDate>=(NSCalendarDate)"${s.previousYear.previousYear.previousYear.previousYear}" AND creationDate<(NSCalendarDate)"${e}"' keep=""/>
+<cx:let name="successFilter" value="@filter.toStatusNode.exportCode = 'SUCCESS'" keep=""/>
+<cx:let name="lostFilter" value="@filter.toStatusNode.exportCode = 'LOST'" keep=""/>
+<cx:let name="restFilter" value="@filter.toStatusNode.exportCode <> 'SUCCESS' AND toStatusNode.exportCode <> 'LOST'" keep=""/>
+
+<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
+<title>Jaarrapportage <cx:write value="$y"/></title>
+<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
+<style>
+/* OVERRIDES OF THE DEFAULT STYLESHEET */
+table {
+	margin-top: 1em;
+}
+table.center-align-th th {
+	text-align: center;
+}
+table.center-align-th th.left-align {
+	text-align: left;
+}
+table.center-align-td td {
+	text-align: center;
+}
+table.center-align-td td.left-align {
+	text-align: left;
+}
+th.visible-border {
+	border-right-color: silver;
+}
+th.visible-border+th {
+	border-left-color: silver;
+}
+caption {
+	text-align: left;
+}
+caption h4 {
+	padding-top: 0px;
+}
+h4 {
+	padding-top: 1em;
+}
+tfoot th, 
+tfoot td { /* copy of th.content */
+	background-color: #F0F0F0;
+	color: #555555;
+	border: 0 none;
+	text-align: left;
+	vertical-align: text-top;
+	padding: 2pt;
+}
+dl {
+	padding-bottom: 2em;
+}
+dt {
+	width: 10em;
+	float: left;
+	font-weight: bold;
+	padding-right: 2em;
+}
+ol {
+	list-style: decimal;
+}
+dd {
+	margin-left: 12em;
+}
+dd ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 15px;
+}
+.documentHeader h2 {
+	margin-top: 0px;
+}
+.documentHeader dl {
+	padding-left: 65px;
+	padding-bottom: 0px;
+}
+.documentHeader dt {
+	font-weight: normal;
+}
+.documentHeader dd {
+	font-weight: bold;
+}
+.viewport {
+	max-width: 780px;
+	width: 780px;
+	margin: auto;
+}
+@media print {
+	table {
+		page-break-before: always;
+	}
+	.documentHeader table,
+	.no-page-break {
+		page-break-before: avoid;
+	}
+	th {
+		color: black !important;
+		border: 1px solid silver;
+	}
+}
+</style>
+<style>
+	/* OVERRIDES FOR THE IMAGE PLACEHOLDERS */
+	code {
+		color: red;
+		display: block;
+	}
+	.allow_space {
+		width: 100%;
+		height: 60em;
+		margin-bottom: 1em;
+		display: block;
+	}
+	td.allow_space {
+		display: table-cell;
+	}
+	.allow_space.float {
+		width: 48%;
+		float: left;
+	}
+	.allow_space.float.right {
+		float: right;
+	}
+</style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+</head>
+<body>
+
+<div class="viewport">
+<div class="documentHeader">
+	<table class="widenoborder center-align-th">
+		<tr>
+			<td style="width: 80%;">
+				<img style="float: left;" src="http://templates.carerix.com/images/CxDocument.png" />
+				<h2 id="documentTitle">Jaarrapportage <cx:write value='$y'/></h2>
+				<dl>
+					<dt>Jaar:</dt>
+					<dd><cx:write value='$y'/></dd>
+					<dt>Uitgedraaid op:</dt>
+					<dd><cx:write value='$utilities.currentDate.formattedDate'/></dd>
+				</dl>
+			</td>
+			<td class="rt">
+				<cx:let name="logo" value="$activity.owner.agency.attachments"
+					invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
+					<cx:if condition="$logo.count > 0">
+						<img style="max-height: 60px;" border="0" alt="logo"
+							src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif"/>
+          </cx:if>
+					<cx:else>
+						<img style="max-height: 60px;" border="0" alt="logo"
+							src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif" onerror="this.src='http://templates.carerix.com/images/cxlogo.gif'"/>
+					</cx:else>
+				</cx:let>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<cx:define tag="percentage"><cx:bare-string-format>
+	<cx:if condition="$_total <> 0">
+		<cx:let name="ratio" value="$_number" invoke="numberByDividingBy:" arg0="$_total">
+		<cx:let name="ratio" value="$ratio" invoke="numberByMultiplyingBy:" arg0="100">
+		<cx:let name="ratio" value="$ratio" invoke="numberByAdding:" arg0="0.5">
+		<cx:write value="$ratio.intValue"/>%
+		</cx:let>
+		</cx:let>
+		</cx:let>
+	</cx:if>
+</cx:bare-string-format></cx:define>
+
+<cx:define tag="vacancyTFoot"><cx:bare-string-format>
+<tfoot>
+		<cx:let name="lost" value="$vacancies" invoke="$lostFilter" keep=""/>
+		<cx:let name="success" value="$vacancies" invoke="$successFilter" keep=""/>
+		<cx:let name="rest" value="$vacancies" invoke="$restFilter" keep=""/>
+		<tr>	
+			<cx:element tag="th">
+				<cx:parameter name="class" value="left-align"/>
+				<cx:parameter name="colspan" value="$_totaalcolspan"/>
+				Totaal
+			</cx:element>
+			<cx:if condition="$_withpercentage='yes'"><td>100%</td></cx:if>
+			<td><cx:write value="$vacancies.count"/></td>
+			<td><cx:write value="$lost.count"/></td>
+			<td><cx:write value="$success.count"/></td>
+			<td><cx:write value="$rest.count"/></td>
+			<td><cx:percentage number="$success.count" total="$vacancies.count"/></td>
+			<td><cx:write value="$lastYearVacancies.count"/></td>
+		</tr>
+</tfoot>
+</cx:bare-string-format></cx:define>
+
+<cx:define tag="vacancyTBody"><cx:bare-string-format>
+<cx:let name="groupby" value="@group.${_group}.${_by}" expand="" keep=""/>
+<cx:let name="selectedVacancies" condition="$_overridevacancies=$nil" iftrue="$vacancies" iffalse="$_overridevacancies">
+<cx:let name="vacanciesGrouped" value="$selectedVacancies" invoke="$groupby">
+<cx:let name="vacanciesGrouped" value="$vacanciesGrouped.@self.allValues.@sortDescending.count">
+<cx:foreach list="$vacanciesGrouped" item="total" index="it">
+
+	<cx:let name="group" value="$total.@first" invoke="$_group" keep=""/>
+	<cx:let name="id" value="$group" invoke="$_by" keep=""/>
+	<cx:let name="groupFilter" value="@filter.${_group}.${_by} = ${id}" expand="" keep=""/>
+	<cx:let name="totalLastYear" value="$lastYearVacancies" invoke="$groupFilter" keep=""/>
+	<cx:let name="lost" value="$total" invoke="$lostFilter" keep=""/>
+	<cx:let name="success" value="$total" invoke="$successFilter" keep=""/>
+	<cx:let name="rest" value="$total" invoke="$restFilter" keep=""/>
+	<cx:let name="class" condition='$it.intSucc isEvenlyDivisibleBy: 2' iftrue='even' iffalse='odd' keep=""/>
+	
+	<cx:element tag="tr">
+		<cx:parameter name="class" value="$class"/>
+
+		<cx:element tag="td">
+			<cx:parameter name="class" value="left-align"/>	
+			
+			<cx:if condition="$_title='complexAddress'">
+				<b><cx:write value="$group.name"/></b><br/>
+				<cx:write value="$group.visitAddress.lines.@at.0"/><br/>
+				<cx:write value="$group.visitAddress.lines.@at.1"/>
+			</cx:if>
+			<cx:else>
+				<cx:write value="$group" invoke="$_title"/>
+			</cx:else>
+		</cx:element>
+		
+		<cx:if condition="$_parentcolumn='yes'">
+			<cx:element tag="td">
+				<cx:parameter name="class" value="left-align"/>
+				<cx:write value="$group.parentNodes.@first.value"/>
+			</cx:element>
+		</cx:if>
+		
+		<cx:if condition="$_withpercentage='yes'">
+			<td><cx:percentage number="$total.count" total="$vacancies.count"/></td>
+		</cx:if>
+		
+		<td><cx:write value="$total.count"/></td>
+		<td><cx:write value="$lost.count"/></td>
+		<td><cx:write value="$success.count"/></td>
+		<td><cx:write value="$rest.count"/></td>
+		<td><cx:percentage number="$success.count" total="$total.count"/></td>
+		<td><cx:write value="$totalLastYear.count"/></td>
+	
+		<cx:if condition="$_withgroups='yes'">
+			<cx:element tag="td">
+				<cx:parameter name="class" value="left-align"/>
+				<cx:foreach list="$group.groups" item="group" index="it2">
+					<cx:if condition="it2<>0"><cx:write value=", "/></cx:if>
+					<cx:write value="$group.value"/>
+				</cx:foreach group.groups>
+			</cx:element>
+		</cx:if>
+	
+	</cx:element>
+</cx:foreach vacanciesGrouped>
+</cx:let vacanciesGrouped>
+</cx:let vacanciesGrouped>
+</cx:let selectedVacancies>
+</cx:bare-string-format></cx:define>
+
+<cx:fetch entity="CRVacancy" list="allVacancies" qualifier="(deleted=0)">
+	<cx:let name="lastYearVacancies" value="$allVacancies" invoke="$lastYearFilter" keep=""/>
+	<cx:let name="vacancies" value="$allVacancies" invoke="$yearFilter" keep=""/>
+
+<table class="wideborder center-align-th center-align-td no-page-break">
+	<caption><h4>Aanvragen per opdrachtgever</h4></caption>
+	<thead>
+		<tr>
+			<th/>
+			<th>Aanvragen (#)</th>
+			<th>Vervallen (#)</th>
+			<th>Ingevuld (#)</th>
+			<th>Overig (#)</th>
+			<th>Succes&shy;ratio (%)</th>
+			<th>Aangevraagd vorig jaar (#)</th>
+			<th class="left-align">Groepen</th>
+		</tr>
+	</thead>
+	<tbody>
+	<cx:vacancyTBody group="toCompany" by="companyID" title="complexAddress" withgroups="yes"/>
+	</tbody>
+</table>
+<dl>
+	<dt>&nbsp;</dt>
+	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
+	<dt>Groepen</dt>
+	<dd>De groepen waar de opdrachtgever in valt.</dd>
+	<dt>Succes­ratio</dt>
+	<dd>(#aanvragen / #ingevuld) * 100%</dd>
+</dl>
+
+<table class="wideborder center-align-th center-align-td">
+	<caption><h4>Aanvragen per contactpersoongroep</h4></caption>
+	<thead>
+		<tr>
+			<th/>
+			<th>Aanvragen (%)</th>
+			<th>Aanvragen (#)</th>
+			<th>Vervallen (#)</th>
+			<th>Ingevuld (#)</th>
+			<th>Overig (#)</th>
+			<th>Succes&shy;ratio (%)</th>
+			<th>Aangevraagd vorig jaar (#)</th>
+		</tr>
+	</thead>
+	<cx:vacancyTFoot withpercentage="yes"/>
+	<tbody>
+<cx:bare-string-format>
+<cx:fetch entity="CRDataNode" qualifier="deleted=0 and type.typeID=145 and notActive=0" list="groups">
+	<cx:foreach list="$groups" item="group" index="it">
+		<cx:let name="filter" value="@filter.toUser.groups.dataNodeID=${group.dataNodeID}" expand="" keep=""/>
+		<cx:let name="total" value="$vacancies" invoke="$filter" keep=""/>
+		<cx:let name="totalLastYear" value="$lastYearVacancies" invoke="$filter" keep=""/>
+		<cx:let name="lost" value="$total" invoke="$lostFilter" keep=""/>
+		<cx:let name="success" value="$total" invoke="$successFilter" keep=""/>
+		<cx:let name="rest" value="$total" invoke="$restFilter" keep=""/>
+		<cx:let name="class" condition='$it.intSucc isEvenlyDivisibleBy: 2' iftrue='even' iffalse='odd' keep=""/>
+		
+		<cx:element tag="tr">
+			<cx:parameter name="class" value="$class"/>
+		
+			<cx:element tag="td">
+				<cx:parameter name="class" value="left-align"/>
+				<cx:write value="$group.value"/>
+			</cx:element>
+			<td><cx:percentage number="$total.count" total="$vacancies.count"/></td>
+			<td><cx:write value="$total.count"/></td>
+			<td><cx:write value="$lost.count"/></td>
+			<td><cx:write value="$success.count"/></td>
+			<td><cx:write value="$rest.count"/></td>
+			<td><cx:percentage number="$success.count" total="$total.count"/></td>
+			<td><cx:write value="$totalLastYear.count"/></td>
+		</cx:element>	
+	
+	</cx:foreach groups>
+</cx:fetch>
+
+</cx:bare-string-format>
+	</tbody>
+</table>
+<dl>
+	<dt>&nbsp;</dt>
+	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
+	<dt>Succes­ratio</dt>
+	<dd>(#aanvragen / #ingevuld) * 100%</dd>
+</dl>
+
+<table class="wideborder center-align-th center-align-td">
+	<caption><h4>Aanvragen per contactpersoon</h4></caption>
+	<thead>
+		<tr>
+			<th/>
+			<th>Aanvragen (#)</th>
+			<th>Vervallen (#)</th>
+			<th>Ingevuld (#)</th>
+			<th>Overig (#)</th>
+			<th>Succes&shy;ratio (%)</th>
+			<th>Aangevraagd vorig jaar (#)</th>
+			<th class="left-align">Groepen</th>
+		</tr>
+	</thead>
+	<tbody>
+	<cx:vacancyTBody group="toUser" by="userID" title="lessFormalName" withgroups="yes"/>
+	</tbody>
+</table>
+<dl>
+	<dt>&nbsp;</dt>
+	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
+	<dt>Groepen</dt>
+	<dd>De groepen waar de contactpersoon in valt.</dd>
+	<dt>Succes­ratio</dt>
+	<dd>(#aanvragen / #ingevuld) * 100%</dd>
+</dl>
+
+<table class="wideborder center-align-th center-align-td">
+	<caption><h4>De key-accounts</h4></caption>
+	<thead>
+		<tr>
+			<th style="text-align: right;">Key Account</th>
+			<th colspan="2" style="width: 40%">Ja</th>
+			<th colspan="2" style="width: 40%">Nee</th>
+		</tr>
+		<tr>
+			<th class="left-align">Opdrachtgeverstatus</th>
+			<th>#</th>
+			<th>%</th>
+			<th>#</th>
+			<th>%</th>
+		</tr>
+	</thead>
+	<cx:bare-string-format>
+	<cx:fetch entity="CRCompany" qualifier="deleted=0" list="companies">
+	<cx:define tag="keyAccountRow">
+		<cx:let name="ja" value="$_group" invoke="@filter.groups.dataNodeID=5394" keep=""/>
+		<cx:let name="ja" value="$ja.count" keep=""/>
+		<cx:let name="nee" value="$_group.count" invoke="numberBySubtracting:" arg0="$ja" keep=""/>
+
+		<cx:element tag="tr">
+			<cx:parameter name="class" value="$_class"/>
+		
+			<cx:element tag="th">
+				<cx:parameter name="class" value="left-align"/>
+				<cx:write value="$_title"/>
+			</cx:element>
+			<td><cx:write value="$ja"/></td>
+			<td><cx:percentage number="$ja" total="$_group.count"/></td>
+			<td><cx:write value="$nee"/></td>
+			<td><cx:percentage number="$nee" total="$_group.count"/></td>
+		</cx:element>
+	</cx:define>
+	<tfoot>
+		<tr>
+			<cx:keyAccountRow group="$companies" class="" title="Totaal"/>
+		</tr>
+	</tfoot>
+	<tbody>
+		<cx:let name="groups" value="$companies.@group.toStatusNode.dataNodeID">
+		<cx:foreach list="$groups" item="group" index="it">
+			<cx:let name='class' condition='$it.intSucc isEvenlyDivisibleBy: 2' iftrue='even' iffalse='odd' keep=""/>
+			<cx:keyAccountRow group="$group" it="$it" class="$class" title="$group.@first.toStatusNode.value"/>
+		</cx:foreach>
+		</cx:let>
+	</cx:bare-string-format>
+	</tbody>
+	</cx:fetch>
+</table>
+<dl>
+	<dt>&nbsp;</dt>
+	<dd>Deze tabel betreft de status van opdrachtgevers <i>op het moment van genereren van het rapport</i></dd>
+</dl>
+
+<cx:fetch entity="CRCompany" qualifier="deleted=0" list="companies">
+<cx:fetch entity="CRDataNode" qualifier="deleted=0 and type.typeID=42 and notActive=0" list="companystatusses">
+
+<table class="wideborder center-align-th center-align-td no-page-break" id="migration">
+	<caption><h4>Migratie in de relatiebase</h4></caption>
+
+	<thead>
+		<tr>
+			<th colspan="2" rowspan="2" style="vertical-align: middle;">Migratietabel opdrachtgeverstatus</th>
+			<cx:element tag="th">
+				<cx:parameter name="colspan" value="$companystatusses.count"/>
+				Eind <cx:write value="$y"/>
+			</cx:element>
+			<th/>
+		</tr>
+		<tr>
+			<cx:foreach list="$companystatusses" item="companystatus">
+				<th class="sub"><cx:write value="$companystatus.value"/></th>
+			</cx:foreach>
+			<th>Totaal</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th/>
+			<th class="left-align">Totaal</th>
+			<cx:foreach list="$companystatusses" item="companystatus" index="it">
+				<td>
+				<cx:let name="filter" value="@filter.toStatusNode.dataNodeID = ${companystatus.dataNodeID}" expand="">
+				<cx:let name="companies" value="$companies" invoke="$filter">
+					<cx:write value="$companies.count"/>
+				</cx:let companies>
+				</cx:let filter>
+				</td>
+			</cx:foreach>
+			<th>
+				<cx:write value="$companies.count"/>
+			</th>
+		</tr>
+	</tfoot>
+	<tbody>
+<cx:define tag="migratieRij">
+	<cx:let name="class" condition='$_it.intSucc isEvenlyDivisibleBy: 2' iftrue='even' iffalse='odd' keep=""/>
+	<cx:element tag="tr">
+		<cx:parameter name="class" value="$class"/>
+		<cx:if condition="$_it=0">
+			<cx:let name="rowspan" value="$companystatusses.count" invoke="numberByAdding:" arg0="0">
+			<cx:element tag="th">
+				<cx:parameter name="rowspan" value="$rowspan"/>
+				<cx:parameter name="style" value="vertical-align: middle;"/>
+				Begin <cx:write value="$y"/>
+			</cx:element>
+			</cx:let>
+		</cx:if>
+		<th class="sub" style="text-align: left;"><cx:write value="$_title"/></th>
+		<cx:let name="nowID" condition="$_filter<>nil" iftrue="$_filter" iffalse="0">
+		<cx:foreach list="$companystatusses" item="companystatus2" index="it">
+			<cx:element tag="td">
+				<cx:parameter name="data-then-id" value="$companystatus2.dataNodeID"/>
+				<cx:parameter name="data-now-id" value="$nowID"/>
+			</cx:element>
+		</cx:foreach>
+		</cx:let>
+		<cx:element tag="th">
+			<cx:parameter name="class" value="sub"/>
+			<cx:parameter name="data-then-id" value="$companystatus.dataNodeID"/>
+			<cx:parameter name="data-now-id" value="tot"/>
+		</cx:element>
+	</cx:element>
+</cx:define>
+
+<cx:foreach list="$companystatusses" item="companystatus" index="it">
+	<cx:migratieRij it="$it" title="$companystatus.value" filter="$companystatus.dataNodeID"/>
+</cx:foreach>
+
+	</tbody>
+</table>
+
+<script type="text/javascript">
+if (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = function(elt) {
+    var len = this.length >>> 0;
+    var from = Number(arguments[1]) || 0;
+    from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+    if (from < 0) from += len;
+    for (; from < len; from++) {
+      if (from in this && this[from] === elt) return from;
+    }
+    return -1;
+  };
+}
+
+(function() {
+	var table = [], tmp, ids=[], it, it2, total, $table = $('#migration');
+	<cx:bare-string-format>
+	<cx:foreach list="$companystatusses" item="companystatus" index="it">
+		<cx:let name="filter" value="@filter.toStatusNode.dataNodeID = ${companystatus.dataNodeID}" expand="">
+		<cx:let name="companies" value="$companies" invoke="$filter">
+		tmp = [];
+		tmp[ids.length] = <cx:write value="$companies.count"/>;
+		table[ids.length] = tmp;
+		ids.push(<cx:write value="$companystatus.dataNodeID"/>);
+		</cx:let>
+		</cx:let>
+	</cx:foreach>
+	</cx:bare-string-format>
+	
+	for ( it = 0; it < table.length; it++ ) {
+		for ( it2 = 0; it2 < table.length; it2++ ) {
+			if ( typeof table[it][it2] === typeof undefined ) {
+				table[it][it2] = 0;
+			} 
+		} // for
+	} // for
+	
+	function changeMade(from, to) {
+		var fromIndex = ids.indexOf(from), toIndex = ids.indexOf(to);
+		if ( !(~fromIndex && ~toIndex) ) {
+			return;
+		}
+		table[fromIndex][fromIndex]--;
+		table[toIndex][fromIndex]++;
+	} // changeMade();
+	
+	<cx:bare-string-format>
+	<cx:fetch entity="CRAttributeChange" list="changes" qualifier="attributeEntityName='CRCompanyStatus'">
+		<cx:let name="filter" expand="" value='@filter.effectiveDate>=(NSCalendarDate)"${s}" AND effectiveDate<(NSCalendarDate)"${e}" AND effectiveEndDate>=(NSCalendarDate)"${e}"'>
+		<cx:let name="changes" value="$changes" invoke="$filter">
+		<cx:foreach list="$changes" item="change">
+			<cx:let name="filter" expand="" value="@filter.companyID=${change.id1}">
+			<cx:let name="company" value="$companies" invoke="$filter">
+			changeMade(<cx:write value="$company.@first.toStatusNode.dataNodeID"/>+0, <cx:write value="$change.attributeValue.dataNodeID"/>);
+			</cx:let>
+			</cx:let>
+		</cx:foreach>
+		</cx:let>
+		</cx:let>
+	</cx:fetch>
+	</cx:bare-string-format>
+	
+	$.each(table, function(it) {
+		var now = ids[it];
+		total = 0;
+		$.each(this, function(it) {
+			var then = ids[it];
+			$table.find('[data-then-id='+ then + '][data-now-id=' + now + ']').html(this.valueOf() || '');
+			total += this.valueOf();
+		});
+		$table.find('[data-then-id='+ now + '][data-now-id="tot"]').html(total);
+	});
+})(jQuery);
+</script>
+
+</cx:fetch companystatusses>
+</cx:fetch companies>
+
+<table class="wideborder center-align-th center-align-td no-page-break">
+	<caption><h4>Aanvragen per opdrachtgeverstatus</h4></caption>
+	<thead>
+		<tr>
+			<th/>
+			<th>Aanvragen (#)</th>
+			<th>Vervallen (#)</th>
+			<th>Ingevuld (#)</th>
+			<th>Overig (#)</th>
+			<th>Succes&shy;ratio (%)</th>
+			<th>Aangevraagd vorig jaar (#)</th>
+		</tr>
+	</thead>
+	<cx:vacancyTFoot/>
+
+	<tbody id="vacancies_per_company_status">
+		<cx:vacancyTBody group="toCompany.toStatusNode" by="dataNodeID" title="value"/>
+	</tbody>
+
+
+
+
+
+</table>
+<dl>
+	<dt>&nbsp;</dt>
+	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
+	<dt>&nbsp;</dt>
+	<dd>Hier wordt niet de huidige opdrachtgeverstatus, maar de opdrachtgeverstatus in de 24 uur voor de aanmaak van de vacature getoond.</dd>
+	<dt>Succes­ratio</dt>
+	<dd>(#aanvragen / #ingevuld) * 100%</dd>
+</dl>
+
+<script type="text/javascript">
+(function() {
+	var statusses = [], indices = [], html='',row, row2;
+	<cx:bare-string-format>	
+	<cx:write value="function "/>addRow(id, name){
+		indices.push(id);
+		statusses.push([name,0,0,0,0,'CALC',0]);
+		return(indices.length - 1);
+	}
+
+<cx:let name="vacanciesGrouped" value="$vacancies.@group.toCompany.toStatusNode.dataNodeID">
+<cx:foreach list="$vacanciesGrouped" item="total" index="it">
+
+	<cx:let name="group" value="$total.@first" invoke="toCompany.toStatusNode" keep=""/>
+	<cx:let name="groupFilter" value="@filter.toCompany.toStatusNode.dataNodeID = ${group.dataNodeID}" expand="" keep=""/>
+	<cx:let name="totalLastYear" value="$lastYearVacancies" invoke="$groupFilter" keep=""/>
+	<cx:let name="lost" value="$total" invoke="$lostFilter" keep=""/>
+	<cx:let name="success" value="$total" invoke="$successFilter" keep=""/>
+	<cx:let name="rest" value="$total" invoke="$restFilter" keep=""/>
+	
+	indices.push(<cx:write value="$group.dataNodeID"/>);
+	statusses.push(["<cx:write value="$group.value"/>",
+	                <cx:write value="$total.count"/>,
+	                <cx:write value="$lost.count"/>,
+	                <cx:write value="$success.count"/>,
+	                <cx:write value="$rest.count"/>,
+	                'CALC',
+	                <cx:write value="$totalLastYear.count"/>
+	]);
+
+</cx:foreach vacanciesGrouped>
+</cx:let vacanciesGrouped>
+	
+<cx:fetch entity="CRDataNode" qualifier="deleted=0 and type.typeID=42" list="companystatusses">
+<cx:fetch entity="CRAttributeChange" list="changes" qualifier="attributeEntityName='CRCompanyStatus'">
+	<cx:foreach list="$vacancies" item="vacancy">
+		<cx:let name="filter" expand="" value="@filter.id1 = ${vacancy.companyID} AND effectiveDate>=(NSCalendarDate)'${vacancy.creationDate.previousDay}' AND effectiveDate<=(NSCalendarDate)'${vacancy.creationDate.nextDay}'">
+		<cx:let name="changes" value="$changes" invoke="$filter">
+		<cx:if condition="$changes.count > 0">
+			row = indices.indexOf(<cx:write value="$vacancy.toCompany.toStatusNode.dataNodeID"/>);
+			if ( !~(row2 = indices.indexOf(<cx:write value="$changes.@first.attributeValue.dataNodeID"/>)) ) {
+				<cx:let name="filter" value="@filter.dataNodeID = ${changes.@first.attributeValue.dataNodeID}" expand="">
+				<cx:let name="status" value="$companystatusses" invoke="$filter">
+				row2 = addRow(<cx:write value="$status.@first.dataNodeID"/>, "<cx:write value="$status.@first.value"/>" );
+				</cx:let>
+				</cx:let>
+			}
+			
+			statusses[row][1]--;
+			statusses[row2][1]++;
+			<cx:if condition="$vacancy.toStatusNode.exportCode='LOST'">
+				statusses[row][2]--;
+				statusses[row2][2]++;
+			</cx:if>
+			<cx:else>
+				<cx:if condition="$vacancy.toStatusNode.exportCode='SUCCESS'">
+					statusses[row][3]--;
+					statusses[row2][3]++;
+				</cx:if>
+				<cx:else>
+					statusses[row][4]--;
+					statusses[row2][4]++;
+				</cx:else>
+			</cx:else>
+			
+		</cx:if>
+		</cx:let changes>
+		</cx:let filter>
+	</cx:foreach vacancy>
+	
+	<cx:foreach list="$lastYearVacancies" item="vacancy">
+		<cx:let name="filter" expand="" value="@filter.id1 = ${vacancy.companyID} AND effectiveDate>=(NSCalendarDate)'${vacancy.creationDate.previousDay}' AND effectiveDate<=(NSCalendarDate)'${vacancy.creationDate.nextDay}'">
+		<cx:let name="changes" value="$changes" invoke="$filter">
+		<cx:if condition="$changes.count > 0">
+			row = indices.indexOf(<cx:write value="$vacancy.toCompany.toStatusNode.dataNodeID"/>);
+			if ( !~(row2 = indices.indexOf(<cx:write value="$changes.@first.attributeValue.dataNodeID"/>)) ) {
+				<cx:let name="filter" value="@filter.dataNodeID = ${changes.@first.attributeValue.dataNodeID}" expand="">
+				<cx:let name="status" value="$companystatusses" invoke="$filter">
+				row2 = addRow(<cx:write value="$status.@first.dataNodeID"/>, "<cx:write value="$status.@first.value"/>");
+				</cx:let>
+				</cx:let>
+			}
+			
+			statusses[row][6]--;
+			statusses[row2][6]++;
+		</cx:if>
+		</cx:let changes>
+		</cx:let filter>
+	</cx:foreach vacancy>
+</cx:fetch changes>
+</cx:fetch companystatusses>
+
+	statusses.sort(function(a,b){return(b[1]-a[1]);});
+	</cx:bare-string-format>	
+	$.each(statusses, function(it) {
+		html += '<tr class="' + (it%2?'even':'odd') + '">'
+					+ '<td class="left-align">' + this[0] + '</td>'
+					+ '<td>' + this[1] + '</td>'
+					+ '<td>' + this[2] + '</td>'
+					+ '<td>' + this[3] + '</td>'
+					+ '<td>' + this[4] + '</td>'
+					+ '<td>' + (this[1] === 0 ? '': Math.round(this[3] / this[1] * 100) + '%') + '</td>'
+					+ '<td>' + this[6] + '</td>'
+					+ '</tr>'
+		;
+	});
+	$('#vacancies_per_company_status').html(html);
+})(jQuery);
+
+</script>
+
+<table class="wideborder center-align-th center-align-td">
+	<caption><h4>De subgebieden waar aanvragen naar zijn gedaan (functie 1 van de vacature)</h4></caption>
+	<thead>
+		<tr>
+			<th class="left-align">Aantallen per subgebied (functie1)</th>
+			<th class="left-align">Expertisegebied (functie0)</th>
+			<th>Aanvragen (%)</th>
+			<th>Aanvragen (#)</th>
+			<th>Vervallen (#)</th>
+			<th>Ingevuld (#)</th>
+			<th>Overig (#)</th>
+			<th>Succes&shy;ratio (%)</th>
+			<th>Aangevraagd vorig jaar (#)</th>
+		</tr>
+	</thead>
+	<cx:vacancyTFoot withpercentage="yes" totaalcolspan="2"/>
+	<tbody>
+	<cx:vacancyTBody group="toFunctionLevel2" by="dataNodeID" title="value" parentcolumn="yes" withpercentage="yes"/>
+	</tbody>
+</table>
+<dl>
+	<dt>&nbsp;</dt>
+	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
+	<dt>Succes­ratio</dt>
+	<dd>(#aanvragen / #ingevuld) * 100%</dd>
+</dl>
+
+<table class="wideborder center-align-th center-align-td">
+	<caption><h4>Aanvragen per branche per jaar</h4></caption>
+	<thead>
+		<tr>
+			<th class="left-align">Aantallen per sector en branche hierbinnen</th>
+			<th>Aanvragen (%)</th>
+			<th>Aanvragen (#)</th>
+			<th>Vervallen (#)</th>
+			<th>Ingevuld (#)</th>
+			<th>Overig (#)</th>
+			<th>Succes&shy;ratio (%)</th>
+			<th>Aangevraagd vorig jaar (#)</th>
+		</tr>
+	</thead>
+	<cx:vacancyTFoot withpercentage='yes'/>
+
+	<cx:let name="vacanciesByBranch" value="$vacancies.@group.toCompany.toBrancheLevel1.dataNodeID" >
+	<cx:let name="vacanciesByBranch" value="$vacanciesByBranch.@self.allValues.@sortDescending.count">
+	<cx:foreach list="$vacanciesByBranch" item="total">
+	
+		<cx:let name="lost" value="$total" invoke="$lostFilter" keep=""/>
+		<cx:let name="success" value="$total" invoke="$successFilter" keep=""/>
+		<cx:let name="rest" value="$total" invoke="$restFilter" keep=""/>
+		<cx:let name="groupFilter" value="@filter.toCompany.toBrancheLevel1.dataNodeID = ${total.@first.toCompany.toBrancheLevel1.dataNodeID}" expand="" keep=""/>
+		<cx:let name="totalLastYear" value="$lastYearVacancies" invoke="$groupFilter" keep=""/>
+	
+		<tbody>
+			<tr>
+				<th class="sub left-align">
+					<cx:write value="$total.@first.toCompany.toBrancheLevel1.value"/>
+				</th>
+				<th class="sub"><cx:percentage number="$total.count" total="$vacancies.count"/></th>
+				<th class="sub"><cx:write value="$total.count"/></td>
+				<th class="sub"><cx:write value="$lost.count"/></td>
+				<th class="sub"><cx:write value="$success.count"/></td>
+				<th class="sub"><cx:write value="$rest.count"/></td>
+				<th class="sub"><cx:percentage number="$success.count" total="$total.count"/></td>
+				<th class="sub"><cx:write value="$totalLastYear.count"/></td>
+			</tr>
+			<cx:vacancyTBody overridevacancies="$total" group="toCompany.toBrancheLevel2" by="dataNodeID" title="value" withpercentage="yes"/>
+		</tbody>
+	</cx:foreach>
+	</cx:let>
+	</cx:let>
+</table>
+<dl>
+	<dt>&nbsp;</dt>
+	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
+	<dt>Succes­ratio</dt>
+	<dd>(#aanvragen / #ingevuld) * 100%</dd>
+</dl>
+
+<div class="allow_space" id="chart">
+	<code>Insert barchart "De ontwikkeling van de aanvragen per sector per jaar" here</code>
+	<code>Deze barchart bevat per jaar en per sector het aantal aanvragen per sector genomen over de laatste 5 jaar</code>
+</div>
+
+<script type="text/javascript">
+function percentage(num, tot) {
+	return { v: Math.round(100 * num / tot) / 100 , f: Math.round(100 * num / tot) + '%' };
+}
+var total, it, it2, charts = [], indices={}, totals={}, chart = {
+		id : 'chart',
+		chartType: 'BarChart',
+		options: {
+			title: 'Ontwikkeling van de aanvragen per Sector',
+			hAxis: { format: '#,#%' },
+			chartArea: {left: '35%', width:'50%'},
+			colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)']
+		},
+		data: [['Jaar']],
+};
+
+<cx:let name="dateList" value="$s.previousYear.previousYear.previousYear.previousYear" invoke="datesUntilDate:" arg0="$s">
+<cx:let name="dateList" value="$dateList" invoke="@filter.dayOfYear=1">
+<cx:foreach list="$dateList.@reverse" item="date">
+	indices.y<cx:write value="$date.yearOfCommonEra"/> = chart.data[0].length;
+	totals.y<cx:write value="$date.yearOfCommonEra"/> = 0;
+	chart.data[0].push('<cx:write value="$date.yearOfCommonEra"/>');
+</cx:foreach>
+</cx:let datelist>
+</cx:let datelist>
+
+	<cx:let name="selectedVacancies" value="$allVacancies" invoke="$fiveYearFilter">
+	<cx:let name="vacanciesBySector" value="$selectedVacancies.@group.toCompany.toBrancheLevel1.dataNodeID" >
+	<cx:foreach list="$vacanciesBySector" item="bySector" index="it">
+		index = chart.data.length;
+		chart.data.push(['<cx:write value="$bySector.@first.toCompany.toBrancheLevel1.value"/>']);
+		<cx:let name="vacanciesByYear" value="$bySector.@group.creationDate.yearOfCommonEra">
+		<cx:foreach list="$vacanciesByYear" item="byYear">
+			totals.y<cx:write value="$byYear.@first.creationDate.yearOfCommonEra"/> += <cx:write value="$byYear.count"/>;
+			chart.data[index][indices.y<cx:write value="$byYear.@first.creationDate.yearOfCommonEra"/>] = <cx:write value="$byYear.count"/>;
+		</cx:foreach>
+		</cx:let>
+	</cx:foreach>
+	</cx:let>
+	</cx:let>
+
+for ( it = 1; it < chart.data.length; it++ ) {
+	for ( it2 = 1; it2 < chart.data[0].length; it2++ ) {
+		chart.data[it][it2] = percentage(chart.data[it][it2], totals['y'+chart.data[0][it2]]);
+	} // for
+} // for
+
+charts.push(chart);
+
+/**
+ * Draws each of the charts as given in their description.
+ * @see https://google-developers.appspot.com/chart/interactive/docs/gallery
+ */
+function drawChart() {
+	var $container = $('#' + this.id),
+			data = new google.visualization.DataTable(),
+			chart = new google.visualization[this.chartType]($container.get(0));
+
+	
+	//data = google.visualization.arrayToDataTable([]);
+	data.addColumn('string', this.data[0][0]);
+	for ( var it = 1; it < this.data[0].length; it++ ) {
+		data.addColumn('number', this.data[0][it]);	
+	}
+	this.data.shift();
+	data.addRows(this.data);
+	
+	this.options.width = $container.width()
+	this.options.height = $container.height();
+	
+	if ( this.options.chartArea && this.options.chartArea.left ) {
+		this.options.width -= this.options.chartArea.left / 2;  
+	}
+	if ( this.options.chartArea && this.options.chartArea.right ) {
+		this.options.width -= this.options.chartArea.right / 2;  
+	}
+	chart.draw(data, this.options);
+} // drawCharts();
+
+google.load('visualization', '1.0', {'packages':['corechart']});
+google.setOnLoadCallback(function() { $.each(charts, drawChart); });
+</script>
+
+</div>
+</cx:fetch vacancies>
+ 
+</body>
+</html>

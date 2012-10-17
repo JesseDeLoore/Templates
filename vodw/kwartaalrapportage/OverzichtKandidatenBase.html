@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<cx:let name="title" value="Kandidaten per Expertisegroep">
+<head>
+	<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
+	<title><cx:write value="$title"/></title>
+	<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css" />
+	<style>
+/* OVERRIDES OF THE DEFAULT STYLESHEET */
+table {
+	margin-top: 1em;
+}
+table.center-align-th th {
+	text-align: center;
+}
+table.center-align-th th.left-align {
+	text-align: left;
+}
+table.center-align-td td {
+	text-align: center;
+}
+table.center-align-td td.left-align {
+	text-align: left;
+}
+th.visible-border {
+	border-right-color: silver;
+}
+th.visible-border+th {
+	border-left-color: silver;
+}
+caption {
+	text-align: left;
+}
+tfoot th, 
+tfoot td { /* copy of th.content */
+	background-color: #F0F0F0;
+	color: #555555;
+	border: 0 none;
+	text-align: left;
+	vertical-align: text-top;
+	padding: 2pt;
+}
+dt {
+	width: 10em;
+	float: left;
+	font-weight: bold;
+	padding-right: 2em;
+}
+ol {
+	list-style: decimal;
+}
+dd {
+	margin-left: 12em;
+}
+dd ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-left: 15px;
+}
+.documentHeader h2 {
+	margin-top: 0px;
+}
+.documentHeader dl {
+	padding-left: 65px;
+}
+.documentHeader dt {
+	font-weight: normal;
+}
+.documentHeader dd {
+	font-weight: bold;
+}
+.viewport {
+	max-width: 780px;
+	width: 780px;
+	margin: auto;
+}
+@media print {
+	table {
+		page-break-before: always;
+	}
+	.documentHeader table,
+	.no-page-break {
+		page-break-before: avoid;
+	}
+	th {
+		color: black !important;
+		border: 1px solid silver;
+	}
+}
+	</style>
+</head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script type="text/javascript">
+/*!
+ * Simple JavaScript Templating
+ * John Resig - http://ejohn.org/ - MIT Licensed
+ * @see http://ejohn.org/blog/javascript-micro-templating/
+ */
+(function(){var cache={};this.tmpl=function tmpl(str,data){var fn=!/\W/.test(str)?cache[str]=cache[str]||tmpl(document.getElementById(str).innerHTML):new Function("obj","var p=[],print=function(){p.push.apply(p,arguments);};"+"with(obj){p.push('"+str.replace(/[\r\t\n]/g," ").split("<%").join("\t").replace(/((^|%>)[^\t]*)'/g,"$1\r").replace(/\t=(.*?)%>/g,"',$1,'").split("\t").join("');").split("%>").join("p.push('").split("\r").join("\\'")+"');}return p.join('');");return data?fn(data):fn}})();
+</script>
+<script type="text/javascript">
+<cx:fetch list="candidateGroups" entity="CRDataNode" qualifier="deleted=0 AND notActive = 0 AND type.typeID=147" ordering="({key=value;sel=Ascending})">
+	<cx:let name="expertises" value="$candidateGroups" invoke="@filter.notes.propertyList.Groepslabel='Expertise'" keep=""/>
+	<cx:let name="expertisesFilter" value="@filter.groups.dataNodeID!=groups.dataNodeID" keep=""/>
+</cx:fetch>
+
+<cx:fetch list="allCandidates" entity="CREmployee" qualifier="(deleted=0)" ordering="({key=lastName;sel=Ascending},{key=firstName;sel=Ascending})">
+
+var aggregates=[],statusses=[],expertises=[],tot=<cx:write value="$allCandidates.count"/>,html='';
+<cx:bare-string-format>
+<cx:foreach list="$expertises" item="expertise" index="it">
+	<cx:let name="filter" value="@filter.groups.dataNodeID=${expertise.dataNodeID}" expand="">
+	<cx:let name="cpe" value="$allCandidates" invoke="$filter">
+		expertises.push({"value":"<cx:write value="$expertise.value"/>","total":<cx:write value="$cpe.count"/>});
+	</cx:let>
+	</cx:let>
+</cx:foreach>
+
+<cx:let name="candidatesPerStatus" value="$allCandidates.@group.toStatusNode.dataNodeID">
+<cx:foreach list="$candidatesPerStatus" item="cps" index="it">
+	<cx:let name="cpsVal" value="$cps.@first.toStatusNode.value">
+		statusses.push({"value":"<cx:write value="$cpsVal"/>","total":<cx:write value="$cps.count"/>});
+	
+	<cx:foreach list="$expertises" item="expertise" index="it">
+		<cx:let name="expertiseVal" value="$expertise.value">
+		<cx:let name="filter" value="@filter.groups.dataNodeID=${expertise.dataNodeID}" expand="">
+		<cx:let name="cpspe" value="$cps" invoke="$filter">
+			aggregates.push({"status":"<cx:write value="$cpsVal"/>","expertise":"<cx:write value="$expertiseVal"/>","total":<cx:write value="$cpspe.count"/>});
+		</cx:let cpspe>
+		</cx:let filter>
+		</cx:let expertiseVal>
+	</cx:foreach>
+	
+	</cx:let cpsVal>
+</cx:foreach>
+</cx:bare-string-format>
+</cx:let candidatesPerStatus>
+</cx:fetch allCandidates>
+function sortValueAlphabetically(a,b) {
+	return a.value < b.value ? -1 : 1;
+};
+<cx:bare-string-format>
+expertises.sort(sortValueAlphabetically);
+statusses.sort(sortValueAlphabetically);
+aggregates.sort(function(a,b) {
+	return (a.status === b.status ? a.expertise < b.expertise : a.status < b.status) ? -1 : 1;
+});
+</cx:bare-string-format>
+</script>
+<body>
+
+<div class="viewport">
+	<div class="documentHeader">
+		<table class="widenoborder center-align-th">
+			<tr>
+				<td style="width: 80%;">
+					<img style="float: left;" src="http://templates.carerix.com/images/CxDocument.png" />
+					<h2 id="documentTitle"><cx:write value="$title"/></h2>
+					<dl>
+						<dt>Uitgedraaid op:</dt>
+						<dd><cx:write value='$utilities.currentDate.formattedDate' /></dd>
+					</dl>
+				</td>
+				<td class="rt">
+					<!-- Display the logo of the customer, if it does not exist show the standard Carerix logo using JS -->
+					<cx:let name="logo" value="$activity.owner.agency.attachments" invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
+						<cx:if condition="$logo.count > 0">
+							<img style="max-height: 60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif"/>
+						</cx:if>
+						<!-- If the logo is not present, display the uploaded logo, if that one is also not present, display the standard cx logo -->
+						<cx:else>
+							<img style="max-height: 60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif" onerror="this.src='http://templates.carerix.com/images/cxlogo.gif'"/>
+						</cx:else>
+					</cx:let>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<table class="wideborder center-align-th center-align-td no-page-break">
+		<thead>
+			<tr>
+				<th rowspan="2" class="left-align">Kandidaatstatus x<br/>Expertisegroep</th>
+				<th colspan="14">Expertisegroep</th>
+			</tr>
+			<tr id="tablenumbers">
+				<script type="text/html" id="tablenumbers_tmpl">
+<%
+	for ( it = 1; it <= obj.length; it++ ) { 
+		print("<th class='sub'>", it, "</th>"); 
+	}
+%>
+<th class="sub">Totaal</th>
+				</script>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr id="total">
+				<script type="text/html" id="total_tmpl">
+<th class="left-align">Totaal</th>
+<%
+$.each(obj, function() {
+	print("<td>", this.total, "</td>");
+});
+%>
+<td><%=tot%></td>
+				</script>
+			</tr>
+		</tfoot>
+		<tbody id="statusses">
+			<script language="text/html" id="statusses_tmpl">
+				<tr>
+					<th class="sub left-align"><%=value%></th>
+<%
+var template = tmpl('aggregate_tmpl');
+for ( it = 0; it < expertises.length; it++ ) {
+	print(template(aggregates[obj.row * expertises.length + it]));
+} 
+%>
+					<td><%=total%></td>
+				</tr>
+			</script>
+			<script language="text/html" id="aggregate_tmpl"><td><%=total||""%></td></script>
+		</tbody>
+	</table>
+	
+	<dl>
+		<dt>Expertisegebieden</dt>
+		<dd>
+			Een "expertisegebied" is een "Function1Level1Node". De getallen bij de expertise gebieden staan voor:<br/>
+			<ol id="functionlist">
+				<script type="text/html" id="functionlist_tmpl"><li><%=value%></li></script>
+			</ol>
+		</dd>
+	</dl>
+	
+</div>
+<script type="text/javascript">
+	$('#tablenumbers').html(tmpl("tablenumbers_tmpl", expertises));
+	$('#tablenumbers').closest('table').find('thead th:eq(1)').attr('colspan', expertises.length + 1);
+	$('#total').html(tmpl("total_tmpl", expertises));
+	
+	html = '';
+	$.each(statusses, function(it) { this.row = it; html += tmpl("statusses_tmpl", this); });
+	$('#statusses').html(html);
+	
+	html = '';
+	$.each(expertises, function() { html += tmpl("functionlist_tmpl", this); });
+	$('#functionlist').html(html);
+</script>
+
+</cx:let title>
+</body>
+</html>
