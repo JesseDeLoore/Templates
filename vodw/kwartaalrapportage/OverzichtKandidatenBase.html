@@ -45,6 +45,7 @@ dt {
 	float: left;
 	font-weight: bold;
 	padding-right: 2em;
+	clear: left;
 }
 ol {
 	list-style: decimal;
@@ -65,6 +66,7 @@ dd ul {
 }
 .documentHeader dt {
 	font-weight: normal;
+	clear: none;
 }
 .documentHeader dd {
 	font-weight: bold;
@@ -203,7 +205,7 @@ $.each(obj, function() {
 	print("<td>", this.total, "</td>");
 });
 %>
-<td><%=tot%></td>
+<th><%=tot%></th>
 				</script>
 			</tr>
 		</tfoot>
@@ -217,7 +219,7 @@ for ( it = 0; it < expertises.length; it++ ) {
 	print(template(aggregates[obj.row * expertises.length + it]));
 } 
 %>
-					<td><%=total%></td>
+					<td style="background-color: #F0F0F0"><%=total%></th>
 				</tr>
 			</script>
 			<script language="text/html" id="aggregate_tmpl"><td><%=total||""%></td></script>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <cx:let name="date" value="$utilities.currentDate.previousMonth.previousMonth.previousMonth"> 
-<cx:let name="title" value="Aanvragen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
+<cx:let name="title" value="Kwartaal: Inzicht in de aanvragen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
 <head>
 	<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
 	<title><cx:write value="$title"/></title>
@@ -55,6 +55,7 @@ dt {
 	float: left;
 	font-weight: bold;
 	padding-right: 2em;
+	clear: left;
 }
 ol {
 	list-style: decimal;
@@ -75,6 +76,7 @@ dd ul {
 }
 .documentHeader dt {
 	font-weight: normal;
+	clear: none;
 }
 .documentHeader dd {
 	font-weight: bold;
@@ -85,7 +87,8 @@ dd ul {
 	margin: auto;
 }
 @media print {
-	table {
+	table,
+	.page-break {
 		page-break-before: always;
 	}
 	.documentHeader table,
@@ -125,7 +128,7 @@ td.allow_space {
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
-	if (!Array.prototype.indexOf) {
+	if ( !Array.prototype.indexOf ) {
 	  Array.prototype.indexOf = function(elt) {
 	    var len = this.length >>> 0;
 	    var from = Number(arguments[1]) || 0;
@@ -159,7 +162,7 @@ td.allow_space {
 	};
 	
 	<cx:define tag="perQuarter">
-		<cx:let name='filter' expand="" value='@filter.startDate>=(NSCalendarDate)"${_date}" AND startDate<(NSCalendarDate)"${_date.nextMonth.nextMonth.nextMonth}"'>
+		<cx:let name='filter' expand="" value='@filter.creationDate>=(NSCalendarDate)"${_date}" AND creationDate<(NSCalendarDate)"${_date.nextMonth.nextMonth.nextMonth}"'>
 		<cx:let name="id" expand="" value="stats.Q${_date.quarterOfYear}_${_date.yearOfCommonEra}">
 			<cx:perGroup filter="$filter" id="$id"/>
 		</cx:let filter>
@@ -207,7 +210,7 @@ td.allow_space {
 				name =  parseName('<cx:write value="$name"/>');
 				addName(names.<cx:write value="$_tag"/>, name);
 				<cx:write value="$_id"/>.<cx:write value="$_tag"/>.push({
-						name			: name,
+						name			: name || "geen",
 						vacancies	: <cx:write value="$g.count"/>,
 						lost			:	<cx:let value="$g" name="g" invoke="$lostFilter"><cx:write value="$g.count"/></cx:let>,
 						success		: <cx:let value="$g" name="g" invoke="$successFilter"><cx:write value="$g.count"/></cx:let>,
@@ -237,11 +240,11 @@ td.allow_space {
 	<cx:let name="restFilter" value="@filter.toStatusNode.exportCode <> 'SUCCESS' AND toStatusNode.exportCode <> 'LOST'">
 	
 	<cx:fetch list="vacancies" entity="CRVacancy" qualifier="(deleted=0)">
-		<cx:perQuarter date="$firstDateOfQuarter.previousYear"/>
-		<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth"/>
-		<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth"/>
-		<cx:perQuarter date="$firstDateOfQuarter.previousMonth.previousMonth.previousMonth"/>
 		<cx:perQuarter date="$firstDateOfQuarter"/>
+		<cx:perQuarter date="$firstDateOfQuarter.previousMonth.previousMonth.previousMonth"/>
+		<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth"/>
+		<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth"/>
+		<cx:perQuarter date="$firstDateOfQuarter.previousYear"/>
 	</cx:fetch vacancies>
 	
 	</cx:let restFilter>
@@ -427,7 +430,7 @@ td.allow_space {
 	-->
 	<!-- TODO: Gesorteerd op aantal aanvragen, groot naar klein. -->
 	<table class="wideborder center-align-th center-align-td" id="functie">
-		<caption><h4>Aanvragen per Functiegroep</h4></caption>
+		<caption><h4>Aanvragen per expertise</h4></caption>
 		<thead>
 			<tr>
 				<th class="left-align">Aantallen</th>
@@ -463,10 +466,10 @@ td.allow_space {
 		<dd>(#ingevuld / #aanvragen) * 100%</dd>
 	</dl>
 	
-	<h4>Aanvragen status dit kwartaal per functieniveau</h4>
+	<h4 class="page-break">Aanvragen per functieniveau</h4>
 	<p>
 		<span class="allow_space" id="niveau_chart">
-			<code>Hier komt een barchart: "Aanvragen per functieniveau"</code>
+			<code>Hier komt een barchart: "Ontwikkeling van aanvragen per functieniveau"</code>
 			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
 		</span>
 	</p>
@@ -476,17 +479,25 @@ td.allow_space {
 <script type="text/javascript">
 var charts = [], chart;
 
+/**
+ * Generate a google charts percentage presentation
+ */
 function percentage(num, tot) {
 	return { v: Math.round(100 * num / tot) / 100 , f: Math.round(100 * num / tot) + '%' };
-}
+} // percentage();
 
 /**
  * Fills the tables in the reports.
  */
-function report(data, id) {
+function report(data, id, sortColumn) {
 	var html = '<tr>',
-			$table = $('#' + id);
-
+			$table = $('#' + id),
+			order = [];
+	
+	if ( typeof sortColumn !== typeof undefined && sortColumn in data[id][0] ) {  
+		data[id].sort(function(a,b){return a[sortColumn] < b[sortColumn] ? 1 : -1;});
+	}
+	
 	$.each(data[id], function() {
 		html += '<tr>'
 					+ '<td class="left-align">' + this.name + '</td>'
@@ -496,7 +507,8 @@ function report(data, id) {
 					+ '<td>' + this.success + '</td>'
 					+ '<td>' + this.rest + '</td>'
 					+ '<td>' + parseInt(100 * this.success / this.vacancies) + '%</td>'
-					+ '</tr>'
+					+ '</tr>';
+			order.push(this.name); 
 	});
 
 	$table.find('tbody').html(html);
@@ -511,15 +523,27 @@ function report(data, id) {
 			+ '</tr>'
 	);
 	
-	chart = createChart(id, 'vacancies');
+	chart = createChart(id, 'vacancies', order);
 	charts.push(chart);
 } // report();
 
-function createChart(id, field) {
+function createChart(id, field, order, byOwnTotal) {
 	var rows = [['Kwartaal']],
 			row,
 			found,
 			it;
+	
+	if ( typeof byOwnTotal === typeof undefined ) byOwnTotal = false;
+	
+	if ( typeof order === typeof undefined ) {
+		order = names[id];
+	} else {
+		for ( it = 0; it < names[id].length; it++ ) {
+			if ( !~order.indexOf(names[id][it]) ) {
+				order.push(names[id][it]);
+			}
+		}
+	}
 	
 	chart = {
 			id: id + '_chart',
@@ -527,7 +551,7 @@ function createChart(id, field) {
 			options: {
 				title: 'Ontwikkeling van de aanvragen per ' + id,
 				interpolateNulls: true,
-				colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)'],
+				colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)'].reverse(),
 				hAxis : { format: '#,#%' }
 			},
 			data: []
@@ -536,14 +560,15 @@ function createChart(id, field) {
 	for ( it in stats ) {
 		rows[0].push(it.replace('_', ' '));
 	} // for
-	
-	for ( it = 0; it < names[id].length; it++ ) {
-		row = [names[id][it]];
-		for ( it2 in stats ) {
+
+	for ( var nameIt = 0; nameIt < order.length; nameIt++ ) {
+		name = order[nameIt];		
+		row = [name];
+		for ( statIt in stats ) {
 			found = false;
-			for ( it3 = 0; it3 < stats[it2][id].length; it3++ ) {
-				if ( stats[it2][id][it3].name === names[id][it] ) {
-					row.push(percentage(stats[it2][id][it3][field], stats[it2].total.vacancies));
+			for ( it = 0; it < stats[statIt][id].length; it++ ) {
+				if ( stats[statIt][id][it].name === name ) {
+					row.push(percentage(stats[statIt][id][it][field], (byOwnTotal ? stats[statIt][id][it] : stats[statIt].total).vacancies));
 					found = true;
 					break;
 				}
@@ -560,35 +585,35 @@ function createChart(id, field) {
 } // createChart();
 
 <cx:let name="obj" expand="" value="stats.Q${date.quarterOfYear}_${date.yearOfCommonEra}">
-	report(<cx:write value="$obj"/>, 'sector');
-	report(<cx:write value="$obj"/>, 'opdrachtgevergroep');
-	report(<cx:write value="$obj"/>, 'bron');
-	report(<cx:write value="$obj"/>, 'functie');
+	report(<cx:write value="$obj"/>, 'sector', 'vacancies');
+	report(<cx:write value="$obj"/>, 'opdrachtgevergroep', 'vacancies');
+	report(<cx:write value="$obj"/>, 'bron', 'vacancies');
+	report(<cx:write value="$obj"/>, 'functie', 'vacancies');
 
 /**
  * Exceptional chart: successratio per bron
  */
-chart = createChart('bron', 'success');
+chart = createChart('bron', 'success', undefined, true);
 chart.id = 'bron_successratio_chart';
 chart.options.title = 'Ontwikkeling van de succesratio per bron';
 charts.push(chart);
 
 /**
- * Exceptional chart: Aanvragen per functieniveau.
+ * Exceptional chart: Ontwikkeling van aanvragen per functieniveau.
  */
  chart = {
 		id: "niveau_chart",
 		chartType: 'ComboChart',
 		options: {
-			title:'Aanvragen per Kwartaal',
+			title:'Ontwikkeling van aanvragen per functieniveau',
 			seriesType: 'bars',
 			interpolateNulls: true,
 			series: {4: {'type': 'line', 'targetAxisIndex': 1}},
 			pointSize: 5,
 			colors : ['rgb(55,96,146)', 'rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)', 'rgb(146,208,80)'],
 			vAxes:[
-				{minValue: 0, maxValue: 1},
-				{minValue: 1, maxValue: 0, format: '#,#%', baselineColor: "transparent"}
+				{minValue: 0, maxValue: 1, title: 'Aanvragen'},
+				{minValue: 1, maxValue: 0, format: '#,#%', baselineColor: "transparent", title: 'Succesratio'}
 			],
 			hAxis: {slantedText: true}
 		},
@@ -598,7 +623,7 @@ charts.push(chart);
 $.each(<cx:write value="$obj"/>.niveau, function() {
 	var perc = percentage(this.success, this.vacancies); 
 	chart.data.push([
-		this.name.substring(0, this.name.indexOf('(')),
+		this.name.substring(0, this.name.indexOf('(')) || 'geen',
 		this.vacancies,
 		this.success,
 		this.lost,
@@ -628,6 +653,7 @@ charts.push(chart);
 			data.addColumn('number', this.data[0][it]);	
 		}
 		this.data.shift();
+		
 		data.addRows(this.data);
 		
 		this.options.width = $container.width()

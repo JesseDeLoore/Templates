@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<cx:let name="title" value="Half-jaar rapportage plaatsingen">
+<cx:let name="title" value="Plaatsingen per maand">
 <cx:let name="s" condition="$activity.fspec.hints.startDate<>$nil" iftrue="$activity.fspec.hints.startDate" iffalse="$utilities.currentDate.firstDayOfWeek" keep=""/>
 <cx:let name="e" condition="$activity.fspec.hints.endDate<>$nil" iftrue="$activity.fspec.hints.endDate" iffalse="$utilities.currentDate.lastDayOfWeek" keep=""/>
 <cx:fetch list="allJobs" entity="CRJob" qualifier="(deleted=0)" ordering="({key=startDate;sel=Ascending})">
@@ -48,6 +48,7 @@ dt {
 	float: left;
 	font-weight: bold;
 	padding-right: 2em;
+	clear: left;
 }
 ol {
 	list-style: decimal;
@@ -68,6 +69,7 @@ dd ul {
 }
 .documentHeader dt {
 	font-weight: normal;
+	clear: none;
 }
 .documentHeader dd {
 	font-weight: bold;
@@ -123,7 +125,7 @@ td.allow_space {
 	<tbody>
 		<cx:if condition="$_end<>$null">
 			<tr>
-				<th class="detail left-align" colspan="5">
+				<th class="detail left-align" colspan="6">
 					<cx:write value="$_start" dateFormat="%b %Y" language="dutch"/>
 				</th>
 			</tr>
@@ -148,6 +150,11 @@ td.allow_space {
 				<td><cx:write value="$j.toCompany.name"/></td>
 				<td><cx:write value="$j.toContractTypeNode.value"/></td>
 				<td><cx:write value="$j.endDate.formattedDate"/></td>
+				<td><cx:let name="tmp" value="$j.groups" invoke="@filter.value='Verlenging'">
+				<cx:let name="vp" condition="$tmp.count > 0" iftrue="V" iffalse="P">
+					<cx:write value="$vp"/>
+				</cx:let>
+			</cx:let></td>
 				<td><cx:write value="$j.toEmployee.owner.lessFormalName"/></td>
 			</tr>
 		</cx:foreach>
@@ -199,6 +206,7 @@ td.allow_space {
 				<th>Opdrachtgever</th>
 				<th>Soort contract</th>
 				<th>Einddatum plaatsing</th>
+				<th>V / P</th>
 				<th>PC</th>
 			</tr>
 		</thead>

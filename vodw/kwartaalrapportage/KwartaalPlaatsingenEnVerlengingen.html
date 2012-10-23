@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <cx:let name="date" value="$utilities.currentDate.previousMonth.previousMonth.previousMonth"> 
-<cx:let name="title" value="Plaatsingen en Verlengingen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
+<cx:let name="title" value="Kwartaal: Plaatsingen en Verlengingen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
 <head>
 	<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
 	<title><cx:write value="$title"/></title>
@@ -46,6 +46,7 @@ dt {
 	float: left;
 	font-weight: bold;
 	padding-right: 2em;
+	clear: left;
 }
 ol {
 	list-style: decimal;
@@ -66,6 +67,7 @@ dd ul {
 }
 .documentHeader dt {
 	font-weight: normal;
+	clear: none;
 }
 .documentHeader dd {
 	font-weight: bold;
@@ -76,7 +78,7 @@ dd ul {
 	margin: auto;
 }
 @media print {
-	table {
+	table, .page-break {
 		page-break-before: always;
 	}
 	.documentHeader table,
@@ -148,7 +150,6 @@ td.allow_space {
 	<cx:let name="firstDateOfQuarter" value="$dateList" invoke="$filter">
 	<cx:let name="firstDateOfQuarter" value="$firstDateOfQuarter.@first">
 	<cx:let name='quarterFilter' value='@filter.startDate>=(NSCalendarDate)"${firstDateOfQuarter.previousYear}" AND startDate<(NSCalendarDate)"${firstDateOfQuarter.nextMonth.nextMonth.nextMonth}"' expand=''>
-
 	<cx:fetch list="allJobs" entity="CRJob" qualifier="(deleted=0)">
 	<cx:let name="jobs" value="$allJobs" invoke="$quarterFilter">
 
@@ -157,11 +158,23 @@ td.allow_space {
 		<cx:let name="type" condition="$j.toContractTypeNode.value = 'IMP FL'" iftrue="freelance" iffalse="vast">
 		<cx:let name="q" value="${q}.${type}." expand="">
 		
-			<cx:if condition="$j.jobID = $j.toMatch.jobs.@first.jobID">
-				<cx:write value="$q"/>placements++;
+			<cx:if condition="$utilities.userDefaults.Customer='VODW'">
+				<cx:let name="jobGroups" value="$j.groups" invoke="@filter.value='Verlenging'">
+					<cx:if condition="$jobGroups.count > 0">
+						<cx:write value="$q"/>extensions++;
+					</cx:if>
+					<cx:else>
+						<cx:write value="$q"/>placements++;					
+					</cx:else>
+				</cx:let>
 			</cx:if>
 			<cx:else>
-				<cx:write value="$q"/>extensions++;
+				<cx:if condition="$j.jobID = $j.toMatch.jobs.@first.jobID">
+					<cx:write value="$q"/>placements++;
+				</cx:if>
+				<cx:else>
+					<cx:write value="$q"/>extensions++;
+				</cx:else>
 			</cx:else>
 			
 			<cx:let name="f" value="$j.finances.@first">
@@ -221,7 +234,7 @@ td.allow_space {
 		</table>
 	</div>
 	
-	<table class="wideborder">
+	<table class="wideborder no-page-break">
 		<caption><h4>Dit kwartaal</h4></caption>
 		<thead>
 			<tr>
@@ -272,8 +285,12 @@ td.allow_space {
 	<p class="allow_space" id="extensions_barchart">
 		<code>Hier komt barchart: "Ontwikkeling van de invulling van verlengingen"</code>
 	</p>
+	<dl>
+		<dt/>
+		<dd>Bovenstaande overzichten betreffen plaatsingen met een startdatum in dit kwartaal</dd>
+	</dl>
 	
-	<h4>Ontwikkeling van tarieven</h4>
+	<h4 class="page-break">Ontwikkeling van tarieven</h4>
 	<!-- Opmerkingen:
 	•	In ieder plaatsingdossier is een verkooptarief en eventueel ook inkooptarief genoteerd. Ieder tarief heeft een 
 		begin- en einddatum. De begindatum van de plaatsingen bepaalt het kwartaal waarin iedere plaatsing valt.
@@ -355,7 +372,7 @@ with ( stats.Q<cx:write value="$date.quarterOfYear"/>_<cx:write value="$date.yea
 
 chart = {
 	id: "placements_barchart",
-	chartType: 'ColumnChart',
+	chartType: 'ComboChart',
 	options: {
 		title:'Ontwikkeling van de Plaatsingen',
 		seriesType: 'bars',
@@ -364,8 +381,8 @@ chart = {
 		pointSize: 5,
 		colors : ['rgb(79,129,189)','rgb(198,217,241)','rgb(155,187,86)'],
 		vAxes:[
-			{'minValue': 0, 'maxValue': 1},
-			{'minValue': 1, 'maxValue': 0, format: '#,#%', baselineColor: 'transparent'}
+			{'minValue': 0, 'maxValue': 1, title: 'Plaatsingen'},
+			{'minValue': 1, 'maxValue': 0, title: 'Percentage vast', format: '#,#%', baselineColor: 'transparent'}
 		]
 	},
 	data: [['Kwartaal','Totaal aantal plaatsingen','Plaatsingen vaste IMP\'ers','% vaste IMP\'ers']]
@@ -395,8 +412,8 @@ chart = {
 		pointSize: 5,
 		colors : ['rgb(79,129,189)','rgb(198,217,241)','rgb(155,187,86)'],
 		vAxes:[
-			{'minValue': 0, 'maxValue': 1},
-			{'minValue': 1, 'maxValue': 0, format: '#,#%', baselineColor: 'transparent'}
+			{'minValue': 0, 'maxValue': 1, title: 'Verlengingen'},
+			{'minValue': 1, 'maxValue': 0, title: 'Percentage vast', format: '#,#%', baselineColor: 'transparent'}
 		]
 	},
 	data: [['Kwartaal','Totaal aantal verlengingen','Verlengingen vaste IMP\'ers','% vaste IMP\'ers']]

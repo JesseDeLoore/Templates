@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <cx:let name="date" value="$utilities.currentDate.previousMonth.previousMonth.previousMonth"> 
-<cx:let name="title" value="Resultaten van Plaatsingen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
+<cx:let name="title" value="Kwartaal: Resultaten van aanvragen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
 <head>
 	<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
 	<title><cx:write value="$title"/></title>
@@ -46,6 +46,7 @@ dt {
 	float: left;
 	font-weight: bold;
 	padding-right: 2em;
+	clear: left;
 }
 ol {
 	list-style: decimal;
@@ -66,6 +67,7 @@ dd ul {
 }
 .documentHeader dt {
 	font-weight: normal;
+	clear: none;
 }
 .documentHeader dd {
 	font-weight: bold;
@@ -186,11 +188,11 @@ td.allow_space {
 <cx:let name="restFilter" value="@filter.toStatusNode.exportCode <> 'SUCCESS' AND toStatusNode.exportCode <> 'LOST'">
 
 <cx:fetch list="vacancies" entity="CRVacancy" qualifier="(deleted=0)">
-	<cx:perQuarter date="$firstDateOfQuarter.previousYear"/>
-	<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth"/>
-	<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth"/>
-	<cx:perQuarter date="$firstDateOfQuarter.previousMonth.previousMonth.previousMonth"/>
 	<cx:perQuarter date="$firstDateOfQuarter"/>
+	<cx:perQuarter date="$firstDateOfQuarter.previousMonth.previousMonth.previousMonth"/>
+	<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth"/>
+	<cx:perQuarter date="$firstDateOfQuarter.previousYear.nextMonth.nextMonth.nextMonth"/>
+	<cx:perQuarter date="$firstDateOfQuarter.previousYear"/>	
 </cx:fetch vacancies>
 
 </cx:let restFilter>
@@ -280,7 +282,7 @@ td.allow_space {
 	</dl>
 	
 	
-	<h4 class="page-break">Categoriën van vervallen</h4>
+	<h4 class="page-break">Categorieën van vervallen</h4>
 	<p class="allow_space" id="lost_category_pie">
 		<code>Hier komt een piechart: "Inzicht in de categorie van vervallen"</code>
 	</p>
@@ -313,7 +315,7 @@ td.allow_space {
 	
 	
 	<h4 class="page-break">Redenen van vervallen</h4>
-	<p class="allow_space" id="lost_reason_pie">
+	<p class="allow_space" id="lost_reason_pie" style="height: 35em">
 		<code>Hier komt een piechart: "Inzicht in de reden van vervallen"</code>
 	</p>
 	<p class="allow_space" id="lost_reason_bar" style="height: 40em;">
@@ -350,6 +352,7 @@ td.allow_space {
 			<tr>
 				<th class="left-align">PC</th>
 				<th>Aanvragen (#)</th>
+				<th>Ingevuld (#)</th>
 				<th>Vervallen –<br/> niet beinvloedbaar (%)</th>
 				<th>Vervallen –<br/> beinvloedbaar (%)</th>
 				<th>Succesratio<br/> (plaatsingen) (%)</th>
@@ -425,8 +428,8 @@ function percentage(num, tot) {
 			id : 'lost_category_pie',
 			chartType: 'PieChart',
 			options: {
-				title: 'Dit kwartaal',
-				colors : ['rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)']
+				title: 'Vervallen aanvragen dit kwartaal',
+				colors : ['rgb(174,73,70)', 'rgb(79,129,189)']
 			},
 			data: [['Categorie','Aantal'],['Niet-beïnvloedbaar',0],['Beïnvloedbaar',0]]
 	};
@@ -434,15 +437,18 @@ function percentage(num, tot) {
 			id : 'lost_reason_pie',
 			chartType: 'PieChart',
 			options: {
-				title: 'Dit kwartaal',
-				colors : ['rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)']
+				title: 'Vervallen aanvragen dit kwartaal',
+				chartArea: {left: '10%', width:'90%', height: '70%'},
+				colors : ['rgb(174,73,70)', 'rgb(217,150,148)','rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)']
 			},
+			
 			data: [['Categorie','Aantal']]
 	};
 	
+	lostStatusses.<cx:write value="$obj"/>.sort(function(a, b) { return a.impressionable ? -1 : b.impressionable }); 
 	for ( it = 0; it < lostStatusses.<cx:write value="$obj"/>.length; it++ ) {
 		tmp = lostStatusses.<cx:write value="$obj"/>[it];
-		categoryPie.data[tmp.impressionable ? 2: 1][1] += tmp.count;
+		categoryPie.data[tmp.impressionable ? 1 : 2][1] += tmp.count;
 		reasonPie.data.push([tmp.value, tmp.count]);
 	} // for
 	
@@ -454,7 +460,8 @@ function percentage(num, tot) {
 			chartType: 'ColumnChart',
 			options: {
 				title: 'Ontwikkeling van de categorie van vervallen',
-				colors : ['rgb(198,217,241)', 'rgb(79,129,189)'],
+				colors : ['rgb(174,73,70)', 'rgb(79,129,189)'],
+				chartArea: {left: '15%', width:'65%'},
 				vAxis: { format: '#,#%', minValue: 0, maxValue: 1},
 				isStacked: true
 			},
@@ -468,7 +475,7 @@ function percentage(num, tot) {
 				title: 'Ontwikkeling van de reden van vervallen',
 				hAxis: { format: '#,#%' },
 				chartArea: {left: '35%', width:'50%'},
-				colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)']
+				colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)'].reverse()
 			},
 			data: [['Kwartaal']],
 	};
@@ -495,7 +502,7 @@ function percentage(num, tot) {
 				impressionables.push(tmp.value);
 			}
 			
-			tmp3[tmp.impressionable ? 2 : 1] += tmp.count;
+			tmp3[tmp.impressionable ? 1 : 2] += tmp.count;
 		} // for
 		
 		tmp = tmp3[1] + tmp3[2]; 
@@ -540,8 +547,8 @@ chart = {
 			pointSize: 5,
 			colors : ['rgb(55,96,146)', 'rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)', 'rgb(146,208,80)'],
 			vAxes:[
-				{minValue: 0, maxValue: 1},
-				{minValue: 1, maxValue: 0, format: '#,#%', baselineColor: 'transparent'}
+				{minValue: 0, maxValue: 1, title: 'Aanvragen'},
+				{minValue: 1, maxValue: 0, format: '#,#%', baselineColor: 'transparent', title: 'Succesratio'}
 			]
 		},
 		data: [['Kwartaal','Totaal','Ingevuld','Vervallen', 'Overig', 'Succesratio']]
@@ -570,36 +577,40 @@ charts.push(chart);
 /**
  * Fill the aanvragen per verantwoordelijke table
  */
-var endrow=['Totaal',0,0,0,0], $table = $('#per_person'), $tbody = $table.find('tbody');
+var endrow=['Totaal',0,0,0,0,0], $table = $('#per_person'), $tbody = $table.find('tbody');
 $.each(statussesPerPerson, function() {
-	var row = [this.name, this.total, 0, 0, '0%'];
+	var row = [this.name, this.total, this.success, 0, 0, '0%'];
 	endrow[1] += this.total;
+	endrow[2] += this.success;
 	if ( this.total !== 0 ) {
-		row[4] = Math.round(100 * this.success / this.total);
+		row[5] = Math.round(100 * this.success / this.total);
 		$.each(this.lostStatusses, function() {
-			row[this.impressionable ? 3 : 2] += this.count;
-			endrow[this.impressionable ? 3 : 2] += this.count; 
+			row[this.impressionable ? 4 : 3] += this.count;
+			endrow[this.impressionable ? 4 : 3] += this.count; 
 		});
-		row[2] = Math.round(100 * row[2] / this.total);
 		row[3] = Math.round(100 * row[3] / this.total);
+		row[4] = Math.round(100 * row[4] / this.total);
 	}
 	$tbody.append('<tr>'
 		+ '<td class="left-align">' + row[0] + '</td>'
 		+ '<td>' + row[1] + '</td>'
-		+ '<td>' + row[2] + '%</td>'
+		+ '<td>' + row[2] + '</td>'
 		+ '<td>' + row[3] + '%</td>'
 		+ '<td>' + row[4] + '%</td>'
+		+ '<td>' + row[5] + '%</td>'
 		+ '</tr>'
 	);
 });
-endrow[2] = Math.round(100 * endrow[2] / endrow[1]);
 endrow[3] = Math.round(100 * endrow[3] / endrow[1]);
+endrow[4] = Math.round(100 * endrow[4] / endrow[1]);
+endrow[5] = Math.round(100 * endrow[2] / endrow[1]);
 $table.find('tfoot').html('<tr>'
 		+ '<th class="left-align">' + endrow[0] + '</th>'
 		+ '<td>' + endrow[1] + '</td>'
-		+ '<td>' + endrow[2] + '%</td>'
+		+ '<td>' + endrow[2] + '</td>'
 		+ '<td>' + endrow[3] + '%</td>'
 		+ '<td>' + endrow[4] + '%</td>'
+		+ '<td>' + endrow[5] + '%</td>'
 		+ '</tr>'
 );
  

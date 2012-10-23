@@ -67,6 +67,7 @@ dt {
 	float: left;
 	font-weight: bold;
 	padding-right: 2em;
+	clear: left;
 }
 ol {
 	list-style: decimal;
@@ -88,6 +89,7 @@ dd ul {
 }
 .documentHeader dt {
 	font-weight: normal;
+	clear: none;
 }
 .documentHeader dd {
 	font-weight: bold;
@@ -136,6 +138,40 @@ dd ul {
 </style>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+	/**
+	 * Method for getting the outerHTML
+	 */
+	jQuery.fn.outer = function() {
+		return ('outerHTML' in this) ? this.outerHTML : $('<div></div>').html(this.clone()).html();
+	} // outer	
+
+	/**
+	 * Handles the sorting of each tbody
+	 */
+	function tableSort(id, column) {
+		var order = [], $tbody = $('#' + id).find('tbody'), newHTML = '';
+		
+		// put all the values of column 3 in an array
+		$tbody.find('tr').find('> td:eq(' + column + ')').each(function() {
+			var value = $.trim($(this).html());
+			order.push({value: value == '' ? -1 : parseInt(value), it: this.parentNode.rowIndex - 1});
+		});
+		
+		// sort the array by the values descending 
+		order.sort(function(a, b){ return a.value < b.value ? 1 : -1; });
+		
+		// order the table itself into a new HTML code
+		$.each(order, function() {
+			newHTML += $tbody.find('> tr:eq(' + (this.it) + ')').outer();
+		});
+		
+		// replace the tbody's HTML with the newly created HTML
+		$tbody.html(newHTML);
+		$tbody.find('tr').filter(':odd').removeClass('even').addClass('odd');
+		$tbody.find('tr').filter(':even').removeClass('odd').addClass('even');
+	} // tableSort();
+	</script>
 </head>
 <body>
 
@@ -236,6 +272,13 @@ dd ul {
 			</cx:else>
 		</cx:element>
 		
+		<cx:if condition="$_withvp='yes'">
+			<cx:element tag="td">
+				<cx:parameter name="class" value="left-align"/>
+				<cx:write value="$group.owner.abbreviation"/>
+			</cx:element>
+		</cx:if>
+		
 		<cx:if condition="$_parentcolumn='yes'">
 			<cx:element tag="td">
 				<cx:parameter name="class" value="left-align"/>
@@ -275,7 +318,7 @@ dd ul {
 	<cx:let name="lastYearVacancies" value="$allVacancies" invoke="$lastYearFilter" keep=""/>
 	<cx:let name="vacancies" value="$allVacancies" invoke="$yearFilter" keep=""/>
 
-<table class="wideborder center-align-th center-align-td no-page-break">
+<table class="wideborder center-align-th center-align-td no-page-break" id="aanvragen_per_opdrachtgever">
 	<caption><h4>Aanvragen per opdrachtgever</h4></caption>
 	<thead>
 		<tr>
@@ -293,9 +336,12 @@ dd ul {
 	<cx:vacancyTBody group="toCompany" by="companyID" title="complexAddress" withgroups="yes"/>
 	</tbody>
 </table>
+<script type="text/javascript">tableSort('aanvragen_per_opdrachtgever', 5);</script>
 <dl>
 	<dt>&nbsp;</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
+	<dt>&nbsp;</dt>
+	<dd>Aantal vacatures telt niet op tot totaal omdat sommige contactpersonen in meerdere groepen zitten</dd>
 	<dt>Groepen</dt>
 	<dd>De groepen waar de opdrachtgever in valt.</dd>
 	<dt>Succes­ratio</dt>
@@ -363,6 +409,7 @@ dd ul {
 	<thead>
 		<tr>
 			<th/>
+			<th>VP</th>
 			<th>Aanvragen (#)</th>
 			<th>Vervallen (#)</th>
 			<th>Ingevuld (#)</th>
@@ -373,7 +420,7 @@ dd ul {
 		</tr>
 	</thead>
 	<tbody>
-	<cx:vacancyTBody group="toUser" by="userID" title="lessFormalName" withgroups="yes"/>
+	<cx:vacancyTBody group="toUser" by="userID" title="lessFormalName" withgroups="yes" withvp="yes"/>
 	</tbody>
 </table>
 <dl>
@@ -416,9 +463,9 @@ dd ul {
 				<cx:write value="$_title"/>
 			</cx:element>
 			<td><cx:write value="$ja"/></td>
-			<td><cx:percentage number="$ja" total="$_group.count"/></td>
+			<td><cx:percentage number="$ja" total="$companies.count"/></td>
 			<td><cx:write value="$nee"/></td>
-			<td><cx:percentage number="$nee" total="$_group.count"/></td>
+			<td><cx:percentage number="$nee" total="$companies.count"/></td>
 		</cx:element>
 	</cx:define>
 	<tfoot>
@@ -616,17 +663,12 @@ if (!Array.prototype.indexOf) {
 	<tbody id="vacancies_per_company_status">
 		<cx:vacancyTBody group="toCompany.toStatusNode" by="dataNodeID" title="value"/>
 	</tbody>
-
-
-
-
-
 </table>
 <dl>
 	<dt>&nbsp;</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
 	<dt>&nbsp;</dt>
-	<dd>Hier wordt niet de huidige opdrachtgeverstatus, maar de opdrachtgeverstatus in de 24 uur voor de aanmaak van de vacature getoond.</dd>
+	<dd>Hier wordt niet de huidige opdrachtgeverstatus, maar de opdrachtgeverstatus in de 24 uur voor / na de aanmaak van de vacature getoond.</dd>
 	<dt>Succes­ratio</dt>
 	<dd>(#aanvragen / #ingevuld) * 100%</dd>
 </dl>
@@ -743,7 +785,7 @@ if (!Array.prototype.indexOf) {
 </script>
 
 <table class="wideborder center-align-th center-align-td">
-	<caption><h4>De subgebieden waar aanvragen naar zijn gedaan (functie 1 van de vacature)</h4></caption>
+	<caption><h4>Subgebieden van aanvragen</h4></caption>
 	<thead>
 		<tr>
 			<th class="left-align">Aantallen per subgebied (functie1)</th>
@@ -759,7 +801,7 @@ if (!Array.prototype.indexOf) {
 	</thead>
 	<cx:vacancyTFoot withpercentage="yes" totaalcolspan="2"/>
 	<tbody>
-	<cx:vacancyTBody group="toFunctionLevel2" by="dataNodeID" title="value" parentcolumn="yes" withpercentage="yes"/>
+	<cx:vacancyTBody group="toFunctionLevel1" by="dataNodeID" title="value" parentcolumn="yes" withpercentage="yes"/>
 	</tbody>
 </table>
 <dl>
@@ -770,7 +812,7 @@ if (!Array.prototype.indexOf) {
 </dl>
 
 <table class="wideborder center-align-th center-align-td">
-	<caption><h4>Aanvragen per branche per jaar</h4></caption>
+	<caption><h4>Aanvragen per subbranche</h4></caption>
 	<thead>
 		<tr>
 			<th class="left-align">Aantallen per sector en branche hierbinnen</th>
@@ -837,7 +879,7 @@ var total, it, it2, charts = [], indices={}, totals={}, chart = {
 			title: 'Ontwikkeling van de aanvragen per Sector',
 			hAxis: { format: '#,#%' },
 			chartArea: {left: '35%', width:'50%'},
-			colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)']
+			colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)'].reverse()
 		},
 		data: [['Jaar']],
 };
@@ -872,6 +914,12 @@ for ( it = 1; it < chart.data.length; it++ ) {
 		chart.data[it][it2] = percentage(chart.data[it][it2], totals['y'+chart.data[0][it2]]);
 	} // for
 } // for
+
+chart.data.sort(function(a,b) {
+	if ( typeof a[1] !== typeof {} ) return -1;
+	if ( typeof b[1] !== typeof {} ) return 1;
+	return ((a[1].v || 0) < (b[1].v || 0))  ? 1 : -1;
+});
 
 charts.push(chart);
 
