@@ -1,0 +1,140 @@
+/* CXTEMPLATES.CSS  - Te gebruiken in alle standaard HTML document sjablonen                                */
+/* Neem de volgende regel op in het HTML document binnen het <head> element:                                */
+/* <link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">  */
+
+*			{ margin: 0; padding: 0; border: 0 }
+a img, 
+:link img, 
+:visited img		{ border: none; }
+body			{ font-family: Arial, sans-serif; font-size: 8pt; color: #333333; background: transparent; }
+#wrapper		{ width: 980px; text-align: left; margin-left: auto; margin-right: auto; }
+body.dash #wrapper	{ width: 95%; }
+input			{ padding: .375em; border: 1px solid #999999; }
+
+/************************/
+/*         MISC.        */
+/************************/
+small			{ font-size: 0.875em; }
+em			{ color: red; }
+ol			{ text-align: left; list-style-type: decimal; margin-top: .45em; margin-bottom: .45em; }
+ul			{ padding-left: 2em; }
+p			{ text-align: left; margin-top:.25em; margin-bottom: .25em; }
+
+.center			{ text-align: center; }
+.right			{ text-align: right; }
+.left			{ text-align: left; }
+.small			{ font-size: .875em; }
+.bold			{ font-weight: bold; }
+.vert			{ writing-mode: tb-rl; }
+.invert			{ writing-mode: tb-rl; filter: flipv fliph; }
+.dim			{ color: #999999; }
+.nobr			{ white-space: nowrap; }
+.border			{ border: 1px solid #cccccc; }
+.clear			{ clear: both; }
+.fl_r			{ float: right; }
+.fl_l			{ float: left; }
+.hidden			{ display: none; }
+
+/************************/
+/*   DOCUMENT HEADER    */
+/************************/
+.documentHeader		{ clear: both; border-bottom: 1px solid #555555; margin-bottom:1em;}
+.documentFooter		{ clear: both; border-top: 1px solid #555555; margin-top:1em;}
+.documentHeader h2	{ margin-top: 0px; }
+.documentHeader dl	{ padding-left: 65px; padding-bottom: 0px; }
+.documentHeader dt	{ font-weight: normal; }
+.documentHeader dd	{ font-weight: bold; }
+
+/************************/
+/*     TEXT HEADINGS    */
+/************************/
+h1			{ font-size: 3.00em; font-weight: bold; padding-top: 1em; }
+h2			{ font-size: 2.25em; font-weight: bold; padding-top: 1em; }
+h3			{ font-size: 1.75em; font-weight: bold; padding-top: 1em; }
+h4			{ font-size: 1.50em; font-weight: bold; padding-top: 1em; }
+h4.blue			{ color: #1a81c3;}
+h5			{ font-size: 1.25em; font-weight: bold; }
+h6			{ font-size: 1.00em; font-weight: bold; }
+
+/************************/
+/*   HORIZONTAL LINES   */
+/************************/
+hr			{ height: 1px; background-color:#C0C0C0; color:#C0C0C0; width:640px; }
+hr.wide			{ width:100% }
+
+/************************/
+/*         LINKS        */
+/************************/
+a:link			{ text-decoration: none; }
+a:visited		{ color:#800080; text-decoration: none; }
+a:hover			{ text-decoration: underline; }
+
+/************************/
+/*        TABLES        */
+/************************/
+table			{ text-align: left; vertical-align: text-top; border: none; width:640px; margin-top: 1em; }
+table.collapse		{ border-collapse: collapse; }
+table.wide		{ width: 100%; }
+caption			{ text-align: left; font-size: 1.50em; }
+
+/************************/
+/*      TABLE ROWS      */
+/************************/
+table.alternate tr:nth-child(odd),
+tr.odd			{ background-color: #ffffff; }
+table.alternate tr:nth-child(even),
+tr.even			{ background-color: #f7f7f7; }
+
+/************************/
+/*  TABLE TITLE CELLS   */
+/************************/
+th			{ background-color: #707070; color: #ffffff; border: none; text-align: left; vertical-align: text-top; padding: .25em; }
+th.border		{ border: 1px solid #707070; }
+th.border.tb		{ border-color: #c0c0c0; border-width: 1px 0px; }
+th.content		{ background-color: #f0f0f0; color: #555555; font-weight: normal; }
+th.content.border	{ border-color: #c0c0c0; }
+th.detail		{ background-color: #e9e9e9; color: #000000; font-weight: normal; }
+th.detail.border	{ border-color: #c0c0c0; }
+th.sub			{ background-color: #d0d0d0; color: #333333; }
+th.sub.border		{ border-color: #c0c0c0; }
+
+/************************/
+/*     TABLE CELLS      */
+/************************/
+td			{ color: #555555; border: none; vertical-align: top; padding: .25em; }
+td.border		{ border: 1px solid #C0C0C0; }
+td.border.dotted	{ border-style: dotted; }
+td.border.tb		{ border-width: 1px 0px; }
+td.data			{ font-size: .875em; }
+td.tiny			{ color: #eeeeee; font-size: .875em; }
+
+/************************/
+/*     TABLE HEADER     */
+/************************/
+
+/************************/
+/*     TABLE FOOTER     */
+/************************/
+tfoot th, 
+tfoot td		{ background-color: #f0f0f0; color: #555555; }
+
+/************************/
+/*   DEFINITION LISTS   */
+/************************/
+dl			{ padding-bottom: 2em; }
+dt			{ width: 10em; float: left;	font-weight: bold; padding-right: 2em; }
+dd			{ margin-left: 12em; }
+dd ul		{ margin-top: 0px; margin-bottom: 0px; padding-left: 15px; }
+
+/************************/
+/* SPECIAL PRINT STYLES */
+/************************/
+@media print {
+	.noprint	{ display: none; }
+	thead		{ display: table-header-group; }
+	table,
+	.page-break	{ page-break-before: always; }
+	.documentHeader table,
+	.no-page-break 	{ page-break-before: avoid; }
+	th		{ color: black !important; border: 1px solid silver; }
+}
