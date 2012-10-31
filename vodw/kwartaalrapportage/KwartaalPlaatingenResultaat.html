@@ -462,7 +462,7 @@ function percentage(num, tot) {
 				title: 'Ontwikkeling van de categorie van vervallen',
 				colors : ['rgb(174,73,70)', 'rgb(79,129,189)'],
 				chartArea: {left: '15%', width:'65%'},
-				vAxis: { format: '#,#%', minValue: 0, maxValue: 1},
+				vAxis: { format: '#,#%', minValue: 0, maxValue: 1 ,minorGridlines : { count: 1, color: '#ddd' } },
 				isStacked: true
 			},
 			data: [['Kwartaal', 'Vervallen - niet beïnvloedbaar', 'Vervallen - beïnvloedbaar']]
@@ -474,7 +474,8 @@ function percentage(num, tot) {
 			options: {
 				title: 'Ontwikkeling van de reden van vervallen',
 				hAxis: { format: '#,#%' },
-				chartArea: {left: '35%', width:'50%'},
+				legend: { position: 'top' },
+				chartArea: {left: '40%', width:'55%'},
 				colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)'].reverse()
 			},
 			data: [['Kwartaal']],
@@ -520,14 +521,17 @@ function percentage(num, tot) {
 		} // for
 	} // for
 	reasonBars.options.hAxis.maxValue = Math.ceil(10 * maxSize) / 10;
-	
+
 	reasonBars.data.sort(function(a,b){
 		if ( a[0] === 'Kwartaal' ) return -1;
+		return a[1].v < b[1].v ? 1 : -1;
+		/*
 		if ( !~impressionables.indexOf(a[0]) === !~impressionables.indexOf(b[0]) ) {
 			return a[0] < b[0] ? -1 : 1;
 		} else {
 			return !~impressionables.indexOf(a[0]) ? -1 : 1; 
 		}
+		*/
 	});
 	
 	charts.push(categoryPie);
@@ -547,7 +551,7 @@ chart = {
 			pointSize: 5,
 			colors : ['rgb(55,96,146)', 'rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)', 'rgb(146,208,80)'],
 			vAxes:[
-				{minValue: 0, maxValue: 1, title: 'Aanvragen'},
+				{minValue: 0, maxValue: 1, title: 'Aanvragen', minorGridlines : { count: 1, color: '#ddd' } },
 				{minValue: 1, maxValue: 0, format: '#,#%', baselineColor: 'transparent', title: 'Succesratio'}
 			]
 		},

@@ -243,6 +243,7 @@ dd ul {
 <cx:define tag="vacancyTBody"><cx:bare-string-format>
 <cx:let name="groupby" value="@group.${_group}.${_by}" expand="" keep=""/>
 <cx:let name="selectedVacancies" condition="$_overridevacancies=$nil" iftrue="$vacancies" iffalse="$_overridevacancies">
+<cx:let name="selectedLastYearVacancies" condition="$_overridevacancies=nil" iftrue="$lastYearVacancies" iffalse="$_overridelastyearvacancies">
 <cx:let name="vacanciesGrouped" value="$selectedVacancies" invoke="$groupby">
 <cx:let name="vacanciesGrouped" value="$vacanciesGrouped.@self.allValues.@sortDescending.count">
 <cx:foreach list="$vacanciesGrouped" item="total" index="it">
@@ -250,7 +251,7 @@ dd ul {
 	<cx:let name="group" value="$total.@first" invoke="$_group" keep=""/>
 	<cx:let name="id" value="$group" invoke="$_by" keep=""/>
 	<cx:let name="groupFilter" value="@filter.${_group}.${_by} = ${id}" expand="" keep=""/>
-	<cx:let name="totalLastYear" value="$lastYearVacancies" invoke="$groupFilter" keep=""/>
+	<cx:let name="totalLastYear" value="$selectedLastYearVacancies" invoke="$groupFilter" keep=""/>
 	<cx:let name="lost" value="$total" invoke="$lostFilter" keep=""/>
 	<cx:let name="success" value="$total" invoke="$successFilter" keep=""/>
 	<cx:let name="rest" value="$total" invoke="$restFilter" keep=""/>
@@ -279,10 +280,10 @@ dd ul {
 			</cx:element>
 		</cx:if>
 		
-		<cx:if condition="$_parentcolumn='yes'">
+		<cx:if condition="$_title2<>nil">
 			<cx:element tag="td">
 				<cx:parameter name="class" value="left-align"/>
-				<cx:write value="$group.parentNodes.@first.value"/>
+				<cx:write value="$total.@first.toFunctionLevel1.value"/>
 			</cx:element>
 		</cx:if>
 		
@@ -311,6 +312,7 @@ dd ul {
 </cx:foreach vacanciesGrouped>
 </cx:let vacanciesGrouped>
 </cx:let vacanciesGrouped>
+</cx:let selectedLastYearVacancies>
 </cx:let selectedVacancies>
 </cx:bare-string-format></cx:define>
 
@@ -338,9 +340,9 @@ dd ul {
 </table>
 <script type="text/javascript">tableSort('aanvragen_per_opdrachtgever', 5);</script>
 <dl>
-	<dt>&nbsp;</dt>
+	<dt>Opmerking</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
-	<dt>&nbsp;</dt>
+	<dt>Opmerking</dt>
 	<dd>Aantal vacatures telt niet op tot totaal omdat sommige contactpersonen in meerdere groepen zitten</dd>
 	<dt>Groepen</dt>
 	<dd>De groepen waar de opdrachtgever in valt.</dd>
@@ -348,7 +350,7 @@ dd ul {
 	<dd>(#aanvragen / #ingevuld) * 100%</dd>
 </dl>
 
-<table class="wideborder center-align-th center-align-td">
+<table class="wideborder center-align-th center-align-td" id="aanvragen_per_contactpersoongroep">
 	<caption><h4>Aanvragen per contactpersoongroep</h4></caption>
 	<thead>
 		<tr>
@@ -397,9 +399,12 @@ dd ul {
 </cx:bare-string-format>
 	</tbody>
 </table>
+<script type="text/javascript">tableSort('aanvragen_per_contactpersoongroep', 2);</script>
 <dl>
-	<dt>&nbsp;</dt>
+	<dt>Opmerking</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
+	<dt>Opmerking</dt>
+	<dd>Aantal vacatures telt niet op tot totaal omdat sommige contactpersonen in meerdere groepen zitten</dd>
 	<dt>Succes­ratio</dt>
 	<dd>(#aanvragen / #ingevuld) * 100%</dd>
 </dl>
@@ -424,7 +429,7 @@ dd ul {
 	</tbody>
 </table>
 <dl>
-	<dt>&nbsp;</dt>
+	<dt>Opmerking</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
 	<dt>Groepen</dt>
 	<dd>De groepen waar de contactpersoon in valt.</dd>
@@ -460,7 +465,7 @@ dd ul {
 		
 			<cx:element tag="th">
 				<cx:parameter name="class" value="left-align"/>
-				<cx:write value="$_title"/>
+				<cx:let name="title" condition="$_title=nil" iftrue="geen" iffalse="$_title"><cx:write value="$title"/></cx:let>
 			</cx:element>
 			<td><cx:write value="$ja"/></td>
 			<td><cx:percentage number="$ja" total="$companies.count"/></td>
@@ -485,7 +490,7 @@ dd ul {
 	</cx:fetch>
 </table>
 <dl>
-	<dt>&nbsp;</dt>
+	<dt>Opmerking</dt>
 	<dd>Deze tabel betreft de status van opdrachtgevers <i>op het moment van genereren van het rapport</i></dd>
 </dl>
 
@@ -665,10 +670,10 @@ if (!Array.prototype.indexOf) {
 	</tbody>
 </table>
 <dl>
-	<dt>&nbsp;</dt>
+	<dt>Opmerking</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
-	<dt>&nbsp;</dt>
-	<dd>Hier wordt niet de huidige opdrachtgeverstatus, maar de opdrachtgeverstatus in de 24 uur voor / na de aanmaak van de vacature getoond.</dd>
+	<dt>Opmerking</dt>
+	<dd>Hier wordt niet de huidige opdrachtgeverstatus, maar de opdrachtgeverstatus in de 24 uur voor de aanmaak van de vacature getoond.</dd>
 	<dt>Succes­ratio</dt>
 	<dd>(#aanvragen / #ingevuld) * 100%</dd>
 </dl>
@@ -784,7 +789,7 @@ if (!Array.prototype.indexOf) {
 
 </script>
 
-<table class="wideborder center-align-th center-align-td">
+<table class="wideborder center-align-th center-align-td" id="subgebieden_van_aanvragen">
 	<caption><h4>Subgebieden van aanvragen</h4></caption>
 	<thead>
 		<tr>
@@ -801,11 +806,24 @@ if (!Array.prototype.indexOf) {
 	</thead>
 	<cx:vacancyTFoot withpercentage="yes" totaalcolspan="2"/>
 	<tbody>
-	<cx:vacancyTBody group="toFunctionLevel1" by="dataNodeID" title="value" parentcolumn="yes" withpercentage="yes"/>
+	<cx:let name="tmplist" value="$vacancies.@group.toFunctionLevel1.dataNodeID">
+		<cx:foreach list="$tmplist" item="overridevacancies">
+			<cx:let name="groupFilter" value="@filter.toFunctionLevel1.dataNodeID = ${overridevacancies.@first.toFunctionLevel1.dataNodeID}" expand="">
+			<cx:let name="totalLastYear" value="$lastYearVacancies" invoke="$groupFilter">
+			<cx:vacancyTBody group="toFunctionLevel2" by="dataNodeID" title="value"
+					title2="toFunctionLevel1.value" withpercentage="yes" 
+					overridevacancies="$overridevacancies"
+					overridelastyearvacancies="$totalLastYear"
+			/>
+			</cx:let>
+			</cx:let>
+		</cx:foreach>
+	</cx:let>
 	</tbody>
 </table>
+<script type="text/javascript">tableSort('subgebieden_van_aanvragen', 3);</script>
 <dl>
-	<dt>&nbsp;</dt>
+	<dt>Opmerking</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
 	<dt>Succes­ratio</dt>
 	<dd>(#aanvragen / #ingevuld) * 100%</dd>
@@ -850,14 +868,17 @@ if (!Array.prototype.indexOf) {
 				<th class="sub"><cx:percentage number="$success.count" total="$total.count"/></td>
 				<th class="sub"><cx:write value="$totalLastYear.count"/></td>
 			</tr>
-			<cx:vacancyTBody overridevacancies="$total" group="toCompany.toBrancheLevel2" by="dataNodeID" title="value" withpercentage="yes"/>
+			<cx:vacancyTBody overridevacancies="$total" group="toCompany.toBrancheLevel2"
+					by="dataNodeID" title="value" withpercentage="yes"
+					overridelastyearvacancies="$totalLastYear"
+					/>
 		</tbody>
 	</cx:foreach>
 	</cx:let>
 	</cx:let>
 </table>
 <dl>
-	<dt>&nbsp;</dt>
+	<dt>Opmerking</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
 	<dt>Succes­ratio</dt>
 	<dd>(#aanvragen / #ingevuld) * 100%</dd>

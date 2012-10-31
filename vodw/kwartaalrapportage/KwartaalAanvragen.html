@@ -140,7 +140,7 @@ td.allow_space {
 	    return -1;
 	  };
 	}
-	
+	<cx:bare-string-format>
 	<cx:write value="var "/>removeRegexp = /^\("(.*)"\)$/;
 	<cx:write value="function "/>parseName(name) {
 		if ( removeRegexp.test(name) ) {
@@ -153,7 +153,7 @@ td.allow_space {
 		} <cx:write value="else if"/>( name === '()' ) {
 			name = '';
 		}
-		<cx:write value="return "/>name;
+		<cx:write value="return "/>name || 'geen';
 	}
 	<cx:write value="function "/>addName(arr, name) {
 		if ( !~arr.indexOf(name) ) {
@@ -174,7 +174,7 @@ td.allow_space {
 		<cx:let name="v" value="$vacancies" invoke="$_filter">
 		
 			<cx:let name="group" value="$v.@group.toCompany.toBrancheLevel1.dataNodeID">
-				<cx:buildObject group="$group" id="$_id" tag="sector" name="toCompany.toBrancheLevel1.value"/>
+				<cx:buildObject group="$group" id="$_id" tag="sector" name="toCompany.toBrancheLevel1.value" names="$list"/>
 			</cx:let group>
 			
 			<cx:let name="group" value="$v.@group.toCompany.groupNodes.dataNodeID">
@@ -186,7 +186,7 @@ td.allow_space {
 			</cx:let group>
 			
 			<cx:let name="group" value="$v.@group.toFunctionLevel1.dataNodeID">
-				<cx:buildObject group="$group" id="$_id" tag="functie" name="toFunctionLevel1.value"/>
+				<cx:buildObject group="$group" id="$_id" tag="expertise" name="toFunctionLevel1.value"/>
 			</cx:let group>
 			
 			<cx:let name="group" value="$v.@group.toWorkLevelNode.dataNodeID">
@@ -207,10 +207,10 @@ td.allow_space {
 	<cx:define tag="buildObject">
 		<cx:foreach list="$_group" item="g">
 			<cx:let name="name" value="$g.@first" invoke="$_name">
-				name =  parseName('<cx:write value="$name"/>');
+				name = parseName('<cx:write value="$name"/>');
 				addName(names.<cx:write value="$_tag"/>, name);
 				<cx:write value="$_id"/>.<cx:write value="$_tag"/>.push({
-						name			: name || "geen",
+						name			: name,
 						vacancies	: <cx:write value="$g.count"/>,
 						lost			:	<cx:let value="$g" name="g" invoke="$lostFilter"><cx:write value="$g.count"/></cx:let>,
 						success		: <cx:let value="$g" name="g" invoke="$successFilter"><cx:write value="$g.count"/></cx:let>,
@@ -224,7 +224,7 @@ td.allow_space {
 			sector: [],
 			opdrachtgevergroep: [],
 			bron: [],
-			functie: [],
+			expertise: [],
 			niveau: [],
 			total: {}
 		};
@@ -254,6 +254,7 @@ td.allow_space {
 	</cx:let firstDateOfQuarter>
 	</cx:let filter>
 	</cx:let dateList>
+	</cx:bare-string-format>
 	</script>
 </head>
 
@@ -305,9 +306,8 @@ td.allow_space {
 	</table>
 
 	<p>
-		<span class="allow_space" id="sector_chart">
+		<span class="allow_space page-break;" id="sector_chart">
 			<code>Hier komt een barchart: "De ontwikkeling van de aanvragen per sector"</code>
-			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per sector" here! -->
 		</span>
 	</p>
 
@@ -403,7 +403,7 @@ td.allow_space {
 	</p>
 	
 	<p>
-		<span class="allow_space" id="bron_successratio_chart">
+		<span class="allow_space page-break" id="bron_successratio_chart">
 			<code>Hier komt een barchart: "De ontwikkeling van de aanvragen per opdrachtgevergroep"</code>
 			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
 		</span>
@@ -429,7 +429,7 @@ td.allow_space {
 		key-account.
 	-->
 	<!-- TODO: Gesorteerd op aantal aanvragen, groot naar klein. -->
-	<table class="wideborder center-align-th center-align-td" id="functie">
+	<table class="wideborder center-align-th center-align-td" id="expertise">
 		<caption><h4>Aanvragen per expertise</h4></caption>
 		<thead>
 			<tr>
@@ -447,7 +447,7 @@ td.allow_space {
 	</table>
 	
 	<p>
-		<span class="allow_space" id="functie_chart">
+		<span class="allow_space" id="expertise_chart">
 			<code>Hier komt een barchart: "De ontwikkeling van de aanvragen per opdrachtgevergroep"</code>
 			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
 		</span>
@@ -552,6 +552,11 @@ function createChart(id, field, order, byOwnTotal) {
 				title: 'Ontwikkeling van de aanvragen per ' + id,
 				interpolateNulls: true,
 				colors : ['rgb(198,217,241)', 'rgb(142,180,227)', 'rgb(85,142,213)', 'rgb(0,112,192)', 'rgb(31,73,125)'].reverse(),
+				legend: { position: 'top' },
+				chartArea: { 
+					left: '30%',
+					width: '65%'
+				},
 				hAxis : { format: '#,#%' }
 			},
 			data: []
@@ -588,7 +593,7 @@ function createChart(id, field, order, byOwnTotal) {
 	report(<cx:write value="$obj"/>, 'sector', 'vacancies');
 	report(<cx:write value="$obj"/>, 'opdrachtgevergroep', 'vacancies');
 	report(<cx:write value="$obj"/>, 'bron', 'vacancies');
-	report(<cx:write value="$obj"/>, 'functie', 'vacancies');
+	report(<cx:write value="$obj"/>, 'expertise', 'vacancies');
 
 /**
  * Exceptional chart: successratio per bron
@@ -612,7 +617,7 @@ charts.push(chart);
 			pointSize: 5,
 			colors : ['rgb(55,96,146)', 'rgb(79,129,189)', 'rgb(142,180,227)', 'rgb(198,217,241)', 'rgb(146,208,80)'],
 			vAxes:[
-				{minValue: 0, maxValue: 1, title: 'Aanvragen'},
+				{minValue: 0, maxValue: 1, title: 'Aanvragen', minorGridlines : { count: 1, color: '#ddd' }},
 				{minValue: 1, maxValue: 0, format: '#,#%', baselineColor: "transparent", title: 'Succesratio'}
 			],
 			hAxis: {slantedText: true}
@@ -667,7 +672,6 @@ charts.push(chart);
 		}
 		chart.draw(data, this.options);
 	} // drawCharts();
-
 google.load('visualization', '1.0', {'packages':['corechart']});
 google.setOnLoadCallback(function() { $.each(charts, drawChart); });
 </script>

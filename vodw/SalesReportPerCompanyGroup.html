@@ -1,15 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Changelog:
-Created: ? / ?
-Edit #1: ??-??-???? / [IM] / MultiLingual & Style correct
-Edit #2: 07-06-2007 / [IM] / Fixed character encoding for encodings other than utf-8 AND fixed the way the language is detected
-Edit #3: 10-12-2007 / [IM] / Fixed: 3 months instead of three years!
-Edit #4: 18-12-2007 / [IM] / Modified layout
-Edit #5: 12-01-2009 / [PK] / Fixed some typo's and a minor bug.
-Edit #6: 17-09-2010 / [BJ] / New R45 layout
-Edit #7: 05-01-2011 / [PK] / Complete re-write of this template. It did not even work properly, but now it does!
--->
 <cx:let name="language" value="PRLocalizationManager" invoke="namedClass.sharedInstance.defaultLanguage" keep="" />
 <head>
 <cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"/></cx:let>
@@ -176,9 +166,9 @@ $(document).ready(function() {
 		</table>
 	</div>
 	
-	<cx:fetch entity="CRDataNode" qualifier="notActive=0 AND deleted=0 AND type.typeID=157" list="companygroups">
+	<cx:fetch entity="CRToDo" qualifier="toObjectKeyPath='toContact' AND toStatusNode.parentNodes.value='CampaignActiveTag'" list="campaigngroups">
 	<cx:fetch entity="CRUser" qualifier="deleted=0 AND isActive=1" list="recruiters">
-	
+
 	<!-- Table with information at top of page -->
 	<table>
 		<tr>
@@ -198,10 +188,10 @@ $(document).ready(function() {
 			<td><cx:write value="Groep" invoke="localizedString" /></td>
 			<td><select id="company_group_selector">
 			<option value="ALLEMAAL">&lt;Alle groepen&gt;</option>
-			<cx:foreach list="$companygroups" item="group">
+			<cx:foreach list="$campaigngroups" item="group">
 				<cx:element tag="option">
-					<cx:parameter name="value" value="$group.dataNodeID"/>
-					<cx:write value="$group.value"/>
+					<cx:parameter name="value" value="$group.toDoID"/>
+					<cx:write value="$group.subject"/>
 				</cx:element> 
 			</cx:foreach>
 			</select></td>
@@ -210,7 +200,9 @@ $(document).ready(function() {
 	<br>
 	
 	<cx:define tag="gatherRecords">
-		<cx:fetch list="records" entity="$_entity" qualifier="$_qualifier">
+		<cx:fetch list="records" entity="$_entity" sqlqualifier="$_qualifier">
+			<cx:info title="$_title" records="$records" entity="$_entity" togglerowid="$_togglerowid"/>
+		<!-- 
 			<cx:if condition="$_filter<>'NOFILTER'">
 				<cx:let name="records" value="$records" invoke="$_filter">
 					<cx:info title="$_title" records="$records" entity="$_entity" togglerowid="$_togglerowid"/>
@@ -219,8 +211,11 @@ $(document).ready(function() {
 			<cx:else>
 				<cx:info title="$_title" records="$records" entity="$_entity" togglerowid="$_togglerowid"/>
 			</cx:else>
+	-->			
 		</cx:fetch>
 	</cx:define>
+	
+	<cx:let name="idSelector" value=".toDos.toDoID" keep=""/>
 
 	<cx:define tag="perGroup"> 
 		<tbody id="<cx:write value="$_groupid"/>">
@@ -236,26 +231,30 @@ $(document).ready(function() {
 					<th class="subborder" colspan="6"><cx:write value="PortefeuilleOpdrachten" invoke="localizedString" /></th>
 				</tr>
 				
-				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toVacancy.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="sql" expand="" condition="$_userlist<>'ALL'"
+						iftrue="(owner.userID = ${recruiter.userID}) AND (creationDate >= '${s}') AND (creationDate < '${e}') AND toVacancy.toUser.userID IN ${_userlist}"
+						iffalse="(owner.userID = ${recruiter.userID}) AND (creationDate >= '${s}') AND (creationDate < '${e}')"
+				>
 				<cx:let name="togglerowid" value="${recruiter.userID}.1" expand="">
 					<cx:gatherRecords 
 							title="Nieuwe Plaatsingen" 
 							entity="CRJob" 
-							filter="$filter"
 							togglerowid="$togglerowid"
-							qualifier="(owner.userID = $recruiter.userID) AND (creationDate >= $s) AND (creationDate < $e)"
+							qualifier="$sql"
 					/>
 				</cx:let>
 				</cx:let>
 
-				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="sql" expand="" condition="$_userlist<>'ALL'"
+						iftrue="(owner.userID = ${recruiter.userID}) AND (creationDate >= '${s}') AND (creationDate < '${e}') AND toCompany.users.userID IN ${_userlist}"
+						iffalse="(owner.userID = ${recruiter.userID}) AND (creationDate >= '${s}') AND (creationDate < '${e}')"
+				>
 				<cx:let name="togglerowid" value="${recruiter.userID}.2" expand="">
 					<cx:gatherRecords 
 							title="Nieuwe Vacatures" 
 							entity="CRVacancy" 
-							filter="$filter"
 							togglerowid="$togglerowid"
-							qualifier="(owner.userID = $recruiter.userID) AND (creationDate >= $s) AND (creationDate < $e)"
+							qualifier="$sql"
 					/>
 				</cx:let>
 				</cx:let>
@@ -267,39 +266,51 @@ $(document).ready(function() {
 					<th class="subborder" colspan="6"><cx:write value="Kandidaten" invoke="localizedString" /></th>
 				</tr>
 				
-				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toEmployee.toUser.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				<cx:let name="sql" expand="" value="(owner.userID = ${recruiter.userID}) AND (deadline >= '${s}') AND (deadline < '${e}') AND (todoTypeKey =1) AND (toEmployee.employeeID > 0)">
+				<cx:let name="sql" expand="" condition="$_userlist<>'ALL'"
+						iftrue="${sql} AND toEmployee.toUser.userID IN ${_userlist}"
+						iffalse="${sql}"
+				>
 				<cx:let name="togglerowid" value="${recruiter.userID}.3" expand="">
 					<cx:gatherRecords 
 							title="Afspraken" 
 							entity="CRToDo" 
-							filter="$filter"
 							togglerowid="$togglerowid"
-							qualifier="(owner.userID = $recruiter.userID) AND (deadline >= $s) AND (deadline < $e) AND (todoTypeKey =1) AND (toEmployee <> nil)"
+							qualifier="$sql"
 					/>
 				</cx:let>
 				</cx:let>
-				
-				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toEmployee.toUser.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				</cx:let>
+	
+				<cx:let name="sql" expand="" value="(owner.userID = ${recruiter.userID}) AND (deadline >= '${s}') AND (deadline < '${e}') AND (todoTypeKey =4) AND (toEmployee.employeeID > 0)">
+				<cx:let name="sql" expand="" condition="$_userlist<>'ALL'"
+						iftrue="${sql} AND toEmployee.toUser.userID IN ${_userlist}"
+						iffalse="${sql}"
+				>
 				<cx:let name="togglerowid" value="${recruiter.userID}.4" expand="">
 					<cx:gatherRecords 
 							title="Notities" 
 							entity="CRToDo" 
-							filter="$filter"
 							togglerowid="$togglerowid"
-							qualifier="(owner.userID = $recruiter.userID) AND (deadline >= $s) AND (deadline < $e) AND (todoTypeKey =4) AND (toEmployee <> nil)"
+							qualifier="$sql"
 					/>
 				</cx:let>
 				</cx:let>
-				
-				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toVacancy.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
+				</cx:let>
+			
+				<cx:let name="sql" expand="" value="(owner.userID = ${recruiter.userID}) AND (creationDate >= '${s}') AND (creationDate < '${e}')">
+				<cx:let name="sql" expand="" condition="$_userlist<>'ALL'"
+						iftrue="${sql} AND toVacancy.toCompany.users.userID IN ${_userlist}"
+						iffalse="${sql}"
+				>
 				<cx:let name="togglerowid" value="${recruiter.userID}.5" expand="">
 					<cx:gatherRecords 
 							title="Matches" 
 							entity="CRMatch" 
-							filter="$filter"
 							togglerowid="$togglerowid"
-							qualifier="(owner.userID = $recruiter.userID) AND (creationDate >= $s) AND (creationDate < $e)"
+							qualifier="$sql"
 					/>
+				</cx:let>
 				</cx:let>
 				</cx:let>
 
@@ -310,48 +321,65 @@ $(document).ready(function() {
 					<th class="subborder" colspan="6"><cx:write value="Klanten" invoke="localizedString" />/<cx:write value="Contactpersonen" invoke="localizedString" /></th>
 				</tr>
 
-				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toContact.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
-				<cx:let name="togglerowid" value="${recruiter.userID}.6" expand="">
+
+
+				<cx:let name="sql" expand="" value="(owner.userID = ${recruiter.userID}) AND (deadline >= '${s}') AND (deadline < '${e}') AND (todoTypeKey =1) AND (toContact.userID > 0)">
+				<cx:let name="sql" expand="" condition="$_userlist<>'ALL'"
+						iftrue="${sql} AND toContact.userID IN ${_userlist}"
+						iffalse="${sql}"
+				>
+				<cx:let name="togglerowid" value="${recruiter.userID}.3" expand="">
 					<cx:gatherRecords 
 							title="Afspraken" 
 							entity="CRToDo" 
-							filter="$filter"
 							togglerowid="$togglerowid"
-							qualifier="(owner.userID = $recruiter.userID) AND (deadline >= $s) AND (deadline < $e) AND (todoTypeKey = 1) AND (toContact <> nil)"
+							qualifier="$sql"
 					/>
 				</cx:let>
 				</cx:let>
-				
-				<cx:let name="filter" condition="$_groupid<>'ALLEMAAL'" iftrue="@filter.toContact.toCompany.groups.dataNodeID=${_groupid}" iffalse="NOFILTER" expand="">
-				<cx:let name="togglerowid" value="${recruiter.userID}.7" expand="">
+				</cx:let>
+	
+				<cx:let name="sql" expand="" value="(owner.userID = ${recruiter.userID}) AND (deadline >= '${s}') AND (deadline < '${e}') AND (todoTypeKey =4) AND (toContact.userID > 0)">
+				<cx:let name="sql" expand="" condition="$_userlist<>'ALL'"
+						iftrue="${sql} AND toContact.userID IN ${_userlist}"
+						iffalse="${sql}"
+				>
+				<cx:let name="togglerowid" value="${recruiter.userID}.4" expand="">
 					<cx:gatherRecords 
 							title="Notities" 
 							entity="CRToDo" 
-							filter="$filter"
 							togglerowid="$togglerowid"
-							qualifier="(owner.userID = $recruiter.userID) AND (deadline >= $s) AND (deadline < $e) AND (todoTypeKey =4) AND (toContact <> nil)"
+							qualifier="$sql"
 					/>
+				</cx:let>
 				</cx:let>
 				</cx:let>
 
 				<tr>
 					<td class="border" colspan="6">&nbsp;</td>
 				</tr>
+				
 			</cx:foreach>
 		</tbody>
 	</cx:define>
 
 <!-- Template content -->
+
 	<table class="border" style="width: 800px;">
-		<cx:perGroup groupid="ALLEMAAL"/>
-		<cx:foreach list="$companygroups" item="companygroup">
-			<cx:perGroup groupid="$companygroup.dataNodeID"/>
+		<cx:perGroup groupid="ALLEMAAL" recruiters="$campaigngroups.toDoUsers" userlist="ALL"/>
+		<cx:foreach list="$campaigngroups" item="campaigngroup">
+			<cx:perGroup groupid="$campaigngroup.toDoID" userlist="$campaigngroup.toDoUsers.toUser.userID"/>
 		</cx:foreach>
 	</table>
-	
-	</cx:fetch>
-	</cx:fetch>
 
+ 
+	</cx:fetch>
+	</cx:fetch>
+	
+	<!-- <cx:fetch entity="CRUser" list="bla" sqlqualifier="userID IN (6,7)">
+	COUNT  = <cx:write value="$bla.count"/> 
+	</cx:fetch> -->
+	
 	<!-- Template Footer -->
 	<div class="documentFooter">
 		<table class="widenoborder">

@@ -275,7 +275,7 @@ td.allow_space {
 		</span>
 	</p>
 	
-	<h4>Ontwikkeling afgelopen 5 kwartalen</h4>
+	<h4 class="page-break">Ontwikkeling afgelopen 5 kwartalen</h4>
 	<p class="allow_space" id="placements_barchart">
 		<code>Hier komt barchart: "Ontwikkeling van de invulling van plaatsingen"</code>
 		<!-- Opmerking: percentage op secundaire (rechtse) as en het liefste altijd hoger dan het aantal in de bars. 
@@ -381,7 +381,7 @@ chart = {
 		pointSize: 5,
 		colors : ['rgb(79,129,189)','rgb(198,217,241)','rgb(155,187,86)'],
 		vAxes:[
-			{'minValue': 0, 'maxValue': 1, title: 'Plaatsingen'},
+			{'minValue': 0, 'maxValue': 1, title: 'Plaatsingen', minorGridlines : { count: 1, color: '#ddd' }},
 			{'minValue': 1, 'maxValue': 0, title: 'Percentage vast', format: '#,#%', baselineColor: 'transparent'}
 		]
 	},
@@ -412,7 +412,7 @@ chart = {
 		pointSize: 5,
 		colors : ['rgb(79,129,189)','rgb(198,217,241)','rgb(155,187,86)'],
 		vAxes:[
-			{'minValue': 0, 'maxValue': 1, title: 'Verlengingen'},
+			{'minValue': 0, 'maxValue': 1, title: 'Verlengingen', minorGridlines : { count: 1, color: '#ddd' }},
 			{'minValue': 1, 'maxValue': 0, title: 'Percentage vast', format: '#,#%', baselineColor: 'transparent'}
 		]
 	},
@@ -469,7 +469,7 @@ for ( it in stats ) {
 	]);
 }
 charts.push(chart);
-console.log(stats);
+
 /**
  * Draws each of the charts as given in their description.
  * @see https://google-developers.appspot.com/chart/interactive/docs/gallery
