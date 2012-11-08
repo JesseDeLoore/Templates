@@ -21,80 +21,16 @@ function getDate(string, inputFormat) {
 		var el = this.split('=');
 		parsedCookie[el[0]] = el[1];
 	});
+	$.getScript('http://services.carerix.com/templates/mediacounter/CxProxy.jquery.1.0.0.min.js');
 	
 	var dashData = { 
-				wosid : parsedCookie.exportToken, // '<cx:write value="$wosid"/>', 
+//				wosid : parsedCookie.exportToken, // '<cx:write value="$wosid"/>', 
+				wosid : '<cx:write value="$wosid"/>', 
 				appname: document.URL.substr(document.URL.indexOf('://') + 3, document.URL.indexOf('.') - document.URL.indexOf('://') - 3),
-				appid: '<cx:write value="$appid"/>'
+				appid: '<cx:write value="$appid"/>',
+				token: 'f21307f8d6281c248e1011250406d0baa753f5e853374df3'
 			};
 	
-	$(document).ready(function() {
-		var results={},curr,$container = $("#wrapper");
-		<cx:bare-string-format>
-			<cx:fetch list="notes" entity="CRToDo" qualifier="todoTypeKey=4 AND toActivityTypeNode.exportCode<>nil">
-			<cx:foreach list="$notes.@group.toActivityTypeNode.exportCode" item="group">
-				<cx:if condition="$group.@first.toActivityTypeNode.dataNodeID<>0">
-					curr = results[<cx:write value="$group.@first.toActivityTypeNode.dataNodeID"/>] = {
-						value: "<cx:write value="$group.@first.toActivityTypeNode.value"/>",
-						exportcode: "<cx:write value="$group.@first.toActivityTypeNode.exportCode"/>",
-						vacancies: {length: 0},
-						employees: {length: 0},
-						contacts: {length: 0},
-						total: <cx:write value="$group.count"/>,
-						earliest: getDate('<cx:write value="$group.@min.creationDate"/>'),
-						latest: getDate('<cx:write value="$group.@max.creationDate"/>')
-					};
-					<cx:foreach list="$group.@group.toVacancy.vacancyID" item="todo">
-						<cx:if condition="$todo.@first.toVacancy.vacancyID<>nil AND $todo.@first.toVacancy.vacancyID<>0">
-							curr.vacancies[<cx:write value="$todo.@first.toVacancy.vacancyID"/>] = {
-									label: <cx:write value="$todo.@first.toVacancy.vacancyID"/> + ":<cx:write value=" "/><cx:write value="$todo.@first.toVacancy.jobTitle"/>",
-									total: <cx:write value="$todo.count"/>
-							};
-							curr.vacancies.length++;
-						</cx:if>
-					</cx:foreach>
-					/*<!--
-					<cx:foreach list="$group.@group.toEmployee.employeeID" item="todo">
-						<cx:if condition="$todo.@first.toEmployee.employeeID<>nil AND $todo.@first.toEmployee.employeeID<>0">
-							curr.employees[<cx:write value="$todo.@first.toEmployee.employeeID"/>] = {
-									label: <cx:write value="$todo.@first.toEmployee.employeeID"/> + ":<cx:write value=" "/><cx:write value="$todo.@first.toEmployee.informalName"/>",
-									total: <cx:write value="$todo.count"/>
-							};
-							curr.employees.length++;
-						</cx:if>
-					</cx:foreach>
-					<cx:foreach list="$group.@group.toContact.contactID" item="todo">
-						<cx:if condition="$todo.@first.toContact.contactID<>nil AND $todo.@first.toContact.contactID<>0">
-							curr.contacts[<cx:write value="$todo.@first.toContact.contactID"/>] = {
-									label: <cx:write value="$todo.@first.toContact.contactID"/> + ":<cx:write value=" "/><cx:write value="$todo.@first.toContact.informalName"/>",
-									total: <cx:write value="$todo.count"/>
-							};
-							curr.contacts.length++;
-						</cx:if>
-					</cx:foreach>
-					-->*/
-				</cx:if>
-			</cx:foreach>
-			</cx:fetch>
-		</cx:bare-string-format>
-	
-		$.each(results, function(it) {
-			if ( this.contacts.length + this.employees.length + this.vacancies.length === 0 ) {
-				return;
-			}
-			$container.append('<h4>' + this.value + '</h4><h5>' + this.exportcode + '</h5>');
-			createChart(this.vacancies, 'vacancy_' + it, 'Vacancies: ' + this.value, 'CRVacancy');
-			// createChart(this.employees, 'employee_' + it, 'Employees: ' + this.value, 'CREmployee');
-			// createChart(this.contacts, 'contact_' + it, 'Contacts: ' + this.value, 'CRUser');
-			$container.append('<dl>'
-					+ '<dt>Earliest note</dt><dd>' + this.earliest.toLocaleDateString() + '</dd>'
-					+ '<dt>Latest note</dt><dd>' + this.latest.toLocaleDateString() + '</dd>'
-					+ '<dt>Total #notes</dt><dd>' + this.total + '</dd>'
-					+ '</dl>'
-			);
-		});
-	}); // document.ready
-
 	/**
 	 * Handles a click on a chart by parsing the event target and triggering the 
 	 * relevant event
@@ -125,10 +61,13 @@ function getDate(string, inputFormat) {
 	 * at position pos
 	 */
 	function getObjectKey(pos) {
+		pos = parseInt(pos);
 		for ( var it in this ) {
-			if ( !pos-- ) {
+			if ( it === 'length' ) continue; // weird IE behaviour
+			if ( !pos ) {
 				return { key: it, value: this[it] };
 			}
+			pos--;
 		} // for
 		throw 'Array key out of bounds';
 	} // getObjectKey
@@ -170,6 +109,10 @@ function getDate(string, inputFormat) {
 		handleBarPage($container);
 	} // handlePageChange();
 	
+	function handleBarPage($container) {
+		/* Math.random() < .5 ? handleBarPage_XML($container) :  */handleBarPage_REST($container);
+	}
+	
 	/**
 	 * Navigate the page by increment
 	 */
@@ -187,16 +130,17 @@ function getDate(string, inputFormat) {
 	/**
 	 * Handle a "previous page" click
 	 */
-	function handleBarPreviousPage(e) {
+	function handleBarPreviousPage(event) {
 		$.proxy(handlePageIncrement, this)(event, -1);
 	} // handleBarNextPage();  
 		
 	/**
 	 * Handler for the bar page
 	 */
-	function handleBarPage($container) {
-		var noteID = parseInt($container.attr('id').replace(/[^0-9]/g, ''));
-		var loc = ['http:/'
+	function handleBarPage_XML($container) {
+		var noteID = parseInt($container.attr('id').replace(/[^0-9]/g, '')),
+				vacancyID = parseInt($container.data('obj').key),
+				loc = ['http:/'
 		         , dashData.appname + '.carerix.net'
 			       , 'cgi-bin'
 			       , 'WebObjects'
@@ -216,57 +160,103 @@ function getDate(string, inputFormat) {
 					, {name: 'start', value: ($container.data('page') - 1) * $container.data('pagesize')}
 					, {name: 'count', value: $container.data('pagesize')}
 					, {name: 'entity', value: 'CREmployee'}
-					, {name: 'qualifier', value: '_todos.toActivityTypeNode.dataNodeID=' + noteID + ' AND _todos.toVacancy.vacancyID=' + $container.data('obj').key}
+					, {name: 'qualifier', value: '_todos.toActivityTypeNode.dataNodeID=' + noteID + ' AND _todos.toVacancy.vacancyID=' + vacancyID}
 					, {name: 'show', value: 'informalName'}
 					, {name: 'show', value: '_todos.toActivityTypeNode.dataNodeID'}
+					, {name: 'show', value: '_todos.toVacancy.vacancyID'}
 					, {name: 'show', value: '_todos.creationDate'}
 			]
 		}).done(function(response) {
-			var $subcontainer = $container.find('tbody');
-			
-			var uriEmployee = '//' + dashData.appname + '.carerix.net/cgi-bin/WebObjects/' 
-							+ dashData.appname + '.woa/' + dashData.appid 
-							+ '/wa/MenuAction/qs?searchEntityName=CREmployee&wosid=' 
-							+ dashData.wosid + '&id=',
-					uriNote = uriEmployee.replace('?searchEntityName=CREmployee', '?searchEntityName=CRToDo')
-			;
+			if ( !response.success ) {
+				if ( console.log ) console.log(response.msg);
+				throw response.msg;
+			}
+			_handleBarPageAjaxResponse(response, $container, noteID, vacancyID);
+		});
+	} // handleBarPage_XML();
+		
+	/**
+	 * Handler for the bar page
+	 */
+	function handleBarPage_REST($container) {
+		var noteID = parseInt($container.attr('id').replace(/[^0-9]/g, '')),
+				vacancyID = parseInt($container.data('obj').key),
+				loc = ['http://api.carerix.com'
+			      , 'CREmployee'
+			      , 'list'
+			      , 'start', ($container.data('page') - 1) * $container.data('pagesize')
+						, 'count', $container.data('pagesize')
+						, 'qualifier', '_todos.toActivityTypeNode.dataNodeID=' + noteID + ' AND _todos.toVacancy.vacancyID=' + vacancyID
+						, 'show', 'informalName'
+						, 'show', '_todos.toActivityTypeNode.dataNodeID'
+						, 'show', '_todos.creationDate'
+			      , 'show', '_todos.toVacancy.vacancyID'
+					].join('/');
+		
+		$.ajax({
+				url: loc
+			, useCxProxy: true
+			, username: dashData.appname
+			, password: dashData.token
+		}).done(function(response) {
+			response = $.cxXml2Json_flat(response);
+			_handleBarPageAjaxResponse(response, $container, noteID, vacancyID);
+		});
+	} // handleBarPage_REST();
+	
+	/**
+	 * Handle the response of a ajax call triggered by a click on a bar
+	 */
+	function _handleBarPageAjaxResponse(response, $container, noteID, vacancyID) {
+		var $subcontainer = $container.find('tbody');
+		
+		var uriEmployee = '//' + dashData.appname + '.carerix.net/cgi-bin/WebObjects/' 
+						+ dashData.appname + '.woa/' + dashData.appid 
+						+ '/wa/MenuAction/qs?searchEntityName=CREmployee&wosid=' 
+						+ dashData.wosid + '&id=',
+				uriNote = uriEmployee.replace('?searchEntityName=CREmployee', '?searchEntityName=CRToDo')
+		;
 
-			$subcontainer.empty();
-			
-			$.each(response.rows, function() {
-				var notes = [], html;
-				
+		$subcontainer.empty();
+		
+		$.each(response.rows, function() {
+			var notes = [], html;
+			if ( this._todos ) {
 				$.each(this._todos, function() {
-					if ( this.toActivityTypeNode.dataNodeID === noteID ) {
+					if ( this.toVacancy 
+							&& this.toActivityTypeNode
+							&& parseInt(this.toActivityTypeNode.dataNodeID) === noteID 
+							&& parseInt(this.toVacancy.vacancyID) === vacancyID
+					) {
 						this.creationDate = getDate(this.creationDate);
 						notes.push(this);
 					}
 				});
-				
-				notes.sort(function(a,b) { return a.creationDate - b.creationDate; });
-				
-				html = '<tr>' 
-						+ '<td><a target="cxcontent" href="' + uriEmployee + this.id + '">' + this.id + ": " + this.informalName + '</a></td>'
-//						+ '<td>JA / NEE</td>'
-						+ '<td>' + notes.length + '</td>'
-						+ '<td><ul>'
-				;
-						
-				$.each(notes, function() {
-					html += '<li><a target="cxcontent" href="' + uriNote + this.id + '">' 
-							+ this.creationDate.toLocaleString().replace(/^(.*) ([0-9]{2}:[0-9]{2}).*$/, '$2, $1')
-							+ '</a></li>';
-				});
-				
-				html += '</ul></td></tr>';
-				$subcontainer.append(html);
+			}
+			
+			notes.sort(function(a,b) { return a.creationDate - b.creationDate; });
+			
+			html = '<tr>' 
+					+ '<td><a target="cxcontent" href="' + uriEmployee + this.id + '">' + this.id + ": " + this.informalName + '</a></td>'
+//					+ '<td>JA / NEE</td>'
+					+ '<td>' + notes.length + '</td>'
+					+ '<td><ul>'
+			;
+					
+			$.each(notes, function() {
+				html += '<li><a target="cxcontent" href="' + uriNote + this.id + '">' 
+						+ this.creationDate.toLocaleString().replace(/^(.*) ([0-9]{2}:[0-9]{2}).*$/, '$2, $1')
+						+ '</a></li>';
 			});
-
-			$container.find('[data-role=previous]').toggle($container.data('page') > 1);
-			$container.find('[data-role=next]').toggle(($container.data('page')) * $container.data('pagesize') < response.count);
-			$container.show('fast');
+			
+			html += '</ul></td></tr>';
+			$subcontainer.append(html);
 		});
-	} // handleBarPage();
+
+		$container.find('[data-role=previous]').toggle(parseInt($container.data('page')) > 1);
+		$container.find('[data-role=next]').toggle(parseInt($container.data('page')) * parseInt($container.data('pagesize')) < parseInt(response.count));
+		$container.show('fast');
+	} // _handleBarPageAjaxResponse();
 	
 	/**
 	 * Creates a chart using the Google Chart api
@@ -440,6 +430,73 @@ function getDate(string, inputFormat) {
 		}
 		chart.draw(data, this.options);
 	} // drawCharts();
+	
+	$(document).ready(function() {
+		var results={},curr,$container = $("#wrapper");
+		<cx:bare-string-format>
+			<cx:fetch list="notes" entity="CRToDo" qualifier="todoTypeKey=4 AND toActivityTypeNode.exportCode<>nil">
+			<cx:foreach list="$notes.@group.toActivityTypeNode.exportCode" item="group">
+				<cx:if condition="$group.@first.toActivityTypeNode.dataNodeID<>0">
+					curr = results[<cx:write value="$group.@first.toActivityTypeNode.dataNodeID"/>] = {
+						value: "<cx:write value="$group.@first.toActivityTypeNode.value"/>",
+						exportcode: "<cx:write value="$group.@first.toActivityTypeNode.exportCode"/>",
+						vacancies: {length: 0},
+						employees: {length: 0},
+						contacts: {length: 0},
+						total: <cx:write value="$group.count"/>,
+						earliest: getDate('<cx:write value="$group.@min.creationDate"/>'),
+						latest: getDate('<cx:write value="$group.@max.creationDate"/>')
+					};
+					<cx:foreach list="$group.@group.toVacancy.vacancyID" item="todo">
+						<cx:if condition="$todo.@first.toVacancy.vacancyID<>nil AND $todo.@first.toVacancy.vacancyID<>0">
+							curr.vacancies[<cx:write value="$todo.@first.toVacancy.vacancyID"/>] = {
+									label: <cx:write value="$todo.@first.toVacancy.vacancyID"/> + ":<cx:write value=" "/><cx:write value="$todo.@first.toVacancy.jobTitle"/>",
+									total: <cx:write value="$todo.count"/>
+							};
+							curr.vacancies.length++;
+						</cx:if>
+					</cx:foreach>
+					/*<!--
+					<cx:foreach list="$group.@group.toEmployee.employeeID" item="todo">
+						<cx:if condition="$todo.@first.toEmployee.employeeID<>nil AND $todo.@first.toEmployee.employeeID<>0">
+							curr.employees[<cx:write value="$todo.@first.toEmployee.employeeID"/>] = {
+									label: <cx:write value="$todo.@first.toEmployee.employeeID"/> + ":<cx:write value=" "/><cx:write value="$todo.@first.toEmployee.informalName"/>",
+									total: <cx:write value="$todo.count"/>
+							};
+							curr.employees.length++;
+						</cx:if>
+					</cx:foreach>
+					<cx:foreach list="$group.@group.toContact.contactID" item="todo">
+						<cx:if condition="$todo.@first.toContact.contactID<>nil AND $todo.@first.toContact.contactID<>0">
+							curr.contacts[<cx:write value="$todo.@first.toContact.contactID"/>] = {
+									label: <cx:write value="$todo.@first.toContact.contactID"/> + ":<cx:write value=" "/><cx:write value="$todo.@first.toContact.informalName"/>",
+									total: <cx:write value="$todo.count"/>
+							};
+							curr.contacts.length++;
+						</cx:if>
+					</cx:foreach>
+					-->*/
+				</cx:if>
+			</cx:foreach>
+			</cx:fetch>
+		</cx:bare-string-format>
+	
+		$.each(results, function(it) {
+			if ( this.contacts.length + this.employees.length + this.vacancies.length === 0 ) {
+				return;
+			}
+			$container.append('<h4>' + this.value + '</h4><h5>' + this.exportcode + '</h5>');
+			createChart(this.vacancies, 'vacancy_' + it, 'Vacancies: ' + this.value, 'CRVacancy');
+			// createChart(this.employees, 'employee_' + it, 'Employees: ' + this.value, 'CREmployee');
+			// createChart(this.contacts, 'contact_' + it, 'Contacts: ' + this.value, 'CRUser');
+			$container.append('<dl>'
+					+ '<dt>Earliest note</dt><dd>' + this.earliest.toLocaleDateString() + '</dd>'
+					+ '<dt>Latest note</dt><dd>' + this.latest.toLocaleDateString() + '</dd>'
+					+ '<dt>Total #notes</dt><dd>' + this.total + '</dd>'
+					+ '</dl>'
+			);
+		});
+	}); // document.ready
 	
 	// load the google 
 	google.load('visualization', '1.0', {'packages':['corechart']});
