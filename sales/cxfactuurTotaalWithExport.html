@@ -1,0 +1,1251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+Changelog
+
+Created: 20-07-2007 / [RB]
+Edit #1: 01-08-2007 / [ML] / Selection filter implemented
+Edit #2: 13-08-2007 / [RAB] / added IBAN/BIC
+Edit #3: 22-08-2007 / [ML] / Maand/Kwartaal/Jaar gecombineerd
+Edit #4: 11-09-2007 / [ML] / Maand/Kwartaal/Jaar niet meer apart
+Edit #5: 09-10-2007 / [ML] / added grootBoek 'e-Recruitment' (8207)
+Edit #6: 12-10-2007 / [ML] / added HOST (8208)
+Edit #7: 02-10-2007 / [ML] / Sjabloon zwart gemaakt
+Edit #7: 02-10-2009 / [PK] / Betalingstermijn toegevoed welke opgegeven is bij 'relatie'.
+Edit #8: 06-01-2010 / [PK] / Projecten met status "Actief, maar opgezegd" worden nu ook getoont.
+Edit #9: 16-03-2010 / [PK] / Peildatum tekst nu op basis van groep bij 'relatie' van project. Tevens checkbox toegevoegd met keuze wel of niet afdrukken van peildatum tekst.
+Edit #10: 17-05-2010 / [PK] / Betalingsgegevens van Carerix aangepast/uitgebreid met internationale gegevens.
+Edit #11: 09-02-2011 / [PK] / Many changes. Added new grootboek values. Changes grootboek objectAtIndex index number. Added totally new Export function. Changed layout and improved the HTML.
+Edit #12: 14-02-2011 / [PK] / Fixed page size to A4. Added fixed 'heigth' of many 'fields' that contain data. Fixed heigth ensures fixed page layout.
+Edit #13: 15-02-2011 / [PK] / Added meta tag to prevent the template being loaded in 'compatibility'-mode by IE.
+Edit #13: 15-02-2011 / [PK] / Added field 'description' to export.
+Edit #14: 12-04-2011 / [PK] / Added let $start, this was omitted during last changes
+Edit #15: 05-05-2011 / [PK] / Removed the old way of dertimining the 'host' projects. Now the type of project 'hosting' is done by setting the appropriate 'group'.
+Edit #16: 05-05-2011 / [PK] / Period was not included in export. This is resolved.
+Edit #17: 09-05-2011 / [PK] / Facturen niet getoond bij gevonden foutmelding.
+Edit #18: 11-05-2011 / [PK] / Added prompt for invoice number.
+-->
+
+
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
+    <title>Facturen</title>
+    <style type="text/css" media="print">
+        body {
+          background: #FFFFFF;
+          color: black;
+        }
+
+        .noPrint {
+          display: none;
+        }
+    </style>
+    <style type="text/css">
+        body{
+            color: black;
+        }
+
+        div.address{
+          padding-top: 3cm;
+          padding-left: 0.4cm;
+          font-size: 13px;
+          height: 90px;
+        }
+
+        div.invoiceDetails{
+            padding-top: 1.5cm;
+        }
+
+        div.invoiceDetails td.label{
+            width: 130px;
+        }
+
+        div.invoiceDetails td.value{
+            width: 150px;
+        }
+
+        td{
+          color: black;
+        }
+
+        td.border{
+          color: black;
+        }
+
+        td.rt{
+          color: black;
+        }
+
+        td.LeftBorder{
+           border-left: 1px solid #C0C0C0;
+        }
+
+        td.invoiceSpacer{
+          height: 50px;
+        }
+
+        td.borderTop{
+          border-top: 1px solid #C0C0C0;
+        }
+
+        td.borderBottom{
+          border-bottom: 1px solid #C0C0C0;
+        }
+
+        table.bankdata{
+          border-collapse: collapse;
+          border-spacing: 0px;
+          width: 100%;
+          line-height: 1;
+        }
+
+        td.bank{
+          height: 200px;
+          vertical-align: bottom;
+        }
+
+        td.paymentInfo{
+            border: 1px solid red;
+            width: 500px;
+        }
+
+        td.invoiceDescription{
+          height: 50px;
+          vertical-align: middle;
+        }
+
+        td.footer{
+          text-align: center;
+          vertical-align: bottom;
+          height: 120px;
+        }
+
+        div.cxLogo{
+          float: right;
+        }
+
+
+        @page {
+    	  size: A4 portrait;  /* width height */
+          margin-bottom: 1cm;
+    	}
+
+        /*td{
+          --border:1px solid black !important;
+        }  */
+
+        #aep_ovrl { background-color: black; -moz-opacity: 0.7; opacity: 0.7; top: 0; left: 0; position: fixed; width: 100%; height:100%; z-index: 99; }
+        #aep_ww { position: fixed; z-index: 100; top: 0; left: 0; width: 100%; height: 100%; text-align: center;}
+        #aep_win { margin: 20% auto 0 auto; width: 400px; text-align: left;}
+        #aep_w {background-color: white; padding: 3px; border: 1px solid black; background-color: #EEE;}
+        #aep_t {color: white; margin: 0 0 0px 0px; font-family: Arial, sans-serif; font-size: 10pt; background-color: grey; border: 1px solid black; border-bottom: none;}
+        #aep_text {width: 98%;}
+        #aep_w span {font-family: Arial, sans-serif; font-size: 10pt;}
+        #aep_w div {text-align: right; margin-top: 5px;}
+</style>
+
+<!-- IE specific code: -->
+<!--[if lte IE 7]>
+  <style type="text/css">
+    #aep_ovrl {
+      position: absolute;
+      filter:alpha(opacity=70);
+      top: expression(eval(document.body.scrollTop));
+      width: expression(eval(document.body.clientWidth));
+    }
+    #aep_ww {
+      position: absolute;
+      top: expression(eval(document.body.scrollTop));
+    }
+  </style>
+<![endif]-->
+
+
+
+    <script type="text/javascript">
+      var max = 0;
+      var invoiceLines = new Array();
+      var header = new Array();
+
+      var projectsWithNoGroup = new Array();
+
+      /**
+      * Set the innerHTML of an HTML element by I
+      */
+      function setHTML(elementid,content){
+        el = document.getElementById(elementid);
+	    if (document.all) {
+	     el.innerHTML = content;
+	    }
+	    else {
+	      rng = document.createRange();
+	      rng.setStartBefore(el);
+	      htmlFrag = rng.createContextualFragment(content);
+	      while (el.hasChildNodes())
+	      el.removeChild(el.lastChild);
+	      el.appendChild(htmlFrag);
+	    }
+      }
+
+      /**
+      * Set the invoice number value
+      */
+      function setCounter(counter) {
+        for (var i = 0; i < max; i++) {
+          setHTML("i"+i, counter++);
+        }
+	  }
+
+      /**
+      * Toggle the invoice lists on or off
+      */
+      function switchMenu(obj) {
+      var el = document.getElementById(obj);
+      if ( el.style.display != "none" ) {
+        el.style.display = 'none';
+      }
+      else {
+        el.style.display = '';
+      }
+    }
+
+    /**
+    * Show the text: Peildatum if an invoice should be based on Peildatum.
+    */
+    function hideMe(ids, chkBox){
+
+      var divs = document.getElementsByName(ids);
+    // IE fix aangezien getElementsByName niet werkt in IE
+    if(divs.length == 0){
+        var divs = getElementsByName_iefix('div', 'peildatum')
+    }
+
+      if(chkBox.checked == false){
+        for(var i=0; i<divs.length; i++){
+          divs[i].style.display = 'none';
+          divs[i].className = "noPrint";
+        }
+      }
+      else{
+        for(var i=0; i<divs.length; i++){
+          divs[i].style.display = '';
+          divs[i].className = "";
+        }
+      }
+    }
+
+    /**
+    * Gets the elements with the same name
+    */
+    function getElementsByName_iefix(tag, name) {
+
+     var elem = document.getElementsByTagName(tag);
+     var arr = new Array();
+     for(i = 0,iarr = 0; i < elem.length; i++) {
+          att = elem[i].getAttribute("name");
+          if(att == name) {
+               arr[iarr] = elem[i];
+               iarr++;
+          }
+     }
+     return arr;
+    }
+
+    /**
+    * Push the project onto our array
+    */
+    function addToNoGroup(projID, projTitle){
+        projectsWithNoGroup.push({ id: projID, title: projTitle });
+    }
+
+    /**
+    * Show the groupErrors
+    */
+    function groupErrors(){
+      // Get the element container for our error report
+      var el = document.getElementById('groupErrors');
+
+      // If we got errors we continue
+      if(projectsWithNoGroup.length > 0){
+        // Create a srting contained by pre tags
+        var str = "<pre>";
+        // Loop through all the errors
+        for(var i=0; i<projectsWithNoGroup.length; i++){
+          var proj = projectsWithNoGroup[i];
+          // Create the string
+          str += "\n" + proj.id + "\t";
+          str += proj.title;
+        }
+        // Close tag
+        str += "</pre>";
+
+        document.getElementById('groupErrorsTitle').style.display = 'block';
+        document.getElementById('groupErrorsRow').style.display = 'block';
+        // Write string to element
+        el.innerHTML = str;
+      }
+    }
+
+    /**
+    * Ask the user for the invoicenumber startnumber
+    */
+    function promptForInput(value){
+      invoiceNumber = parseInt(value);
+
+      if(isNaN(invoiceNumber)){
+        ae_prompt(promptForInput, 'Geef het startnummer voor de facturen op:', 'nummer');
+      }
+      else{
+        document.getElementById("ctr").value = invoiceNumber;
+        setCounter(invoiceNumber);
+        createExport(invoiceNumber);
+      }
+    }
+
+    /**
+    * This is variable for storing callback function
+    */
+    var ae_cb = null;
+
+    /**
+    * this is a simple function-shortcut
+    * to avoid using lengthy document.getElementById
+    */
+    function ae$(a) { return document.getElementById(a); }
+
+    /** This is a main ae_prompt function
+    * it saves function callback
+    * and sets up dialog
+    */
+    function ae_prompt(cb, q, a) {
+    	ae_cb = cb;
+    	ae$('aep_t').innerHTML = 'Startnummer facturen opgeven:';
+    	ae$('aep_prompt').innerHTML = q;
+    	ae$('aep_text').value = a;
+    	ae$('aep_ovrl').style.display = ae$('aep_ww').style.display = '';
+    	ae$('aep_text').focus();
+    	ae$('aep_text').select();
+    }
+
+    /**
+    * This function is called when user presses OK(m=0) or Cancel(m=1) button
+    * in the dialog. You should not call this function directly.
+    */
+    function ae_clk(m) {
+    	// hide dialog layers
+    	ae$('aep_ovrl').style.display = ae$('aep_ww').style.display = 'none';
+    	if (!m)
+    		ae_cb(null);  // user pressed cancel, call callback with null
+    	else
+    		ae_cb(ae$('aep_text').value); // user pressed OK
+    }
+
+    </script>
+  </head>
+
+  <body onload="groupErrors();ae_prompt(promptForInput, 'Geef het startnummer voor de facturen op:', 'nummer');">
+    <!-- The custom prompt box -->
+    <div id="aep_ovrl" style="display: none;">&nbsp;</div>
+    <div id="aep_ww" style="display: none;">
+      <div id="aep_win">
+        <div id="aep_t"></div>
+        <div id="aep_w">
+          <span id="aep_prompt"></span>
+          <br>
+          <input type="text" id="aep_text" onKeyPress="if((event.keyCode==10)||(event.keyCode==13)) ae_clk(1); if (event.keyCode==27) ae_clk(0);">
+          <br>
+          <div>
+            <input type="button" id="aep_ok" onclick="ae_clk(1);" value="OK">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- This define defines each invoice. The list of invoices is given to this define, and the define loops through them -->
+    <cx:define tag="facturen">
+    <cx:let name="start" value="$utilities.currentDate.nextMonth.firstDayOfMonth.midnight">
+      <!-- Individuele Facturen -->
+      <cx:foreach item="project" list="$_projecten.@sortAscending.toCompany.name" index="i">
+
+        <!--Taalselector-->
+        <cx:let name="NL" condition="project.toInvoiceCountryNode.value='Nederland' OR project.toInvoiceCountryNode.value='Netherlands' OR project.toInvoiceCountryNode.value='Holland' OR project.toInvoiceCountryNode=nil" iftrue="1" iffalse="0">
+         <cx:let name="BE" condition="project.toInvoiceCountryNode.value='Belgi&euml;' OR project.toInvoiceCountryNode.value='Belgium'" iftrue="1" iffalse="0">
+          <cx:let name="language" condition="$NL='1'" iftrue="Dutch" iffalse="English">
+
+            <div class="cxLogo">
+                <img src="http://sales.carerix.com/images/cxLogo.png" alt="cxLogo" style="width: 5cm;">
+            </div>
+
+            <!-- Invoice address -->
+            <div class="address">
+              <span contenteditable="true">
+                <b><cx:write value="$project.toCompany.name"/></b><br>
+                <i>
+                  <cx:if condition="NL='1'">T.a.v. </cx:if>
+                  <cx:if condition="NL='0'">Attn. </cx:if>
+                  <cx:write value="$project.invoiceAttention"/>
+                  <cx:if condition="project.invoiceAttention=nil">
+                    <cx:write value="$project.toSignAuthority.informalName"/>
+                  </cx:if>
+                </i>
+                <br>
+                <cx:write value="$project.toCompany.invoiceAddress.htmlString" html="1"/>
+              </span>
+              <br><br>
+              <!-- Toon 'peildatum' als het project-relatie een groep heeft 'facturatie op basis van peildatum' -->
+              <cx:if condition="$project.toCompany.groups.dataNodeID = 4304">
+                <div name="peildatum" style="display:none;">
+                  <span style="color:red;font-size:30pt;">PEILDATUM</span>
+                </div>
+              </cx:if>
+            </div>
+
+            <!-- Invoice details tabel -->
+            <div class="invoiceDetails">
+            <table class="noborder">
+              <tr>
+                <td class="label">
+                  <span contenteditable="true">
+                    <cx:if condition="NL='1'">Orderdatum</cx:if>
+                    <cx:if condition="NL='0'">Order date</cx:if>
+                  </span>
+                </td>
+                <td class="value">
+                  <span contenteditable="true">
+                    <cx:write value="$project.startDate" dateformat="%e %B %Y" language="$language"/>
+                    <cx:if condition="project.startDate=nil"><font color=red><i>startdatum invullen bij project <cx:write value="$project.vacancyID"/></i></font></cx:if>
+                  </span>
+                </td>
+                <td>&nbsp;</td>
+                <td>
+                  <cx:if condition="NL='1'">Uw BTW-nummer</cx:if>
+                  <cx:if condition="NL='0'">Your VAT number</cx:if>
+                </td>
+                <td>
+                  <span contenteditable="true">
+                    <cx:write value="$project.toCompany.taxNumber"/>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="label">
+                  <span contenteditable="true">
+                    <cx:if condition="NL='1'">Factuurdatum</cx:if>
+                    <cx:if condition="NL='0'">Invoice date</cx:if>
+                  </span>
+                </td>
+                <td class="value">
+                  <span contenteditable="true">
+                    <cx:write value="$utilities.currentDate" dateformat="%e %B %Y" language="$language"/>
+                  </span>
+                </td>
+                <td>&nbsp;</td>
+                <td>
+                   <cx:if condition="NL='1'">Uw referentie</cx:if>
+                   <cx:if condition="NL='0'">Your reference</cx:if>
+                 </td>
+                 <td>
+                   <span contenteditable="true">
+                     <cx:if condition="$project.toCompany.paymentCode != nil"><cx:write value="$project.toCompany.paymentCode"/></cx:if>
+                     <cx:else>-</cx:else>
+                   </span>
+                 </td>
+              </tr>
+              <tr>
+                <td>
+                  <cx:if condition="NL='1'">Factuurnummer</cx:if>
+                  <cx:if condition="NL='0'">Invoice number</cx:if>
+                </td>
+                <td><script type="text/javascript">document.write('<span id="i' + max + '"><i>"vanaf nr" invullen</i></span>');</script></td>
+                <td>&nbsp;</td>
+                <td>
+                  <cx:if condition="NL='1'">Onze referentie</cx:if>
+                  <cx:if condition="NL='0'">Our reference</cx:if>
+                </td>
+                <td>
+                  <span contenteditable="true">
+                    <!--
+                      4630 | 8201: Corporate edition
+                      4628 | 8202: Recruitment edition
+                      4631 | 8203: Staffing edition
+                      4629 | 8204: Standard edition
+                      4730 | 8205: Outsource edition
+                      4731 | 8206: CRM edition
+                      4732 | 8207: E-Recruitment edition
+                      4669 | 8208: Hosting domein
+                      4733 | 8209: Datadump (periodiek)
+                      4734 | 8210: Testomgeving
+                    -->
+                    <cx:let name="grootBoekPrefix" condition="$NL='0'" iftrue="83" iffalse="82">
+                        <cx:write value="$project.toCompany.debtorNumber"/>&nbsp;
+                        <cx:let name="g" value="$project.groups.dataNodeID">
+                          <cx:if condition="$g=4630">(<cx:write value="$grootBoekPrefix"/>01)</cx:if>
+                          <cx:if condition="$g=4628">(<cx:write value="$grootBoekPrefix"/>02)</cx:if>
+                          <cx:if condition="$g=4631">(<cx:write value="$grootBoekPrefix"/>03)</cx:if>
+                          <cx:if condition="$g=4629">(<cx:write value="$grootBoekPrefix"/>04)</cx:if>
+                          <cx:if condition="$g=4730">(<cx:write value="$grootBoekPrefix"/>05)</cx:if>
+                          <cx:if condition="$g=4731">(<cx:write value="$grootBoekPrefix"/>06)</cx:if>
+                          <cx:if condition="$g=4732">(<cx:write value="$grootBoekPrefix"/>07)</cx:if>
+                          <cx:if condition="$g=4669">(<cx:write value="$grootBoekPrefix"/>08)</cx:if>
+                          <cx:if condition="$g=4733">(<cx:write value="$grootBoekPrefix"/>09)</cx:if>
+                          <cx:if condition="$g=4734">(<cx:write value="$grootBoekPrefix"/>10)</cx:if>
+
+                          <cx:if condition="$g=4630 OR
+                          $g=4628 OR
+                          $g=4631 OR
+                          $g=4629 OR
+                          $g=4730 OR
+                          $g=4731 OR
+                          $g=4732 OR
+                          $g=4669 OR
+                          $g=4733 OR
+                          $g=4734"></cx:if>
+                          <cx:else><script type="text/javascript"> addToNoGroup('<cx:write value="$project.vacancyID"/>', '<cx:write value="$project.jobTitle"/>'); </script></cx:else>
+                        </cx:let>
+                    </cx:let>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+
+          <!-- The invoice itself -->
+          <table class="noborder">
+              <tr>
+                <td colspan="6">&nbsp;</td>
+              </tr>
+              <cx:if condition="project.estimatedDays=1">
+                <tr>
+                  <td colspan="6" class="border" style="font-size: 20px;color:black;">
+                    <span contenteditable="true">
+                      <cx:if condition="NL='1'">Factuur</cx:if>
+                      <cx:if condition="NL='0'">Invoice</cx:if>
+                      <cx:write value="$start" dateformat="%B %Y" language="$language"/>
+                    </span>
+                  </td>
+                </tr>
+              </cx:if>
+              <cx:if condition="project.estimatedDays=3">
+                <tr>
+                  <td colspan="6" class="border" style="font-size: 20px;color:black;">
+                    <span contenteditable="true">
+                      <cx:if condition="NL='1'">Kwartaalfactuur</cx:if>
+                      <cx:if condition="NL='0'">Trimester invoice</cx:if>
+                      <cx:write value="$start" dateformat="%B %Y" language="$language"/> <cx:if condition="NL='1'">t/m</cx:if><cx:if condition="NL='0'">until</cx:if> <cx:write value="$start.nextMonth.nextMonth" dateformat="%B %Y" language="$language"/>
+                    </span>
+                  </td>
+                </tr>
+              </cx:if>
+              <cx:if condition="project.estimatedDays=6">
+                <tr>
+                  <td colspan="6" class="border" style="font-size: 20px; color:black;">
+                    <span contenteditable="true">
+                      <cx:if condition="NL='1'">Half jaarfactuur</cx:if>
+                      <cx:if condition="NL='0'">Biannual invoice</cx:if>
+                       <cx:write value="$start" dateformat="%B %Y" language="$language"/> <cx:if condition="NL='1'">t/m</cx:if><cx:if condition="NL='0'">until</cx:if> <cx:write value="$start.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth" dateformat="%B %Y" language="$language"/>
+                     </span>
+                   </td>
+                 </tr>
+              </cx:if>
+              <cx:if condition="project.estimatedDays=12">
+                <tr>
+                  <td colspan="6" class="border" style="font-size: 20px; color:black;">
+                    <span contenteditable="true">
+                      <cx:if condition="NL='1'">Jaarfactuur</cx:if>
+                      <cx:if condition="NL='0'">Annual invoice</cx:if>
+                       <cx:write value="$start" dateformat="%B %Y" language="$language"/> <cx:if condition="NL='1'">t/m</cx:if><cx:if condition="NL='0'">until</cx:if> <cx:write value="$start.nextYear.previousMonth" dateformat="%B %Y" language="$language"/>
+                     </span>
+                   </td>
+                 </tr>
+              </cx:if>
+              <tr>
+                <td colspan="6" class="invoiceDescription">
+                  <span contenteditable="true">
+                    <cx:if condition="NL='1'">
+                      Conform overeenkomst <b><cx:write value="$project.vacancyNo"/></b> ten behoeve van
+                      <b><cx:write value="$project.jobTitle"/></b> brengen wij u thans het volgende in rekening:
+                    </cx:if>
+                    <cx:if condition="NL='0'">
+                      In accordance with agreement <b><cx:write value="$project.vacancyNo"/></b> on behalf of
+                      <b><cx:write value="$project.jobTitle"/></b>  we charge you with the following:
+                    </cx:if>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="6" class="border">
+                  <span contenteditable="true">
+                    <cx:if condition="project.estimatedDays=nil OR project.estimatedDays=1">
+                      <cx:if condition="NL='1'">maandelijkse kosten</cx:if>
+                      <cx:if condition="NL='0'">monthly costs</cx:if>
+                    </cx:if>
+                    <cx:if condition="project.estimatedDays=3">
+                      <cx:if condition="NL='1'">kosten per kwartaal</cx:if>
+                      <cx:if condition="NL='0'">costs per trimester</cx:if>
+                    </cx:if>
+                    <cx:if condition="project.estimatedDays=6">
+                      <cx:if condition="NL='1'">kosten per halfjaar</cx:if>
+                      <cx:if condition="NL='0'">biannual costs</cx:if>
+                    </cx:if>
+                    <cx:if condition="project.estimatedDays=12">
+                      <cx:if condition="NL='1'">jaarlijkse kosten</cx:if>
+                      <cx:if condition="NL='0'">annual costs</cx:if>
+                    </cx:if>
+                  </span>
+                </td>
+              </tr>
+
+              <!-- Add invoice row to invoice -->
+              <tr>
+                <td colspan="4">
+                  <span contenteditable="true">
+                    <!-- If the project is a hosting project, show this text -->
+                    <cx:if condition="project.groups.dataNodeID=4669">
+                      <cx:if condition="NL='1'">Registratie inclusief domein naam, email & website hosting voor <cx:write value="$project.jobTitle"/></cx:if>
+                      <cx:if condition="NL='0'">Registration including domain name, e-mail & website hosting for <cx:write value="$project.jobTitle"/></cx:if>
+                    </cx:if>
+                    <!-- Else we show the regular text -->
+                    <cx:else>
+                      <cx:write value="$project.jobTitle"/> (<cx:if condition="NL='1'">inclusief</cx:if><cx:if condition="NL='0'">including</cx:if> <cx:write value="$project.numberOfVacancies"/> users)
+                    </cx:else>
+                  </span>
+                </td>
+                <td class="LeftBorder rt" style="width:10px;">
+                  <span contenteditable="true">&euro;</span>
+                </td>
+                <td class="rt" style="width:50px;">
+                  <span contenteditable="true">
+                    <cx:write value="$project.estimatedAmount" numberformat="#,##0.00" language="$language"/>
+                  </span>
+                </td>
+              </tr>
+
+              <!-- Add discount row to invoice, if no discount is set then we add an empty row. This way the invoice 'heigth' stays equal -->
+              <cx:if condition="project.successRatePercentage > 0">
+                <tr>
+                  <td colspan="4">
+                    <span contenteditable="true">
+                      <cx:if condition="NL='1'">Korting</cx:if>
+                      <cx:if condition="NL='0'">Discount</cx:if>
+                      &nbsp;<cx:write value="$project.successRatePercentage"/> %
+                    </span>
+                  </td>
+                  <td class="LeftBorder rt">
+                    <span contenteditable="true">&euro;</span>
+                  </td>
+                  <td class="rt">
+                    <span contenteditable="true">
+                      <cx:let name="rest" value="$project.meanExpectedAmount" invoke="numberBySubtracting:" arg0="$project.meanExpectedAmount.intValue" numberFormat="#0.00">
+                        <cx:if condition="rest=0">
+                        - <cx:write value="$project.meanExpectedAmount" numberformat="#,##0.00" language="$language"/>
+                        </cx:if>
+                        <cx:if condition="rest>0">
+                        - <cx:write value="$project.meanExpectedAmount.intValue.succ" numberformat="#,##0.00" language="$language"/>
+                        </cx:if>
+                      </cx:let>
+                    </span>
+                  </td>
+                </tr>
+              </cx:if>
+              <cx:else>
+                <tr>
+                  <td colspan="4">
+                    <span contenteditable="true">&nbsp;</span>
+                  </td>
+                  <td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
+                  <td class="rt"><span contenteditable="true"></span></td>
+                </tr>
+              </cx:else>
+
+              <!-- Open 'spare' rows -->
+              <tr>
+                <td colspan="4">
+                  <span contenteditable="true">&nbsp;</span>
+                </td>
+                <td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
+                <td class="rt"><span contenteditable="true"></span></td>
+              </tr>
+              <tr>
+                <td colspan="4"><span contenteditable="true">&nbsp;</span></td>
+                <td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
+                <td class="rt"><span contenteditable="true"></span></td>
+              </tr>
+              <tr>
+                <td colspan="4"><span contenteditable="true">&nbsp;</span></td>
+                <td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
+                <td class="rt"><span contenteditable="true"></span></td>
+              </tr>
+              <tr>
+                <td colspan="4" class="invoiceSpacer">&nbsp;</td>
+                <td colspan="2" class="LeftBorder">&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="4" class="bank">
+                  <div contenteditable="true">&nbsp;
+                      <!-- Niet-EU landen krijgen andere betalingsgegevens te zien -->
+                      <cx:if condition="$BE='0' AND $NL='0'">
+                        <table class="bankdata">
+                          <tr>
+                            <td style="width:100px;">Bank:</td>
+                            <td>ABN AMRO</td>
+                          </tr>
+                          <tr>
+                            <td>Account number:</td>
+                            <td>50.82.29.871</td>
+                          </tr>
+                          <tr>
+                            <td>Account name:</td>
+                            <td>Carerix</td>
+                          </tr>
+                          <tr>
+                            <td>BIC/Swift:</td>
+                            <td>ABNANL2A</td>
+                          </tr>
+                          <tr>
+                            <td>IBAN:</td>
+                            <td>NL30ABNA0508229871</td>
+                          </tr>
+                          <tr>
+                            <td>VAT number:</td>
+                            <td>NL.8135.77.287.B.01</td>
+                          </tr>
+                        </table>
+                      </cx:if>
+                      <cx:else>
+                        <cx:if condition="BE='1'">
+                        <table class="bankdata">
+                          <tr>
+                              <td style="width:70px;">IBAN: </td>
+                              <td>BE54736001856097</td>
+                          </tr>
+                          <tr>
+                            <td>BIC: </td>
+                            <td>KREDBEBB</td>
+                          </tr>
+                          <tr>
+                            <td>VAT number: </td>
+                            <td>NL.8135.77.287.B.01</td>
+                          </tr>
+                        </table>
+                        </cx:if>
+                        <cx:if condition="NL='1'">
+                          <table class="bankdata">
+                            <tr>
+                                <td style="width:70px;">IBAN: </td>
+                                <td>NL30ABNA0508229871</td>
+                            </tr>
+                            <tr>
+                              <td>BIC: </td>
+                              <td>ABNANL2A</td>
+                            </tr>
+                            <tr>
+                              <td>BTW nummer: </td>
+                              <td>NL.8135.77.287.B.01</td>
+                            </tr>
+                          </table>
+                        </cx:if>
+                      </cx:else>
+                      &nbsp;
+                  </div>
+                </td>
+                <td colspan="2" class="LeftBorder">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td colspan="6" class="borderTop">&nbsp;</td>
+              </tr>
+
+              <cx:let name="rest" value="$project.meanExpectedAmount" invoke="numberBySubtracting:" arg0="$project.meanExpectedAmount.intValue" numberFormat="#0.00">
+                <cx:let name="discount" condition="rest=0" iftrue="$project.meanExpectedAmount" iffalse="$project.meanExpectedAmount.intValue.succ">
+                  <cx:let name="discount" condition="project.successRatePercentage > 0" ifTrue="$discount" ifFalse="0.0">
+                    <cx:let name="sub" value="$project.estimatedAmount" invoke="numberBySubtracting:" arg0="$discount">
+                      <cx:let name="vat" value="$sub" invoke="numberByMultiplyingBy:" arg0="0.21">
+                        <cx:let name="autoincasso" condition="$project.toCompany.toPaymentPeriodNode.value='Automatische Incasso'" iftrue="1" iffalse="0">
+                          <tr>
+                            <td colspan="3" rowspan="3" style="vertical-align: middle;width:250px;">
+                              <span contenteditable="true">
+                                <cx:if condition="NL='1'">
+                                  <cx:if condition="autoincasso='1'">
+                                    Het bedrag van deze factuur <b>niet overmaken</b>.
+                                    U heeft een automatische incasso opdracht verstrekt.
+                                    Het totaalbedrag van deze factuur wordt daarom automatisch van uw rekening afgeboekt.
+                                  </cx:if>
+                                  <cx:if condition="autoincasso='0'">
+                                    Het totaalbedrag van deze factuur dient uiterlijk
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value != '30 dg'
+                                    AND $project.toCompany.toPaymentPeriodNode.value != '45 dg'
+                                    AND $project.toCompany.toPaymentPeriodNode.value != '60 dg'
+                                    AND $project.toCompany.toPaymentPeriodNode.value != '90 dg'">
+                                        <b><cx:write value="$utilities.currentDate.nextMonth" dateformat="%e %B %Y" language="$language"/></b>
+                                    </cx:if>
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value = '30 dg'">
+                                        <cx:let name="datum" value="$utilities.currentDate" invoke="dateByAddingDays:" arg0="30">
+                                            <b><cx:write value="$datum" dateformat="%e %B %Y" language="$language"/></b>
+                                        </cx:let>
+                                    </cx:if>
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value = '45 dg'">
+                                        <cx:let name="datum" value="$utilities.currentDate" invoke="dateByAddingDays:" arg0="45">
+                                            <b><cx:write value="$datum" dateformat="%e %B %Y" language="$language"/></b>
+                                        </cx:let>
+                                    </cx:if>
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value = '60 dg'">
+                                        <cx:let name="datum" value="$utilities.currentDate" invoke="dateByAddingDays:" arg0="60">
+                                            <b><cx:write value="$datum" dateformat="%e %B %Y" language="$language"/></b>
+                                        </cx:let>
+                                    </cx:if>
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value = '90 dg'">
+                                        <cx:let name="datum" value="$utilities.currentDate" invoke="dateByAddingDays:" arg0="90">
+                                            <b><cx:write value="$datum" dateformat="%e %B %Y" language="$language"/></b>
+                                        </cx:let>
+                                    </cx:if>
+                                    te zijn bijgeschreven op bankrekeningnummer <B>50.82.29.871</b> ten name van <B>Carerix</b> te <b>Delft</b>.
+                                  </cx:if>
+                                </cx:if>
+                                <cx:if condition="NL='0'">
+                                  <cx:if condition="autoincasso='1'">
+                                    You don't have to transfer the sum of this invoice. The total sum of this invoice will be transferred from your bank account automatically.
+                                  </cx:if>
+                                  <cx:if condition="autoincasso='0'">
+                                    The sum of this invoice is to be transferred
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value != '30 dg'
+                                    AND $project.toCompany.toPaymentPeriodNode.value != '45 dg'
+                                    AND $project.toCompany.toPaymentPeriodNode.value != '60 dg'
+                                    AND $project.toCompany.toPaymentPeriodNode.value != '90 dg'">
+                                        <b><cx:write value="$utilities.currentDate.nextMonth" dateformat="%e %B %Y" language="English"/></b>
+                                    </cx:if>
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value = '30 dg'">
+                                        <cx:let name="datum" value="$utilities.currentDate" invoke="dateByAddingDays:" arg0="30">
+                                            <b><cx:write value="$datum" dateformat="%e %B %Y" language="English"/></b>
+                                        </cx:let>
+                                    </cx:if>
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value = '45 dg'">
+                                        <cx:let name="datum" value="$utilities.currentDate" invoke="dateByAddingDays:" arg0="45">
+                                            <b><cx:write value="$datum" dateformat="%e %B %Y" language="English"/></b>
+                                        </cx:let>
+                                    </cx:if>
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value = '60 dg'">
+                                        <cx:let name="datum" value="$utilities.currentDate" invoke="dateByAddingDays:" arg0="60">
+                                            <b><cx:write value="$datum" dateformat="%e %B %Y" language="English"/></b>
+                                        </cx:let>
+                                    </cx:if>
+                                    <cx:if condition="$project.toCompany.toPaymentPeriodNode.value = '90 dg'">
+                                        <cx:let name="datum" value="$utilities.currentDate" invoke="dateByAddingDays:" arg0="90">
+                                            <b><cx:write value="$datum" dateformat="%e %B %Y" language="English"/></b>
+                                        </cx:let>
+                                    </cx:if>
+                                    at the latest <cx:if condition="BE='0'">on bank account number <B>50.82.29.871</b></cx:if><cx:if condition="BE='1'">on KBC Bank Antwerp account <B>736-0018560-97</b></cx:if> on behalf of <B>Carerix</b><cx:if condition="BE='0'"> at <b>Delft</b></cx:if>.
+                                  </cx:if>
+                                </cx:if>
+                              </span>
+                            </td>
+                            <td class="rt">
+                              <span contenteditable="true">
+                                <cx:if condition="NL='1'">subtotaal</cx:if>
+                                <cx:if condition="NL='0'">sub-total</cx:if>
+                              </span>
+                            </td>
+                            <td class="rt">
+                              <span contenteditable="true">&euro;</span>
+                            </td>
+                            <td class="rt">
+                              <span contenteditable="true">
+                                <cx:write value="$sub" numberformat="#,##0.00" language="$language"/>
+                              </span>
+                            </td>
+                          </tr>
+
+                          <cx:if condition="project.toInvoiceCountryNode.notes='EU'">
+                            <cx:if condition="NL='1'">
+                              <tr>
+                                <td class="rt"><span contenteditable="true">BTW 21%</span></td>
+                                <td class="rt"><span contenteditable="true">&euro;</span></td>
+                                <td class="rt"><span contenteditable="true"><cx:write value="$vat" numberformat="#,##0.00" language="$language"/></span></td>
+                              </tr>
+                            </cx:if>
+                            <cx:if condition="NL='0'">
+                              <tr>
+                                <td class="rt" colspan="3">
+                                  <span contenteditable="true"><i>The VAT is reversed according to article 196 of the 6th EU Directive.</i></span>
+                                </td>
+                              </tr>
+                            </cx:if>
+                          </cx:if>
+                          <cx:if condition="project.toInvoiceCountryNode.notes!='EU'">
+                            <tr>
+                              <td class="rt">
+                                <span contenteditable="true">
+                                  <cx:if condition="NL='1'">BTW 21%</cx:if>
+                                  <cx:if condition="NL='0'">VAT 0%</cx:if>
+                                </span>
+                              </td>
+                              <td class="rt"><span contenteditable="true">&euro;</span></td>
+                              <td class="rt">
+                                <span contenteditable="true">
+                                  <cx:if condition="NL='1'">
+                                    <cx:write value="$vat" numberformat="#,##0.00" language="$language"/>
+                                  </cx:if>
+                                  <cx:if condition="NL='0'">0.00</cx:if>
+                                </span>
+                              </td>
+                            </tr>
+                          </cx:if>
+
+                          <tr>
+                            <td class="rt">
+                              <span contenteditable="true">
+                                <b><cx:if condition="NL='1'">TOTAAL TE VOLDOEN</cx:if>
+                                <cx:if condition="NL='0'">TOTAL AMOUNT</cx:if></b>
+                              </span>
+                            </td>
+                            <td class="rt">
+                              <span contenteditable="true">
+                                <b>&euro;</b>
+                              </span>
+                            </td>
+                            <td class="rt" style="border-top:2px solid black;">
+                              <span contenteditable="true">
+                                <b>
+                                  <cx:if condition="NL='1'">
+                                    <cx:write value="$sub" numberformat="#,##0.00" language="$language" invoke="numberByAdding:" arg0="$vat"/>
+                                  </cx:if>
+                                  <cx:if condition="NL='0'">
+                                    <cx:write value="$sub" numberformat="#,##0.00" language="$language"/>
+                                  </cx:if>
+                                </b>
+                              </span>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="6" class="borderBottom">&nbsp;</td>
+                          </tr>
+                        </cx:let>
+                      </cx:let>
+                    </cx:let>
+                  </cx:let>
+                </cx:let>
+              </cx:let>
+              <tr>
+                <td colspan="6" class="footer">
+                  <span style="font-size:7pt" contenteditable="true">
+                    Rotterdamseweg 183 C - 2629HD &nbsp;Delft - T: 015 - 268 25 60 - F: 015 - 268 25 30 finance@carerix.com - www.carerix.com - KvK Delft 27270911
+                  </span>
+                  <cx:if condition="i.succ < $actieveProjecten.count">
+                    <span style="display:block; page-break-after:always"></span>
+                  </cx:if>
+                </td>
+              </tr>
+            </table>
+            <script type="text/javascript">max++;</script>
+          </cx:let>
+         </cx:let>
+        </cx:let>
+      </cx:foreach>
+      </cx:let>
+    </cx:define>
+
+
+    <!-- START OF TEMPLATE -->
+
+    <!-- Get the invoices from a include file.  -->
+    <cx:let name="facturenFilter" value="http://sales.carerix.com/templates/cxfacturenFilter.html" invoke="urlContents"><cx:include template="$facturenFilter"/>
+      <!-- The warning invoices can also be invoiced, thus we add them to the correct ones -->
+      <cx:let name="allCorrectInvoices" value="$correctInvoices" invoke="arrayByAddingObjectsFromArray:" arg0="$warningInvoices">
+
+        <!-- START OF MENU -->
+        <!-- Overzichtsmenu, invulmenu -->
+        <div class="noprint" style="color: white; position: absolute; right: 0px; top: 5px; width: 500px; height: 300px; padding: 5px;">
+          <table class="border noprint" style="width:500px;">
+            <tr>
+              <th class=detailborder style="text-align:center;" colspan="2">
+                <b>Overzicht</b>
+              </th>
+            </tr>
+            <tr>
+              <td><b>Peildatum tekst afdrukken</b></td>
+              <td><input type="checkbox" onclick="hideMe('peildatum', this);" style="margin:0px;"></td>
+            </tr>
+            <tr>
+              <td><b>Cre&euml;er factuur vanaf nr:</b></td>
+              <td><input name="counter" id="ctr" type="text" size="10" onChange='setCounter(this.value);createExport(this.value);'><br><br></td>
+            </tr>
+            <tr>
+              <td><b><a class="noprint" style="cursor:pointer;" onclick="switchMenu('maandOverzicht');" title="Show/hide alle maandfacturen">Maandfacturen:</a></b></td>
+              <td><b><cx:write value="$actueleProjectenPerMaand.count"/></b></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div id="maandOverzicht" style="display:none;">
+                  <cx:foreach item="project" list="$actueleProjectenPerMaand.@sortAscending.toCompany.name">
+                    <cx:write value="$project.toCompany.name"/>
+                    <cx:if condition="project.notes.line1!=project.toCompany.name">
+                      - <i><cx:write value="$project.notes.line1"/></i>
+                    </cx:if>
+                    <br>
+                  </cx:foreach>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><b><a class="noprint" style="cursor:pointer;" onclick="switchMenu('kwartaalOverzicht');" title="Show/hide alle kwartaalfacturen">Kwartaalfacturen:</a></b></td>
+              <td><b><cx:write value="$actueleActieveProjectenPerKwartaal.count"/></b></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div id=kwartaalOverzicht style="display:none;">
+                  <cx:foreach item="project" list="$actueleActieveProjectenPerKwartaal.@sortAscending.toCompany.name">
+                  <cx:write value="$project.toCompany.name"/>
+                  <cx:if condition="project.notes.line1!=project.toCompany.name">
+                    - <i><cx:write value="$project.notes.line1"/></i>
+                  </cx:if>
+                  <br>
+                  </cx:foreach>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><b><a class="noprint" style="cursor:pointer;" onclick="switchMenu('halfJaarOverzicht');" title="Show/hide alle half jaarfacturen">Half jaarfacturen:</a></b></td>
+              <td><b><cx:write value="$actueleActieveProjectenPerHalfJaar.count"/></b></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div id=halfJaarOverzicht style="display:none;">
+                  <cx:foreach item="project" list="$actueleActieveProjectenPerHalfJaar.@sortAscending.toCompany.name">
+                    <cx:write value="$project.toCompany.name"/>
+                    <cx:if condition="project.notes.line1!=project.toCompany.name">
+                      - <i><cx:write value="$project.notes.line1"/></i>
+                    </cx:if>
+                    <br>
+                  </cx:foreach>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><b><a class="noprint" style="cursor:pointer;" onclick="switchMenu('jaarOverzicht');" title="Show/hide alle jaarfacturen">Jaarfacturen:</a></b></td>
+              <td><b><cx:write value="$actueleActieveProjectenPerJaar.count"/></b></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div id="jaarOverzicht" style="display:none;">
+                  <cx:foreach item="project" list="$actueleActieveProjectenPerJaar.@sortAscending.toCompany.name">
+                    <cx:write value="$project.toCompany.name"/>
+                    <cx:if condition="project.notes.line1!=project.toCompany.name">
+                      - <i><cx:write value="$project.notes.line1"/></i>
+                    </cx:if>
+                    <br>
+                  </cx:foreach>
+                </div>
+              </td>
+            </tr>
+            <cx:if condition="$errorInvoices.count > 0">
+              <tr>
+                  <th class="detailborder-tb" colspan="2" style="color:red;"><b>Let op! De volgende projecten bevatten fouten, en worden NIET gefactureerd:</b></th>
+              </tr>
+              <tr>
+                <th class="detailborder-tb">ProjectID</th>
+                <th class="detailborder-tb">Relatie</th>
+              </tr>
+              <cx:foreach item="invoice" list="$errorInvoices">
+                <tr>
+                  <td><cx:write value="$invoice.vacancyID"/></td>
+                  <td><cx:write value="$invoice.toCompany.name"/></td>
+                </tr>
+              </cx:foreach>
+            </cx:if>
+          </table>
+        </div>
+
+        <!-- START OF INVOICES -->
+        <!-- If there are nog incorrect invoices present, then show the invoices. If not, we show a message invoking the user to take action to repair the errors -->
+        <cx:if condition="$errorInvoices.count = 0">
+          <!-- Create the invoices by calling our define, declared earlier in the document -->
+          <div id="invoices">
+              <cx:facturen projecten="$allCorrectInvoices"/>
+          </div>
+
+          <!-- Create a field with export data. This fields holds the invoices export -->
+          <span style="display:block; page-break-after:always"></span>
+          <h2 class="noprint">Export:</h2>
+          <textarea class="noprint" rows="30" cols="100" id="export"></textarea>
+
+          <!-- This script creates the export -->
+          <script type="text/javascript">
+            function createInvoiceLines(){
+              var typeFactuur = new Array();
+              typeFactuur[0] = "Maand";
+              typeFactuur[1] = "Maand";
+              typeFactuur[3] = "Kwartaal";
+              typeFactuur[6] = "Half jaar";
+              typeFactuur[12] = "Jaar";
+
+              <cx:define tag="exportfacturen">
+                header.push('"<cx:write value="Bladzijdenr."/>"\t');
+                header.push('"<cx:write value="Dagboek"/>"\t');
+                header.push('"<cx:write value="Omschrijving"/>"\t');
+                header.push('"<cx:write value="Factuurdatum"/>"\t');
+                header.push('"<cx:write value="Grootboeknummer"/>"\t');
+                header.push('"<cx:write value="Debiteurennummer"/>"\t');
+                header.push('"<cx:write value="Naam debiteur"/>"\t');
+                header.push('"<cx:write value="Periode"/>"\t');
+                header.push('"<cx:write value="BTW-code"/>"\t');
+                header.push('"<cx:write value="Factuurbedrag incl."/>"\t');
+                header.push('"<cx:write value="BTW bedrag"/>"\t');
+                header.push('"<cx:write value="Factuurnummer"/>"\t');
+                header.push('\n');
+                header.push('\n');
+
+                <cx:foreach item="project" list="$_projecten.@sortAscending.toCompany.name" index="i">
+                  <cx:let name="binnenland" condition="$project.toInvoiceCountryNode.dataNodeID = 49" iftrue="1" iffalse="0">
+                    <cx:let name="EU" condition="$project.toInvoiceCountryNode.notes.terms='EU'" iftrue="1" iffalse="0">
+                      var line = new Array();
+                      <cx:bare-string-format>
+
+                          line.push('"<cx:write value="$i"/>"\t');
+
+                          line.push('"<cx:write value="VRK"/>"\t');
+
+                          line.push('"<cx:write value="$project.toCompany.name.jsEscapedString"/>, ' + typeFactuur[<cx:let name="typeFactuur" condition="project.estimatedDays!=nil" iftrue="$project.estimatedDays" iffalse="0"><cx:write value="$typeFactuur"/></cx:let>] + '"\t');
+
+                          line.push('"<cx:write value="$utilities.currentDate" dateformat="%d-%m-%Y"/>"\t');
+
+                          line.push('"
+                            <cx:let name="grootBoekSuffix" condition="$binnenland='0'" iftrue="83" iffalse="82">
+                                <cx:let name="g" value="$project.groups.dataNodeID">
+                                  <cx:if condition="$g=4630"><cx:write value="$grootBoekSuffix"/>01</cx:if>
+                                  <cx:if condition="$g=4628"><cx:write value="$grootBoekSuffix"/>02</cx:if>
+                                  <cx:if condition="$g=4631"><cx:write value="$grootBoekSuffix"/>03</cx:if>
+                                  <cx:if condition="$g=4629"><cx:write value="$grootBoekSuffix"/>04</cx:if>
+                                  <cx:if condition="$g=4730"><cx:write value="$grootBoekSuffix"/>05</cx:if>
+                                  <cx:if condition="$g=4731"><cx:write value="$grootBoekSuffix"/>06</cx:if>
+                                  <cx:if condition="$g=4732"><cx:write value="$grootBoekSuffix"/>07</cx:if>
+                                  <cx:if condition="$g=4669"><cx:write value="$grootBoekSuffix"/>08</cx:if>
+                                  <cx:if condition="$g=4733"><cx:write value="$grootBoekSuffix"/>09</cx:if>
+                                  <cx:if condition="$g=4734"><cx:write value="$grootBoekSuffix"/>10</cx:if>
+                                </cx:let>
+                            </cx:let>
+                          "\t');
+
+                          line.push('"<cx:write value="$project.toCompany.debtorNumber"/>"\t');
+
+                          line.push('"<cx:write value="$project.toCompany.name.jsEscapedString"/>"\t');
+
+                          <cx:if condition="$project.estimatedDays=1 OR $project.estimatedDays=0 OR $project.estimatedDays=nil">
+                            line.push('"<cx:write value="$utilities.currentDate.nextMonth.firstDayOfMonth.midnight" dateformat="%m"/>"\t');
+                          </cx:if>
+                          <cx:else>
+                            line.push('"<cx:write value="$utilities.currentDate.nextMonth.firstDayOfMonth.previousMonth.midnight" dateformat="%m"/>"\t');
+                          </cx:else>
+
+                          <cx:if condition="binnenland='1'">
+                            line.push('"<cx:write value="1"/>"\t');
+                          </cx:if>
+                          <cx:else>
+                            <cx:if condition="EU='1'">
+                              line.push('"<cx:write value="E"/>"\t');
+                            </cx:if>
+                            <cx:else>
+                              line.push('"<cx:write value=" "/>"\t');
+                            </cx:else>
+                          </cx:else>
+
+                          <cx:let name="rest" value="$project.meanExpectedAmount" invoke="numberBySubtracting:" arg0="$project.meanExpectedAmount.intValue" numberFormat="#0.00">
+                            <cx:let name="discount" condition="rest=0" iftrue="$project.meanExpectedAmount" iffalse="$project.meanExpectedAmount.intValue.succ">
+                              <cx:let name="discount" condition="project.successRatePercentage > 0" ifTrue="$discount" ifFalse="0">
+                                <cx:let name="sub" value="$project.estimatedAmount" invoke="numberBySubtracting:" arg0="$discount">
+                                  <cx:let name="vat" value="$sub" invoke="numberByMultiplyingBy:" arg0="0.21">
+
+                                    <cx:if condition="$binnenland='1'">
+                                      line.push('"<cx:write value="$sub" numberformat="#,##0.00" language="$language" invoke="numberByAdding:" arg0="$vat"/>"\t');
+                                      line.push('"<cx:write value="$vat" numberformat="#,##0.00" language="$language"/>"\t');
+                                    </cx:if>
+                                    <cx:else>
+                                      line.push('"<cx:write value="$sub" numberformat="#,##0.00" language="$language"/>"\t');
+                                      line.push('"<cx:write value="0" numberformat="#,##0.00" language="$language"/>"\t');
+                                    </cx:else>
+
+                                  </cx:let>
+                                </cx:let>
+                              </cx:let>
+                            </cx:let>
+                          </cx:let>
+
+                        </cx:bare-string-format>
+
+                        invoiceLines.push(line);
+
+                    </cx:let>
+                  </cx:let>
+                </cx:foreach>
+
+
+              </cx:define>
+
+              <cx:exportfacturen projecten="$allCorrectInvoices"/>
+
+              }
+
+              /**
+              * Create the export of Invoice Data
+              */
+              function createExport(invoiceStartNumber){
+
+                // Clear the arrays
+                invoiceLines = new Array();
+                header = new Array();
+
+                // Create the invoice lines. (fill our arrays)
+                createInvoiceLines();
+
+                // Add the invoicenumers, given the start number from user
+                for (var i = 0; i < invoiceLines.length; i++){
+                  invoiceLines[i].push('"' + invoiceStartNumber + '"\t');
+                  invoiceStartNumber++;
+                }
+
+                // Declare a new string
+                var str = "";
+
+                // Find the textarea that is going to contain our export data
+                var el = document.getElementById("export");
+
+                // Form the header
+                for(var i=0; i<header.length; i++){
+                  str += header[i];
+                }
+
+                // Loop through our array with invoicelines
+                for(var i=0; i<invoiceLines.length; i++){
+                  var invoiceLine = invoiceLines[i];
+
+                  // Loop through all columns of our invoice line
+                  for(var j=0; j<invoiceLine.length; j++){
+                    str += invoiceLine[j];
+                  }
+
+                  // Add a newline after each invoiceline
+                  str += '\n';
+
+                }
+
+                // Set the textarea to contain our String
+                el.value = str;
+              }
+          </script>
+
+        </cx:if>
+        <cx:else>
+            <em style="top: 300px; left: 250px;position:absolute; border: 5px solid red; padding: 25px;">
+              Er zijn facturen gevonden met fouten! Verbeter deze fouten eerst, voordat u facturen draait. <br>
+              Raadpleeg het sjabloon 'Facturen controle' voor meer informatie. (Sales >> Projecten >> Alle Projecten >> Kies rapport... "Facturen controle")
+            </em>
+        </cx:else>
+
+       </cx:let>
+     </cx:let>
+   </cx:let>
+
+  </body>
+</html>
