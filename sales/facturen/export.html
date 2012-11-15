@@ -1,0 +1,62 @@
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	var $textarea=$('#export'),
+			columns = [
+					{header: 'Bladzijdenr.',				field: function(project, it)	{ return it; }}
+				, {header: 'Dagboek',							field: function()							{ return 'VRK'; }}
+				, {header: 'Omschrijving',				field: function(project)			{ return project.company.name + ',' + project.getInvoiceType(); } } 
+				, {header: 'Factuurdatum',				field: function() 						{ return (new Date()).get_dmY();} } 
+				, {header: 'Grootboeknummer',			field: function(project)			{ return project.grootboek.code; } } 
+				, {header: 'Debiteurennummer',		field: function(project)			{ return project.company.debtorNumber; } } 
+				, {header: 'Naam debiteur',				field: function(project)			{ return project.company.name; } }
+				, {header: 'Periode',							field: function(project)			{ return project.getPeriod(); } }
+				, {header: 'BTW-code',						field: function(project)			{ return project.i18n.isDutch ? 1 : (project.i18n.isEU ? 'E' : ' '); } }
+				, {header: 'Factuurbedrag incl.',	field: function(project)			{ return project.getParsedTotal(); } } 
+				, {header: 'BTW bedrag',					field: function(project)			{ return project.getParsedVAT(); } }
+				, {header: 'Factuurnummer',				field: function(project, it)	{ return initialInvoiceNumber + it; } }
+				, {header: 'Kostenplaats',				field: function(project)			{ return project.grootboek.costlocation; } }
+				, {header: 'Kostensoort',					field: function(project)			{ return project.grootboek.costtype; } }
+			];
+			
+	/**
+	 * Generate the export
+	 */
+	function generateExport() {
+		var header = [],
+				column = [];
+		
+		$.each(columns, function() { header.push('"' + this.header + '"'); });
+		$textarea.val(header.join('\t') + '\r\n\r\n');
+		
+		$.each(getProjects(), function(it, project) {
+			var row = [];
+			$.each(columns, function() { row.push('"' + this.field(project, it) + '"'); });
+			$textarea.val($textarea.val() + row.join('\t') + '\r\n');
+		});
+	} // generateExport();
+	
+	// When user focusses the textarea: select all text in it.
+	$textarea.on('focus', function() { this.focus(); this.select(); });
+	
+	// TODO: implement file api instead of export.
+	// Not done yet due to lack of support for IE9- (which is the browser of choice)
+	
+	// When the invoicenumber changes: (re)generate the export
+	$(document).on('invoicenumber_update', generateExport);
+	
+	// Do the actual generation of the export
+	generateExport();
+});
+--></script>
+<style>
+textarea#export { 	
+	overflow: auto;	
+	padding: 1px; 
+	background: #fff; 
+	min-width: 50%;
+	min-height: 30em; 
+	color: #555; 
+	border: 1px #ddd solid;
+}
+</style>
+<textarea id="export" data-role="export" wrap="off">Export genereren mislukt</textarea>

@@ -1,0 +1,460 @@
+<div data-role="invoice" data-invoice-id="<%=id%>" style="page-break-after:always">
+	<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
+	<link rel="stylesheet" type="text/css" href="http://sales.carerix.com/templates/facturen/invoice.css" />
+<!-- Set the header 
+			This header is currently comprised of only the logo
+-->
+	<div class="cxLogo">
+		<img src="http://sales.carerix.com/images/cxLogo.png" alt="cxLogo" style="width: 5cm;">
+	</div>
+
+<!-- Invoice address 
+			Where should the invoice be sent?
+-->
+	<div class="address">
+		<span contentEditable="true">
+			<b><%=company.name%></b><br/>
+			<i><%=(i18n.isDutch?'T.a.v.':'Attn.')%> <%=addressee%></i><br/>
+			<%=company.invoiceStreet%> <%=company.invoiceHousenumber%><br/>
+			<%=company.invoicePostalCode%> <%=company.invoiceCity.toUpperCase()%>
+		</span><br/>
+		<br/>
+		<!-- Toon 'peildatum' als het project-relatie een groep heeft 'facturatie op basis van peildatum' -->
+		<% if ( company.hasReferenceDate ) { %>
+		<div data-role="peildatum" style="display: none;">
+			<span style="color:red; font-size:30pt;">PEILDATUM</span>
+		</div>
+		<% } %>
+	</div>
+
+	<div class="invoiceDetails">		
+				 	
+<!-- Invoice details tabel 
+			Details for this particular invoice
+-->
+		<table class="noborder">
+			<tr>
+				<td class="label">
+					<span contentEditable="true"><%=(i18n.isDutch?'Orderdatum':'Order date')%></span>
+				</td>
+				<td class="value">
+					<span contentEditable="true"><%=(startDate.get_eBY(i18n.isDutch)||warn('startdatum invullen bij project ' + id))%></span>
+				</td>
+				<td>&nbsp;</td>
+				<td>
+					<span contentEditable="true"><%=(i18n.isDutch?'Uw BTW-nummer':'Your VAT number')%></span>
+				</td>
+				<td>
+					<span contentEditable="true"><%=company.taxNumber%></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">
+					<span contentEditable="true"><%=(i18n.isDutch?'Factuurdatum':'Invoice date')%></span>
+				</td>
+				<td class="value">
+					<span contentEditable="true"><%=getToday().get_eBY(i18n.isDutch)%></span>
+				</td>
+				<td>&nbsp;</td>
+				<td>
+					<span contentEditable="true"><%=(i18n.isDutch?'Uw referentie':'Your reference')%></span>
+				 </td>
+				 <td>
+					 <span contentEditable="true"><%=(company.paymentCode||"-")%></span>
+				 </td>
+			</tr>
+			<tr>
+				<td>
+					<span contentEditable="true"><%=(i18n.isDutch?'Factuurnummer':'Invoice number')%></span>
+				</td>
+				<td><span contentEditable="true" data-role="invoicenumber"><%=it+initialInvoiceNumber%></span></td>
+				<td>&nbsp;</td>
+				<td>
+					<span contentEditable="true"><%=(i18n.isDutch?'Onze referentie':'Our reference')%></span>
+				</td>
+				<td>
+					<span contentEditable="true"><%=company.debtorNumber%>&nbsp;&nbsp;(<%=grootboek.code%>)</span>
+				</td>
+			</tr>
+		</table>
+	
+					 	
+<!-- Invoice content: preface 
+			Title and introduction text of the invoice, including textual frequency
+-->
+		<table class="noborder">
+			<tr>
+				<td colspan="6">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="6" class="border" style="font-size: 20px;color:black;">
+					<span contentEditable="true">
+						<%
+							(function() { 
+								var start = getToday().nextMonth(),
+										start_BY = start.get_BY(i18n.isDutch),
+										tm = i18n.isDutch ? ' t/m ' : ' until ';
+										 
+								switch ( frequency ) {
+									case 0:
+									case 1:
+										print((i18n.isDutch ? 'Factuur ' : 'Invoice ') + start_BY);
+										break;
+									case 3:
+										print(i18n.isDutch ? 'Kwartaalfactuur ' : 'Trimester invoice ');
+										print(start_BY + tm + start.nextMonth().nextMonth().get_BY(i18n.isDutch));
+										break;
+									case 6:
+										print(i18n.isDutch ? 'Half jaarfactuur ' : 'Biannual invoice ');
+										print(start_BY + tm + start.nextMonth().nextMonth().nextMonth().nextMonth().nextMonth().get_BY(i18n.isDutch));
+										break;
+									case 12:
+										print(i18n.isDutch ? 'Jaarfactuur ' : 'Annual invoice ');
+										var end = start.prevMonth();
+										end.setFullYear(start.getFullYear()+1);
+										print(start_BY + tm + end.get_BY(i18n.isDutch));
+										break;
+									default:
+										warn('Periode ' + frequency + ' is niet gedefinieerd');
+										break;
+								}
+							})();
+						%>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6" class="invoiceDescription">
+					<%
+						/**
+						 * If required: print the indexation text
+						 */
+						(function() {
+							var indexDate = i18n.isDutch ? '1 januari 2013' : 'January 1st 2013',
+									indexYear = 2012,
+									indexPercentage = '2',
+									checkDate = new Date(2012, 7-1, 1),
+									month = (new Date()).nextMonth().nextMonth().getMonth() + 1,
+									test = false,
+									span = '<span contenteditable="true" style="font-size: 8px;">',
+									spanEnd = '</span><br/><br/>';
+						
+							if ( startDate < checkDate && month <= frequency ) {
+								if ( i18n.isDutch ) {
+									print(span + 'Op de tarieven is per ' 
+										+ indexDate + ' een verhoging toegepast van ' 
+										+ indexPercentage + '% (conform de consumentenprijsindex ' 
+										+ indexYear + ' vastgesteld door het CBS). Dit is in 
+										overeenstemming met artikel 11.3 van de algemene 
+										leveringsvoorwaarden van Carerix.' + spanEnd
+									);
+								} else {
+									print(span + 'Effective per '
+										+ indexDate + ' the fees will be indexed with ' 
+										+ indexPercentage + '% (based on the consumer index of the 
+										CBS). For more information see article 11.3 of the terms and
+										conditions of Carerix.' + spanEnd
+									);
+								}
+							}
+						})();
+					%>
+				
+					<span contenteditable="true">
+						<% if ( i18n.isDutch ) { %>
+							Conform overeenkomst <b><%=agreement.id%></b> ten behoeve van <b><%=agreement.name%></b> brengen wij u thans het volgende in rekening:
+						<% } else { %>
+							In accordance with agreement <b><%=agreement.id%></b>	on behalf of <b><%=agreement.name%></b> we charge you with the following:
+						<% } %>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6" class="border">
+					<span contenteditable="true">
+						<%
+							switch ( frequency ) {
+								case 1:
+									print(i18n.isDutch ? 'maandelijkse kosten' : 'monthly costs');
+									break;
+								case 3:
+									print(i18n.isDutch ? 'kosten per kwartaal' : 'costs per trimester');
+									break;
+								case 6:
+									print(i18n.isDutch ? 'kosten per halfjaar' : 'biannual costs');
+									break;
+								case 12:
+									print(i18n.isDutch ? 'jaarlijkse kosten' : 'annual costs');
+									break;
+								default:
+									warn('Periode ' + frequency + ' is niet gedefinieerd');
+									break;
+							}
+						%>
+					</span>
+				</td>
+			</tr>
+		
+<!-- Invoice line
+			The (single) project based invoice line, detailing the price for the project
+-->
+			<tr>
+				<td colspan="4">
+					<span contenteditable="true">
+						<%
+							if ( includingDomain ) {
+								print((i18n.isDutch ?
+									'Registratie inclusief domein naam, email & website hosting voor '
+									: 'Registration including domain name, e-mail & website hosting for '
+								)	+ agreement.name);
+							} else { %>
+							<%=agreement.name%> (<%=(i18n.isDutch?'inclusief':'including')%> <%=agreement.numberOfUsers%> users)
+						<% } %> 
+					</span>
+				</td>
+				<td class="LeftBorder rt" style="width:10px;">
+					<span contenteditable="true">&euro;</span>
+				</td>
+				<td class="rt" style="width:50px;">
+					<span contenteditable="true"><%=obj.parseAmount(amount)%></span>
+				</td>
+			</tr>
+		
+<!-- Discount line
+			If any, show the discount as a negative integer (ceiled). 
+			If no discount, show an empty row.
+-->
+			<% if ( discount > 0 ) { %>
+				<tr>
+					<td colspan="4">
+						<span contenteditable="true"><%=((i18n.isDutch?'Korting&nbsp;&nbsp;':'Discount&nbsp;&nbsp;')+discount + ' %')%></span>
+					</td>
+					<td class="LeftBorder rt">
+						<span contenteditable="true">&euro;</span>
+					</td>
+					<td class="rt">
+						<span contenteditable="true">- <%=obj.parseAmount(Math.ceil(discountAmount))%></span>
+					</td>
+				</tr>
+			<% } else { %>
+				<tr>
+					<td colspan="4">
+						<span contenteditable="true">&nbsp;</span>
+					</td>
+					<td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
+					<td class="rt"><span contenteditable="true"></span></td>
+				</tr>
+			<% } %>
+		
+<!-- Spare rows
+			Some 'spare' rows, which can be edited at will
+-->
+			<tr>
+				<td colspan="4"><span contenteditable="true">&nbsp;</span></td>
+				<td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
+				<td class="rt"><span contenteditable="true"></span></td>
+			</tr>
+			<tr>
+				<td colspan="4"><span contenteditable="true">&nbsp;</span></td>
+				<td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
+				<td class="rt"><span contenteditable="true"></span></td>
+			</tr>
+			<tr>
+				<td colspan="4"><span contenteditable="true">&nbsp;</span></td>
+				<td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
+				<td class="rt"><span contenteditable="true"></span></td>
+			</tr>
+			<tr>
+				<td colspan="4" class="invoiceSpacer">&nbsp;</td>
+				<td colspan="2" class="LeftBorder">&nbsp;</td>
+			</tr>
+
+<!-- Bank data
+			Depending on i18n, show the correct banking data
+-->		
+			<tr>
+				<td colspan="4" class="bank">
+					<div contenteditable="true">&nbsp;
+						<table class="bankdata">
+							<% if ( i18n.isBE ) { %>	
+								<tr>
+									<td style="width:70px;">IBAN: </td>
+									<td>BE54736001856097</td>
+								</tr>
+								<tr>
+									<td>BIC: </td>
+									<td>KREDBEBB</td>
+								</tr>
+								<tr>
+									<td>VAT number: </td>
+									<td>NL.8135.77.287.B.01</td>
+								</tr>
+							<% } else if ( i18n.isDutch ) { %>
+								<tr>
+									<td style="width:70px;">IBAN: </td>
+									<td>NL30ABNA0508229871</td>
+								</tr>
+								<tr>
+									<td>BIC: </td>
+									<td>ABNANL2A</td>
+								</tr>
+								<tr>
+									<td>BTW nummer: </td>
+									<td>NL.8135.77.287.B.01</td>
+								</tr>
+							<% } else { %>
+								<tr>
+									<td style="width:100px;">Bank:</td>
+									<td>ABN AMRO</td>
+								</tr>
+								<tr>
+									<td>Account number:</td>
+									<td>50.82.29.871</td>
+								</tr>
+								<tr>
+									<td>Account name:</td>
+									<td>Carerix</td>
+								</tr>
+								<tr>
+									<td>BIC/Swift:</td>
+									<td>ABNANL2A</td>
+								</tr>
+								<tr>
+									<td>IBAN:</td>
+									<td>NL30ABNA0508229871</td>
+								</tr>
+								<tr>
+									<td>VAT number:</td>
+									<td>NL.8135.77.287.B.01</td>
+								</tr>
+							<% } %>
+						</table>	
+						&nbsp;
+					</div>
+				</td>
+				<td colspan="2" class="LeftBorder">&nbsp;</td>
+			</tr>
+		
+			<tr>
+				<td colspan="6" class="borderTop">&nbsp;</td>
+			</tr>
+		
+<!-- Payment period 
+			Calculate and show the final payment date as per the payment period
+ -->		
+			<tr>
+				<td colspan="3" rowspan="3" style="vertical-align: middle;width:250px;">
+					<span contenteditable="true">
+						<%
+							(function() {
+								var date = getToday();
+								/* NO MORE PAYMENTPERIOD! It is fixed at "next month" */
+								if ( false && parseInt(paymentPeriod) > 0 ) {
+									date.setDate(date.getDate()+paymentPeriod);
+								} else {
+									date.nextMonth();
+								}
+								
+					
+								if ( i18n.isDutch ) {
+									if ( automated ) {
+										print('Het bedrag van deze factuur <b>niet overmaken</b>.');
+										print(' U heeft een automatische incasso opdracht verstrekt.');
+										print(' Het totaalbedrag van deze factuur wordt daarom automatisch van uw rekening afgeboekt.');
+									} else {
+										print('Het totaalbedrag van deze factuur dient uiterlijk');
+										print(' <b>' + date.get_eBY(i18n.isDutch) + '</b>');
+										print(' te zijn bijgeschreven op bankrekeningnummer <b>50.82.29.871</b> ten name van <B>Carerix</b> te <b>Delft</b>.');
+									}
+								} else { 
+									if ( automated ) {
+										print("You don't have to transfer the sum of this invoice. The total sum of this invoice will be transferred from your bank account automatically.");
+									} else {
+										print('The sum of this invoice is to be transferred <b>'+date.get_eBY(i18n.isDutch)+'</b>');
+										print(' at the latest ');
+										if ( i18n.isBE ) {
+											print('on KBC Bank Antwerp account <B>736-0018560-97</b> on behalf of <b>Carerix</b> at <b>Delft</b>.');
+										} else {
+											print('on bank account number <b>50.82.29.871</b> on behalf of <b>Carerix</b>.');
+										}
+									} 
+								}
+							})();
+						%>
+					</span>
+				</td>
+				
+<!-- Payment: (sub) totals 
+			Calculate and show the subtotals
+-->
+				<td class="rt">
+					<span contenteditable="true"><%=i18n.isDutch?'subtotaal':'sub-total'%></span>
+				</td>
+				<td class="rt">
+					<span contenteditable="true">&euro;</span>
+				</td>
+				<td class="rt">
+					<span contenteditable="true"><%=obj.getParsedSubtotal()%></span>
+				</td>
+			</tr>
+		
+
+			<%	
+			if ( i18n.isEU ) {
+				if ( i18n.isNL ) { %>
+					<tr>
+						<td class="rt"><span contenteditable="true">BTW <%=obj.getVATPercentage()%>%</span></td>
+						<td class="rt"><span contenteditable="true">&euro;</span></td>
+						<td class="rt"><span contenteditable="true"><%=obj.getParsedVAT()%></span></td>
+					</tr>
+				<% } else { %>	
+					<tr>
+						<td class="rt" colspan="3">
+							<span contenteditable="true"><i>The VAT is reversed according to article 196 of the 6th EU Directive.</i></span>
+						</td>
+					</tr>
+				<% } 
+			} else { %>			
+				<tr>
+					<td class="rt">
+						<span contenteditable="true"><%=i18n.isDutch?'BTW ' + obj.getVATPercentage() + '%':'VAT 0%'%></span>
+					</td>
+					<td class="rt"><span contenteditable="true">&euro;</span></td>
+					<td class="rt">
+						<span contenteditable="true"><%=i18n.isNL?obj.getParsedVAT():obj.parseAmount(0)%></span>
+					</td>
+				</tr>
+			<% } %>
+	
+			<tr>
+				<td class="rt">
+					<span contenteditable="true"><b><%=(i18n.isDutch?'TOTAAL TE VOLDOEN':'TOTAL AMOUNT')%></b></span>
+				</td>
+				<td class="rt">
+					<span contenteditable="true"><b>&euro;</b></span>
+				</td>
+				<td class="rt" style="border-top:2px solid black;">
+					<span contenteditable="true">
+						<b><%=obj.getParsedTotal()%></b>
+					</span>
+				</td>
+			</tr>
+	
+			<tr>
+				<td colspan="6" class="borderBottom">&nbsp;</td>
+			</tr>
+		
+<!-- Footer of each PDF to be printed
+
+-->
+			<tr>
+				<td colspan="6" class="footer">
+					<span style="font-size:7pt" contenteditable="true">
+						Rotterdamseweg 183 C - 2629HD &nbsp;Delft - T: 015 - 268 25 60 - F: 015 - 268 25 30 finance@carerix.com - www.carerix.com - KvK Delft 27270911
+					</span>
+				</td>
+			</tr>
+	
+		</table>
+	</div>
+</div>

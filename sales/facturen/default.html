@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+	<cx:bare-string-format>
+		<cx:tag name="silent"/>
+		<cx:silent><!-- 
+			Silent template displays nothing. That way, I can write comments that are 
+			not shown in the resultant HTML
+		 --></cx:silent>
+		
+		<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/CxProjects4Invoices.html" invoke="urlContents">
+		<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="<!--.*?-->" arg1="$nil">
+			<cx:include template="$tmpl"/>
+		</cx:let>
+		</cx:let>
+	</cx:bare-string-format>
+	
+	<cx:if condition="$errorInvoices.count > 0 OR $warningInvoices.count > 0">
+		<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/controle.html" invoke="urlContents">
+			<cx:include template="$tmpl"/>
+		</cx:let>
+	</cx:if>
+	
+	<cx:else>
+		<cx:silent><!-- 
+			Since the facturenFilter creates lists of projects, not invoices, I rename
+			the ones we want in the export here. 		
+		 --></cx:silent>
+		<cx:let name="projects" value="$correctInvoices" invoke="arrayByAddingObjectsFromArray:" arg0="$warningInvoices" keep="1"/>
+		
+		<head>
+			<title>Facturen</title>
+			<cx:silent><!-- 
+				Transform the $projects into a JSON structure
+			 --></cx:silent>
+			 
+			<script type="text/javascript" src="http://sales.carerix.com/templates/facturen/Invoice.js"></script>
+			<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/CxProjects2JSONInvoice.html" invoke="urlContents">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="//.*?\n" arg1="$nil">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="/[*].*?[*]/" arg1="$nil">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="[\n\t]+" arg1=" ">
+				<cx:include template="$tmpl"/>
+			</cx:let>
+			</cx:let>
+			</cx:let>
+			</cx:let>
+			
+			<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+			<script src="http://sales.carerix.com/templates/facturen/template.js"></script>
+			<script src="http://sales.carerix.com/templates/facturen/dateExtensions.js"></script>
+			<script type="text/javascript">
+				function warn(string) {
+					return "<font color=red><i>" + string + "</i></font>";
+				} // warn
+			
+				var initialInvoiceNumber = 1;
+				
+				$(document).ready(function() {
+					initialInvoiceNumber = (new Date());
+					initialInvoiceNumber = 100000 * (initialInvoiceNumber.getFullYear()-2000)
+																	+ (initialInvoiceNumber.getMonth() + 1)*1000
+																	+ 1;
+					
+					initialInvoiceNumber = parseInt(initialInvoiceNumber);
+					$(this).trigger('invoicenumber_update');
+					$('#invoices').tmpl(getProjects());	
+				});
+			</script>
+		</head>
+		<body>
+			<div id="overview" class="noPrint" style="position: fixed; right: 0px; top: 0px;">
+				<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/overview.html" invoke="urlContents">
+					<cx:write value="$tmpl" html="1"/>
+				</cx:let>
+			</div>
+			<div class="noPrint" data-role="export" style="display: none;">
+				<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/export.html" invoke="urlContents">
+					<cx:write value="$tmpl" html="1"/>
+				</cx:let>
+			</div>
+			<div data-role="mailing" style="display: none;">
+				<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/mail.html" invoke="urlContents">
+					<cx:write value="$tmpl" html="1"/>
+				</cx:let>
+			</div>
+			<div id="invoices" data-role="invoices">
+				<script type="text/html">
+					<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/invoice.html" invoke="urlContents">
+						<cx:write value="$tmpl" html="1"/>
+					</cx:let>
+				</script>
+			</div>
+		</body>
+	</cx:else>
+</html>

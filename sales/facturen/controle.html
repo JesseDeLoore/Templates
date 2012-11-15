@@ -1,0 +1,468 @@
+<!--Changelog
+Created: 09-03-2011 / [PK] / Template that shows all projects that can/ can not/ might be invoiced by Sales.
+Edit #1: 18-04-2011 / [PK] / List sorted alfabetically, increased font-size on printer-version, removed errormessage columns on printer-version. Amounts are now in the same way they are on the invoices themself.
+Edit #2: 05-05-2011 / [PK] / Added new group datanodeID's
+Edit #3: 05-05-2011 / [PK] / Bugfix period 'month' was always printed to screen.
+Edit #4: 10-05-2011 / [PK] / Changed columns with amounts. Added better FireFox compatibility.
+Edit #5: 19-05-2011 / [PK] / Added sort order on period and subsequently on companyname.
+Edit #6: 09-05-2011 / [PK] / BTW-amount only shown if applicable. Same goes for discount
+Edit #7: 14-11-2012 / [JS] / Removal of DOCTYPE and HTML such that this template can be included in default.html
+
+
+TODO: Use less (no?) CxScript
+TODO: Dashboardize
+-->
+<head>
+  <title>Controlelijst Facturen</title>
+  <link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
+  <style type="text/css">
+    a.book{
+      font-size: 12px;
+      /*float:left;*/
+      color: grey;
+    }
+
+    h3{
+      /*float:left;*/
+      clear:both;
+      /*margin: 25px 0px 0px 0px;
+      padding: 0px;  */
+    }
+
+
+    td.error{
+      color: red;
+      width: 200px;
+    }
+
+    td.warning{
+      color: #FF9900;
+      width: 200px;
+    }
+
+    @page {
+  	  size: A4 portrait;  /* width height */
+      margin-bottom: 1cm;
+      margin-right: 1cm;
+      margin-left: 1cm;
+      margin-top: 1cm;
+    }
+
+    @media print{
+      body, table, td, th{
+       font-size: 12px;
+       white-space:nowrap;
+      }
+
+      table.wideborder {page-break-after:always}
+
+    }
+  </style>
+</head>
+
+<body>
+    <!-- Template Header -->
+    <div class="documentHeader">
+      <table class="widenoborder">
+        <tr>
+          <td style="width:80%;">
+            <img style="float:left;" src="http://templates.carerix.com/images/CxDocument.png">
+            <h2 id="documentTitle" style="margin:0;">
+                Facturen controlelijst
+            </h2>
+            <p id="documentSubTitle">
+                Toont een controlelijst van projecten, ten behoeve van het draaien van facturen.
+            </p>
+          </td>
+          <td class="rt">
+            <!-- Display the logo of the customer, if it does not exist show the standard Carerix logo using JS -->
+            <cx:let name="logo" value="$activity.owner.agency.attachments" invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
+              <cx:if condition="$logo.count > 0">
+                <img style="max-height:60px;" border="0" alt="logo" src="data:image/gif;base64,<cx:write value='$logo.toAttachmentData.content.@first.base64String'/>">
+              </cx:if>
+              <!-- If the logo is not present, display the uploaded logo, if that one is also not present, display the standard cx logo -->
+              <cx:else>
+                <img style="max-height:60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif" onerror="this.src='http://templates.carerix.com/images/cxlogo.gif'"/>
+              </cx:else>
+            </cx:let>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- This define evaluates the fields -->
+    <cx:define tag="invoices">
+      <table class="wideborder">
+          <tr>
+              <th class="border" colspan="13"><cx:write value="$_label"/> <cx:write value="$_facturen.count"/></th>
+          </tr>
+          <tr>
+              <th nowrap="nowrap" class="detailborder-tbrt" style="width:50px;">ProjectID</th>
+              <th class="detailborder-tbrt">&nbsp;</th>
+              <th nowrap="nowrap" class="detailborder-tb">Relatie</th>
+              <th nowrap="nowrap" class="detailborder-tb">Aantal users</th>
+              <th nowrap="nowrap" class="detailborder-tbrt" style="width:150px;"><b>Bedrag</b><br>ex. korting / ex. BTW</th>
+              <th nowrap="nowrap" class="detailborder-tbrt" style="width:150px;"><b>Bedrag</b><br>inc. korting / ex. BTW</th>
+              <th nowrap="nowrap" class="detailborder-tbrt" style="width:150px;"><b>Bedrag</b><br>inc. BTW</th>
+              <th class="detailborder-tbrt">&nbsp;</th>
+              <th nowrap="nowrap" class="detailborder-tb" style="width:100px;text-align: center;">Periode</th>
+              <th nowrap="nowrap" class="detailborder-tb" style="width:100px;text-align: center;">Peildatum</th>
+              <th nowrap="nowrap" class="detailborder-tb noprint" style="width:200px;">Veld</th>
+              <th nowrap="nowrap" class="detailborder-tb noprint" style="width:200px;">Melding</th>
+              <th nowrap="nowrap" class="detailborder-tb noprint" style="width:200px;">Actie</th>
+          </tr>
+          <!-- Group on period -->
+          <cx:let name="projectsByPeriod" value="$_facturen.@group.estimatedDays">
+            <!-- foreach group key -->
+            <cx:foreach item="invoice" list="$projectsByPeriod.@self.allKeys.@sortDescending">
+              <!-- For each group -->
+              <cx:let name="invoicesPerPeriod" value="$projectsByPeriod" invoke="$invoice">
+                <!-- Loop through the list -->
+                <cx:foreach item="f" list="$invoicesPerPeriod.@sortAscending.toCompany.name" index="i">
+                  <cx:if condition="$i.intSucc isEvenlyDivisibleBy: 2"><tr class="even"></cx:if>
+                  <cx:else><tr></cx:else>
+                    <td class="borderdot-tbrt"><cx:write value="$f.vacancyID"/><br/><cx:write value="$f.vacancyNo"/><br/><cx:write value="$f.toStatusNode.value"/></td>
+                    <td class="borderdot-tbrt">&nbsp;</td>
+                    <td class="borderdot-tb"><cx:write value="$f.toCompany.name"/></td>
+                    <td class="borderdot-tb"><cx:write value="$f.numberOfVacancies"/></td>
+                    <cx:let name="rest" value="$f.meanExpectedAmount" invoke="numberBySubtracting:" arg0="$f.meanExpectedAmount.intValue" numberFormat="#0.00">
+                      <cx:let name="discount" condition="rest=0" iftrue="$f.meanExpectedAmount" iffalse="$f.meanExpectedAmount.intValue.succ">
+                        <cx:let name="discount" condition="f.successRatePercentage > 0" ifTrue="$discount" ifFalse="0">
+                          <cx:let name="sub" value="$f.estimatedAmount" invoke="numberBySubtracting:" arg0="$discount">
+                            <cx:let name="vat" value="$sub" invoke="numberByMultiplyingBy:" arg0="0.21">
+                              <cx:let name="tot" value="$sub" invoke="numberByMultiplyingBy:" arg0="1.21">
+                                <td class="borderdot-tbrt">
+                                  <cx:write value="$f.estimatedAmount" numberformat="#,##0.00" language="Dutch"/>
+                                </td>
+                                <td class="borderdot-tbrt">
+                                  <cx:if condition="$discount > 0">
+                                    <cx:write value="$sub" numberFormat="#,##0.00" language="Dutch"/>
+                                  </cx:if>
+                                  <cx:else>
+                                    n.v.t.
+                                  </cx:else>
+                                </td>
+                                <!-- If the country is netherlands, than we show the BTW. -->
+                                <td class="borderdot-tbrt">
+                                  <cx:if condition="$f.toInvoiceCountryNode.dataNodeID = 49">
+                                      <cx:write value="$tot" numberFormat="#,##0.00" language="Dutch"/>
+                                  </cx:if>
+                                  <cx:else>
+                                    n.v.t.
+                                  </cx:else>
+                                </td>
+                              </cx:let>
+                            </cx:let>
+                          </cx:let>
+                        </cx:let>
+                      </cx:let>
+                    </cx:let>
+                    <td class="borderdot-tbrt">&nbsp;</td>
+                    <td class="borderdot-tb center">
+                      <cx:if condition="$f.estimatedDays=1 OR $f.estimatedDays=0 OR $f.estimatedDays=nil">Maand</cx:if>
+                      <cx:if condition="$f.estimatedDays=3">Kwartaal</cx:if>
+                      <cx:if condition="$f.estimatedDays=6">Half jaar</cx:if>
+                      <cx:if condition="$f.estimatedDays=12">Jaar</cx:if>
+                    </td>
+                    <td class="borderdot-tb center">
+                      <cx:if condition="$f.groups.dataNodeID = 4620">
+                          <em>JA</em>
+                      </cx:if>
+                    </td>
+
+                    <td class="borderdot-tb noprint" colspan="3">
+                        <table class="widenoborder">
+                            <tr>
+                                <!-- Project naam -->
+                                <cx:if condition="$f.jobTitle = nil">
+                                  <tr>
+                                    <td class="error"><b>Project.naam</b></td>
+                                    <td class="error"><b>Waarde is leeg</b></td>
+                                    <td class="error">Vul een projectnaam in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Projectnummer -->
+                                <cx:if condition="$f.vacancyNo = nil OR $f.vacancyNo = ' '">
+                                  <tr>
+                                    <td class="error"><b>Project.projectnummer</b></td>
+                                    <td class="error"><b>Waarde is leeg</b></td>
+                                    <td class="error">Vul een projectnummer in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Status -->
+                                <cx:if condition="$f.toStatusNode.dataNodeID != 3315 AND $f.toStatusNode.dataNodeID != 3318 AND $f.toStatusNode.dataNodeID != 3319">
+                                  <tr>
+                                    <td class="error"><b>Project.status</b></td>
+                                    <td class="error"><b>Verkeerde status!</b></td>
+                                    <td class="error">Raadpleeg helpdesk, Fout in sjabloon!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Bedrag -->
+                                <cx:if condition="$f.estimatedAmount = nil">
+                                  <tr>
+                                    <td class="error"><b>Project.Omzet verwacht</b></td>
+                                    <td class="error"><b>Waarde is leeg</b></td>
+                                    <td class="error">Vul een bedrag in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Facturatieperiode -->
+                                <cx:if condition="$f.estimatedDays != 1 AND $f.estimatedDays != 3 AND $f.estimatedDays != 6 AND $f.estimatedDays != 12">
+                                  <tr>
+                                    <td class="error"><b>Project.Dagen inzet verwacht</b></td>
+                                    <td class="error"><b>Waarde is ongelijk aan 1, 3, 6 of 12</b></td>
+                                    <td class="error">Vul een correcte factuurperiode in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Aantal plaatsen -->
+                                <cx:if condition="$f.numberOfVacancies = nil">
+                                  <tr>
+                                    <td class="error"><b>Project.Aantal plaatsen</b></td>
+                                    <td class="error"><b>Leeg</b></td>
+                                    <td class="error">Vul het aantal seats in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Startdatum -->
+                                <cx:if condition="$f.startDate = nil">
+                                  <tr>
+                                    <td class="error"><b>Project.Startdatum</b></td>
+                                    <td class="error"><b>Waarde is leeg!</b></td>
+                                    <td class="error">Vul een startdatum in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Factuuradres -->
+                                <cx:if condition="$f.invoiceAddress = nil OR $f.invoiceAddress.length < 1">
+                                  <tr>
+                                    <td class="error"><b>Project.Factuuradres</b></td>
+                                    <td class="error"><b>Waarde is leeg</b></td>
+                                    <td class="error">Vul een factuur-adres in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Factuuradres land -->
+                                <cx:if condition="$f.toInvoiceCountryNode.value = nil">
+                                  <tr>
+                                    <td class="error"><b>Project.Factuuradres.land</b></td>
+                                    <td class="error"><b>Waarde is leeg</b></td>
+                                    <td class="error">Vul het factuuradres land in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Editie -->
+                                <!--
+                                4630 | 8201: Corporate edition
+                                4628 | 8202: Recruitment edition
+                                4631 | 8203: Staffing edition
+                                4629 | 8204: Standard edition
+                                4730 | 8205: Outsource edition
+                                4731 | 8206: CRM edition
+                                4732 | 8207: E-Recruitment edition
+                                4669 | 8208: Hosting domein
+                                4733 | 8209: Datadump (periodiek)
+                                4734 | 8210: Testomgeving
+                                 -->
+                                <cx:let name="edition" value="$f.groups" invoke="@filter.dataNodeID = 4630
+                                  OR dataNodeID = 4628
+                                  OR dataNodeID = 4631
+                                  OR dataNodeID = 4629
+                                  OR dataNodeID = 4730
+                                  OR dataNodeID = 4731
+                                  OR dataNodeID = 4732
+                                  OR dataNodeID = 4669
+                                  OR dataNodeID = 4733
+                                  OR dataNodeID = 4734
+                                  OR dataNodeID = 4750
+                                  OR dataNodeID = 4770
+                                  OR dataNodeID = 4669">
+
+                                  <cx:let name="g" value="$edition.dataNodeID">
+                                    <cx:if condition="($g!=4630 AND $g!=4628 AND $g!=4631 AND $g!=4629 AND $g!=4730 AND $g!=4731 AND $g!=4732 AND $g!=4669 AND $g!=4733 AND $g!=4734) OR $g.count=0 OR $g.count > 1">
+                                      <tr>
+                                        <td class="error"><b>Project.groepen.Editie</b></td>
+                                        <td class="error">
+                                          <b>Editie is niet ingevuld, of meerdere edities!</b>
+                                          <cx:if condition="$g=4630"><br>- <cx:write value="8201: Corporate edition"/></cx:if>
+                                          <cx:if condition="$g=4628"><br>- <cx:write value="8202: Recruitment edition"/></cx:if>
+                                          <cx:if condition="$g=4631"><br>- <cx:write value="8203: Staffing edition"/></cx:if>
+                                          <cx:if condition="$g=4629"><br>- <cx:write value="8204: Standard edition"/></cx:if>
+                                          <cx:if condition="$g=4730"><br>- <cx:write value="Outsource edition"/></cx:if>
+                                          <cx:if condition="$g=4731"><br>- <cx:write value="CRM edition"/></cx:if>
+                                          <cx:if condition="$g=4732"><br>- <cx:write value="E-Recruitment edition"/></cx:if>
+                                          <cx:if condition="$g=4669"><br>- <cx:write value="Hosting domein"/></cx:if>
+                                          <cx:if condition="$g=4733"><br>- <cx:write value="Datadump (periodiek)"/></cx:if>
+                                          <cx:if condition="$g=4734"><br>- <cx:write value="Testomgeving"/></cx:if>
+                                        </td>
+                                        <td class="error">Vul één editie in!</td>
+                                      </tr>
+                                    </cx:if>
+                                  </cx:let>
+                                </cx:let>
+
+                                <!-- Debiteurennummer -->
+                                <cx:if condition="$f.toCompany.debtorNumber = nil">
+                                  <tr>
+                                    <td class="error"><b>Relatie.debiteurennummer</b></td>
+                                    <td class="error"><b>Waarde is leeg</b></td>
+                                    <td class="error">Vul het debiteurennummer in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- BTW-nummer -->
+                                <cx:if condition="$f.toCompany.taxNumber = nil AND $f.toInvoiceCountryNode.dataNodeID != 49">
+                                  <tr>
+                                    <td class="error"><b>Relatie.BTW-nummer / Project.factuuradres.land</b></td>
+                                    <td class="error"><b>Waarde is leeg EN project is buitenland</b></td>
+                                    <td class="error">Vul BTW-nummer bij Relatie in, of pas Project.factuuradres.land aan als project binnenlands is!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Betalingstermijn -->
+                                <cx:if condition="$f.toCompany.toPaymentPeriodNode.value = nil OR $f.toCompany.toPaymentPeriodNode.dataNodeID = 0">
+                                  <tr>
+                                    <td class="warning"><b>Relatie.Facturatie periode</b></td>
+                                    <td class="warning"><b>Veld is leeg</b></td>
+                                    <td class="warning">Standaard is voor Maandelijkse termijn gekozen! Vul Relatie.Facturatieperiode in!</td>
+                                  </tr>
+                                </cx:if>
+
+                                <!-- Factuur-adres T.a.v. veld -->
+                                <cx:if condition="$f.invoiceAttention = nil">
+                                <tr>
+                                  <td class="error"><b>Project.factuuradres.T.a.v.</b></td>
+                                  <td class="error"><b>Waarde is leeg</b></td>
+                                  <td class="error">Vul het factuuradrs T.a.v. veld in!</td>
+                                </tr>
+                                </cx:if>
+
+                                <!-- Peildatum -->
+                                <cx:let name="g" value="$f.groups.dataNodeID">
+                                  <cx:if condition="$g=4620">
+                                    <tr>
+                                      <td class="warning"><b>Project.groepen.Peildatum</b></td>
+                                      <td class="warning"><b>PEILDATUM</b></td>
+                                      <td class="warning">Let op: project op basis van peildatum!</td>
+                                    </tr>
+                                  </cx:if>
+                                </cx:let>
+                            </tr>
+                          </table>
+                        </td>
+                  </tr>
+                </cx:foreach>
+              </cx:let>
+            </cx:foreach>
+          </cx:let>
+        </table>
+    </cx:define>
+    
+    <!-- Status != eind en laatste wijziging > 7 dagen geleden-->
+    <cx:let name="openProjects" value="$activity.selectedItems" invoke="@filter.toStatusNode.dataNodeID = 3313
+    OR toStatusNode.dataNodeID = 3407
+    OR toStatusNode.dataNodeID = 4645
+    OR toStatusNode.dataNodeID = 3314
+    OR toStatusNode.dataNodeID = 4520
+    OR toStatusNode.dataNodeID = 4350
+    OR toStatusNode.dataNodeID = 3284
+    OR toStatusNode.dataNodeID = 4750
+    OR toStatusNode.dataNodeID = 4669
+    OR toStatusNode.dataNodeID = 4770
+    OR toStatusNode.dataNodeID = 3289">
+
+
+      <cx:let name="q" value="@filter.modificationDate < (NSCalendarDate)'${utilities.currentDate.midnight.previousWeek}'" expand="">
+        <cx:let name="openProjectsTooLongOpen" value="$openProjects" invoke="$q">
+
+        <!-- ==================================================================================================== -->
+
+          <!-- Samenvatting -->
+          <a name="top"></a>
+          <table class="border noprint">
+            <tr>
+              <th class="border" colspan="2">Samenvatting</th>
+              <th class="border">Totaal</th>
+            </tr>
+            <tr>
+              <td class="borderdot-tb"><img src="http://sales.carerix.com/images/error_small.png" alt="errorIcon"><a href="#errProj">Projecten met foutmeldingen</a>:</td>
+              <td class="borderdot-tb"><cx:write value="$errorInvoices.count"/></td>
+              <th rowspan="3" class="detail" style="text-align: center;vertical-align:middle;">
+                <cx:let name="total1" value="$errorInvoices.count" invoke="numberByAdding:" arg0="$warningInvoices.count">
+                  <cx:let name="total2" value="$total1" invoke="numberByAdding:" arg0="$correctInvoices.count">
+                    <cx:write value="$total2"/>
+                  </cx:let>
+                </cx:let>
+              </th>
+            </tr>
+            <tr>
+              <td class="borderdot-tb"><img src="http://sales.carerix.com/images/warning_small.png" alt="errorIcon"><a href="#warnProj">Projecten met waarschuwingen</a>:</td>
+              <td class="borderdot-tb"><cx:write value="$warningInvoices.count"/></td>
+            </tr>
+            <tr>
+              <td class="borderdot-tb"><img src="http://sales.carerix.com/images/correct_small.png" alt="errorIcon"><a href="#corrProj">Projecten correct</a>:</td>
+              <td class="borderdot-tb"><cx:write value="$correctInvoices.count"/></td>
+            </tr>
+            <tr>
+              <td class="borderdot-tb"><img src="http://sales.carerix.com/images/alarm_small.png" alt="errorIcon"><a href="#openProj">Projecten met 'open' status</a>:</td>
+              <td class="borderdot-tb"><cx:write value="$openProjectsTooLongOpen.count"/></td>
+              <th class="detailborder-tb" style="text-align: center;vertical-align:middle;"><cx:write value="$openProjectsTooLongOpen.count"/></th>
+            </tr>
+          </table>
+
+          <!-- Write the tables and arrays to screen -->
+
+          <!-- Write errors list  -->
+          <h3><a name="errProj"><img src="http://sales.carerix.com/images/error.png" style="float:left;margin-right:10px;" alt="errorIcon">Projecten met foutmeldingen</a> <a href="#top" class="book">[Top]</a></h3>
+          <cx:invoices facturen="$errorInvoices" label="Aantal:"/>
+
+          <!-- Write warning list -->
+          <h3><a name="warnProj"><img src="http://sales.carerix.com/images/warning.png" style="float:left;margin-right:10px;" alt="errorIcon">Projecten met waarschuwingen</a> <a href="#top" class="book">[Top]</a></h3>
+          <cx:invoices facturen="$warningInvoices" label="Aantal:"/>
+
+          <!-- Write correct list -->
+          <h3><a name="corrProj"><img src="http://sales.carerix.com/images/correct.png" style="float:left;margin-right:10px;" alt="errorIcon">Projecten correct</a> <a href="#top" class="book">[Top]</a></h3>
+          <cx:invoices facturen="$correctInvoices" label="Aantal:"/>
+
+          <!-- Projects too long on status -->
+          <h3><a name="openProj"><img src="http://sales.carerix.com/images/alarm.png" style="float:left;margin-right:10px;" alt="errorIcon">Projecten met 'open' status</a> <a href="#top" class="book">[Top]</a></h3>
+          <table class="wideborder">
+            <tr>
+              <th class="border" colspan="4"><cx:write value="$openProjectsTooLongOpen.count"/> Projecten met een wijzigingsdatum &gt; 7 dagen geleden</th>
+            </tr>
+            <tr>
+              <th class="detailborder-tb">Project.ID</th>
+              <th class="detailborder-tb">Project.Status</th>
+              <th class="detailborder-tb">Project.Naam</th>
+              <th class="detailborder-tb">Relatie.Naam</th>
+            </tr>
+            <cx:foreach item="project" list="$openProjectsTooLongOpen" index="i">
+              <cx:if condition="$i.intSucc isEvenlyDivisibleBy: 2"><tr class="even"></cx:if>
+              <cx:else><tr></cx:else>
+                  <td class="borderdot-tb"><cx:write value="$project.vacancyID"/><br/><cx:write value="$project.vacancyNo"/><br/><cx:write value="$project.toStatusNode.value"/><br/><cx:write value="$project.toStatusNode.dataNodeID"/></td>
+                  <td class="borderdot-tb"><cx:write value="$project.toStatusNode.value"/></td>
+                  <td class="borderdot-tb"><cx:write value="$project.jobTitle"/></td>
+                  <td class="borderdot-tb"><cx:write value="$project.toCompany.name"/></td>
+              </tr>
+            </cx:foreach>
+          </table>
+      </cx:let>
+    </cx:let>
+  </cx:let>
+
+  <!-- Template Footer -->
+  <div class="documentFooter">
+    <table class="widenoborder">
+      <tr>
+        <td class="tiny noprint" width="60%"><cx:write value="$template"/></td>
+        <td class="rt"><cx:write value="$utilities.currentDate" dateformat="%e %B %Y, %H:%M" language="$language"/> - <cx:write value="$activity.owner.informalName"/></td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+
+</html>

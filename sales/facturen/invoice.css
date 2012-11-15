@@ -1,0 +1,97 @@
+body {
+	color: black;
+}
+
+div.address {
+	padding-top: 3cm;
+	padding-left: 0.4cm;
+	font-size: 13px;
+	height: 90px;
+}
+
+div.invoiceDetails {
+		padding-top: 1.5cm;
+}
+
+div.invoiceDetails td.label {
+		width: 130px;
+}
+
+div.invoiceDetails td.value {
+		width: 150px;
+}
+
+td {
+	color: black;
+}
+
+td.border {
+	color: black;
+}
+
+td.rt {
+	color: black;
+}
+
+td.LeftBorder {
+	 border-left: 1px solid #C0C0C0;
+}
+
+td.invoiceSpacer {
+	height: 50px;
+}
+
+td.borderTop {
+	border-top: 1px solid #C0C0C0;
+}
+
+td.borderBottom {
+	border-bottom: 1px solid #C0C0C0;
+}
+
+table.bankdata {
+	border-collapse: collapse;
+	border-spacing: 0px;
+	width: 100%;
+	line-height: 1;
+}
+
+td.bank {
+	height: 200px;
+	vertical-align: bottom;
+}
+
+td.paymentInfo {
+		border: 1px solid red;
+		width: 500px;
+}
+
+td.invoiceDescription {
+	height: 50px;
+	vertical-align: middle;
+}
+
+td.footer {
+	text-align: center;
+	vertical-align: bottom;
+	height: 120px;
+}
+
+div.cxLogo {
+	float: right;
+}
+
+@page {
+	size: A4 portrait;	/* width height */
+	margin-bottom: 1cm;
+}
+
+@media print {
+	body {
+		background: #FFFFFF;
+		color: black;
+	}
+	.noPrint {
+		display: none;
+	}
+}

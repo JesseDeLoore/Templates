@@ -1,0 +1,185 @@
+<!--Changelog
+
+Created: 12-04-2011 / [PK]
+Edit #1: 05-05-2011 / [PK] / Added new condition 'more than one group' checked. The 'InvoicesWithCorrectEdition' are exteneded with new group datanodes. Also the filter has been extended to make sure only one of these groups is checked,
+and not two or more. But it ignores group datanodeID's that have nothing to do with the invoices. It has become a rather complex filter.
+Edit #2: 05-05-2011 / [PK] / Bugfix, annual invoices were not inclueded in the results. This was accidently ommitted.
+-----------------------------------------------------------------------------
+This file creates the invoices that are to be used in the following reports:
+- cxfactuur_controle.html
+- cxfactuurTotaalWithExport.html
+
+Use the following variables:
+- $correctInvoices (contains all correct invoices)
+- $warningInvoices (contains all invoices that have warnings in them, can be invoiced but certain values are 'guessed'.)
+- $errorInvoices (contains all invoices that have errors in them, must not be invoiced!)
+ -->
+
+  <!-- Create the startdate -->
+  <cx:let name="start" value="$utilities.currentDate.nextMonth.firstDayOfMonth.midnight">
+
+    <!-- Alle projecten ophalen met status = "3:ACTIEF toepassing opzetten" OR "6:ACTIEF contract" OR "actief, maar opgezegd" -->
+    <cx:let name="actieveProjecten" value="$activity.selectedItems" invoke="@filter.toStatusNode.dataNodeID=3315 OR toStatusNode.dataNodeID=3318 OR toStatusNode.dataNodeID=3319">
+
+      <!-- Splitsing per Maand/Kwartaal/Jaar -->
+      <cx:let name="projectenZonderTermijn" value="$actieveProjecten" invoke="@filter.estimatedDays!=0 AND estimatedDays!=1 AND estimatedDays!=3 AND estimatedDays!=6 AND estimatedDays!=12">
+        <cx:let name="projectenPerMaand" value="$actieveProjecten" invoke="@filter.estimatedDays=1 OR estimatedDays=0 OR estimatedDays=nil">
+          <cx:let name="projectenPerKwartaal" value="$actieveProjecten" invoke="@filter.estimatedDays=3">
+            <cx:let name="projectenPerHalfJaar" value="$actieveProjecten" invoke="@filter.estimatedDays=6">
+              <cx:let name="projectenPerJaar" value="$actieveProjecten" invoke="@filter.estimatedDays=12">
+
+                <!-- Actuele Maandfacturen -->
+                <cx:let name="m" value="@filter.(startDate.firstDayOfMonth.midnight <= (NSCalendarDate)'${start}' OR startDate=nil) AND (endDate.firstDayOfMonth.midnight > (NSCalendarDate)'${start}' OR endDate=nil)" expand="">
+                  <cx:let name="actueleProjectenPerMaand" value="$projectenPerMaand" invoke="$m" keep="1">
+
+                    <!-- Actuele Kwartaalfacturen -->
+                    <cx:let name="k1" value="@filter.startDate.firstDayOfMonth.midnight <= (NSCalendarDate)'${start}' AND (endDate.firstDayOfMonth.midnight > (NSCalendarDate)'${start}' OR endDate=nil)" expand="">
+                      <cx:let name="actieveProjectenPerKwartaal" value="$projectenPerKwartaal" invoke="$k1">
+                        <cx:let name="k2" value="@filter.startDate.monthOfYear = ${start.monthOfYear} OR startDate.nextMonth.nextMonth.nextMonth.monthOfYear = ${start.monthOfYear} OR startDate.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.monthOfYear = ${start.monthOfYear} OR startDate.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.monthOfYear = ${start.monthOfYear}" expand="">
+                          <cx:let name="actueleActieveProjectenPerKwartaal" value="$actieveProjectenPerKwartaal" invoke="$k2" keep="1">
+
+                            <!-- Actuele HalfJaarFacturen -->
+                            <cx:let name="h1" value="@filter.startDate.firstDayOfMonth.midnight <= (NSCalendarDate)'${start}' AND (endDate.firstDayOfMonth.midnight > (NSCalendarDate)'${start}' OR endDate=nil)" expand="">
+                              <cx:let name="actieveProjectenPerHalfJaar" value="$projectenPerHalfJaar" invoke="$h1">
+                                <cx:let name="h2" value="@filter.startDate.monthOfYear = ${start.monthOfYear} OR startDate.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.nextMonth.monthOfYear = ${start.monthOfYear}" expand="">
+                                  <cx:let name="actueleActieveProjectenPerHalfJaar" value="$actieveProjectenPerHalfJaar" invoke="$h2" keep="1">
+
+                                    <!-- Actuele Jaarfacturen -->
+                                    <cx:let name="j1" value="@filter.startDate.firstDayOfMonth.midnight <= (NSCalendarDate)'${start}' AND (endDate.firstDayOfMonth.midnight > (NSCalendarDate)'${start}' OR endDate=nil)" expand="">
+                                      <cx:let name="actieveProjectenPerJaar" value="$projectenPerJaar" invoke="$j1">
+                                        <cx:let name="j2" value="@filter.startDate.monthOfYear = ${start.monthOfYear}" expand="">
+                                          <cx:let name="actueleActieveProjectenPerJaar" value="$actieveProjectenPerJaar" invoke="$j2" keep="1">
+
+                                            <!-- Van alledrie de lijsten weer 1 lijst maken -->
+                                            <cx:let name="maandEnKwartaal" value="$actueleProjectenPerMaand" invoke="arrayByAddingObjectsFromArray:" arg0="$actueleActieveProjectenPerKwartaal">
+                                              <cx:let name="maandKwartaalEnHalfJaar" value="$maandEnKwartaal" invoke="arrayByAddingObjectsFromArray:" arg0="$actueleActieveProjectenPerHalfJaar">
+                                                <cx:let name="maandKwartaalEnHalfJaarEnJaar" value="$maandKwartaalEnHalfJaar" invoke="arrayByAddingObjectsFromArray:" arg0="$actueleActieveProjectenPerJaar">
+                                                  <cx:let name="alle" value="$maandKwartaalEnHalfJaarEnJaar" invoke="arrayByAddingObjectsFromArray:" arg0="$projectenZonderTermijn">
+                                                    <cx:let name="alleFacturen" value="$alle.@flatten">
+
+                                                      <!-- Create current date -->
+                                                      <cx:let name="currentDate" value="$utilities.currentDate">
+
+                                                        <!-- Create all invoices that have errors in them -->
+                                                        <cx:let name="InvoicesErrorsFilterd1" value="$alleFacturen" invoke="@filter.jobTitle=nil
+                                                        OR (vacancyNo = nil OR vacancyNo = ' ')
+                                                        OR (toStatusNode.dataNodeID != 3315 AND toStatusNode.dataNodeID != 3318 AND toStatusNode.dataNodeID != 3319 )
+                                                        OR estimatedAmount = nil
+                                                        OR (estimatedDays != 1 AND estimatedDays != 3 AND estimatedDays != 6 AND estimatedDays != 12)
+                                                        OR (numberOfVacancies = nil OR numberOfVacancies < 0)
+                                                        OR startDate = nil
+                                                        OR (invoiceAddress = nil OR invoiceAddress.length < 1)
+                                                        OR toInvoiceCountryNode.dataNodeID = nil
+                                                        OR invoiceAddress = nil
+                                                        OR toCompany.debtorNumber = nil
+                                                        OR (toCompany.taxNumber = nil AND toInvoiceCountryNode.dataNodeID != 49)
+                                                        OR (toSignAuthority.lessFormalName = nil AND invoiceAttention = nil)">
+
+                                                          <!-- Create invoices that do have one of these groups -->
+                                                          <!--
+                                                          4630 | 8201: Corporate edition
+                                                          4628 | 8202: Recruitment edition
+                                                          4631 | 8203: Staffing edition
+                                                          4629 | 8204: Standard edition
+                                                          4730 | 8205: Outsource edition
+                                                          4731 | 8206: CRM edition
+                                                          4732 | 8207: E-Recruitment edition
+                                                          4669 | 8208: Hosting domein
+                                                          4733 | 8209: Datadump (periodiek)
+                                                          4734 | 8210: Testomgeving
+                                                          -->
+                                                          <cx:let name="InvoicesWithCorrectEdition" value="$alleFacturen" invoke="@filter.(groups.dataNodeID = 4630
+                                                          OR groups.dataNodeID = 4628
+                                                          OR groups.dataNodeID = 4631
+                                                          OR groups.dataNodeID = 4629
+                                                          OR groups.dataNodeID = 4730
+                                                          OR groups.dataNodeID = 4731
+                                                          OR groups.dataNodeID = 4732
+                                                          OR groups.dataNodeID = 4669
+                                                          OR groups.dataNodeID = 4733
+                                                          OR groups.dataNodeID = 4734) AND not (
+                                                          (groups.dataNodeID = 4630 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4631 OR groups.dataNodeID=4629 OR groups.dataNodeID=4730 OR groups.dataNodeID=4731 OR groups.dataNodeID=4732 OR groups.dataNodeID=4669 OR groups.dataNodeID=4733 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4628 AND (groups.dataNodeID=4630 OR groups.dataNodeID=4631 OR groups.dataNodeID=4629 OR groups.dataNodeID=4730 OR groups.dataNodeID=4731 OR groups.dataNodeID=4732 OR groups.dataNodeID=4669 OR groups.dataNodeID=4733 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4631 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4630 OR groups.dataNodeID=4629 OR groups.dataNodeID=4730 OR groups.dataNodeID=4731 OR groups.dataNodeID=4732 OR groups.dataNodeID=4669 OR groups.dataNodeID=4733 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4629 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4631 OR groups.dataNodeID=4630 OR groups.dataNodeID=4730 OR groups.dataNodeID=4731 OR groups.dataNodeID=4732 OR groups.dataNodeID=4669 OR groups.dataNodeID=4733 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4730 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4631 OR groups.dataNodeID=4629 OR groups.dataNodeID=4630 OR groups.dataNodeID=4731 OR groups.dataNodeID=4732 OR groups.dataNodeID=4669 OR groups.dataNodeID=4733 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4731 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4631 OR groups.dataNodeID=4629 OR groups.dataNodeID=4730 OR groups.dataNodeID=4630 OR groups.dataNodeID=4732 OR groups.dataNodeID=4669 OR groups.dataNodeID=4733 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4732 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4631 OR groups.dataNodeID=4629 OR groups.dataNodeID=4730 OR groups.dataNodeID=4731 OR groups.dataNodeID=4630 OR groups.dataNodeID=4669 OR groups.dataNodeID=4733 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4669 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4631 OR groups.dataNodeID=4629 OR groups.dataNodeID=4730 OR groups.dataNodeID=4731 OR groups.dataNodeID=4732 OR groups.dataNodeID=4630 OR groups.dataNodeID=4733 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4733 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4631 OR groups.dataNodeID=4629 OR groups.dataNodeID=4730 OR groups.dataNodeID=4731 OR groups.dataNodeID=4732 OR groups.dataNodeID=4669 OR groups.dataNodeID=4630 OR groups.dataNodeID=4734)) OR
+                                                          (groups.dataNodeID = 4734 AND (groups.dataNodeID=4628 OR groups.dataNodeID=4631 OR groups.dataNodeID=4629 OR groups.dataNodeID=4730 OR groups.dataNodeID=4731 OR groups.dataNodeID=4732 OR groups.dataNodeID=4669 OR groups.dataNodeID=4733 OR groups.dataNodeID=4630)))">
+
+
+                                                            <!-- Create invoices that do NOT have one of the above groups, by inverting the above array -->
+                                                            <cx:let name="InvoicesWithoutCorrectEdition" value="$alleFacturen" invoke="arrayByRemovingObjectsInArray:" arg0="$InvoicesWithCorrectEdition">
+
+                                                              <!-- Now, we add these wrong invoices to our list of error invoices -->
+                                                              <cx:let name="fFacturen" value="$InvoicesErrorsFilterd1" invoke="arrayByAddingObjectsFromArray:" arg0="$InvoicesWithoutCorrectEdition">
+
+                                                                <!-- Finally we remove all duplicates that might have occurred by the above procedure -->
+                                                                <cx:let name="errorInvoices" value="$fFacturen.@self.arrayByRemovingDuplicateObjects" keep="1">
+
+                                                                  <!-- ===================================================================================================== -->
+
+                                                                  <!-- Create all invoices that have warnings in them -->
+                                                                  <cx:let name="wFacturen" value="$alleFacturen" invoke="@filter.estimatedDays = 0
+                                                                  OR estimatedDays = nil
+                                                                  OR (toCompany.toPaymentPeriodNode.dataNodeID = nil OR toCompany.toPaymentPeriodNode.dataNodeID = 0)
+                                                                  OR toSignAuthority.lessFormalName = nil
+                                                                  OR groups.dataNodeID = 4620">
+
+                                                                    <!-- Filter the invoices that already have errors in them, out of this list -->
+                                                                    <cx:let name="warningInvoices" value="$wFacturen" invoke="arrayByRemovingObjectsInArray:" arg0="$errorInvoices" keep="1">
+
+                                                                      <!-- ===================================================================================================== -->
+
+                                                                        <!-- Create array that contains all correct invoices -->
+                                                                        <cx:let name="correctInvoicesTemp" value="$alleFacturen" invoke="arrayByRemovingObjectsInArray:" arg0="$errorInvoices">
+                                                                          <cx:let name="correctInvoices" value="$correctInvoicesTemp" invoke="arrayByRemovingObjectsInArray:" arg0="$warningInvoices" keep="1">
+
+                                                                          </cx:let>
+                                                                        </cx:let>
+
+                                                                    </cx:let>
+
+                                                                  </cx:let>
+
+                                                                </cx:let>
+
+                                                              </cx:let>
+
+                                                            </cx:let>
+
+                                                          </cx:let>
+
+                                                        </cx:let>
+                                                      </cx:let>
+                                                    </cx:let>
+                                                  </cx:let>
+                                                </cx:let>
+                                              </cx:let>
+                                            </cx:let>
+                                          </cx:let>
+                                        </cx:let>
+                                      </cx:let>
+                                    </cx:let>
+                                  </cx:let>
+                                </cx:let>
+                              </cx:let>
+                            </cx:let>
+
+                          </cx:let>
+                        </cx:let>
+                      </cx:let>
+                    </cx:let>
+                  </cx:let>
+                </cx:let>
+              </cx:let>
+            </cx:let>
+          </cx:let>
+        </cx:let>
+      </cx:let>
+    </cx:let>
+  </cx:let>
+
+
