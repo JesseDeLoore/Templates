@@ -2,6 +2,7 @@
 <script type="text/javascript"><!--
 	; (function($) {
 		var $container = null;
+				
 		
 		if ( !console ) console = {log: $.noop};
 		
@@ -10,7 +11,6 @@
 		 */
 		function _buildRow(it) {
 			var $row, html;
-			console.log('_buildRow');
 			if ( it<=1 && this.company.invoiceEmail !== '' ) { // TODO: remove it condition
 				$row = $('<tr data-role="invoice-export-row">'
 					+ '<th class="sub"><input type="checkbox" checked="checked"/></th>'
@@ -38,23 +38,160 @@
 		} // _buildRow();
 		
 		/**
-		 * Send a single mail
+		 * Send a mail by parsing the desires as stated in the invoicerow
 		 * Will also be used as target for the sendAll mails
 		 */
-		function _sendMail() {
-			var $top = $(this).closest('tr'),
-//					id = $top.data('invoice'),
-//					invoiceHTML = "<html><head><title>test</title><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body>" + $('[data-invoice-id=' + id + ']').html() + "</body></html>",
-//					iframe = $('#tmpIFrame'),
-//					url = 'http://' 
-//									+ document.URL.substr(document.URL.indexOf('://') + 3, document.URL.indexOf('.') - document.URL.indexOf('://') - 3)
-//									+ '.carerix.net/cgi-bin/nph-proxy.cgi/h0/http/tools.carerix.com/cxconverter/run.php',
-//					$form = $('<form method="post" action="' + url + '" target="tmpIframe" style="display: none"><textarea name="url">' + invoiceHTML + '</textarea></form>');
-				it;
-	
-			// Finally: report the fact that this email has been sent.
-			$top.trigger('set-send');
+		function _sendMailFromInvoice() {
+			var $this = $(this).closest('tr'),
+					invoice = $this.data('invoice'),
+					id = invoice.id,
+					invoiceHTML,
+					tmp,
+					xml;
+			
+			$('[data-invoice-id=' + id + ']').find('[contentEditable],[contenteditable]').removeAttr('contentEditable').removeAttr('contenteditable');
+			invoiceHTML = "<html><head><title>test</title><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body>" + $('[data-invoice-id=' + id + ']').html() + "</body></html>";
+
+			_sendMail({
+						type:			'DELAY'
+					, subject:	'TEST'
+					, from:			'"Astrid Kool | Carerix" <finance@carerix.com>'
+//					, from:			'jasper@carerix.com'
+					, to:				'jasper@carerix.com'
+//					, to:				'reinald@carerix.com'
+					, delay: 		$('#send_email_delay').val()
+					, content: 	{
+							text: invoiceHTML
+						, isHTML: true
+					}
+ 					, attachments: [
+							{ 	content: base64_encode('bla')
+								, label: 'factuur'
+								, filename: 'factuur_' + (invoice.it + initialInvoiceNumber) + '.txt'
+							}
+					]
+ 			}).success(function(response) {
+				// Finally: report the fact that this email has been sent.
+				$this.trigger('set-send');	
+			});
+			
+		} // _sendMailFromInvoice();
+
+		/**
+		 * Send a single mail as per the args
+		 * 
+		 * @return	deferred
+		 */
+		function _sendMail(args) {
+			var url = 'http://' + cxuser.appname + '.carerix.net/cgi-bin/WebObjects/' + cxuser.appname + 'Web.woa/wa/',
+					xml;
+			
+			switch ( args.type.toUpperCase() ) {
+				case 'DRAFT' :		args.type = 5;	break; 
+				case 'DELAYED' :
+				case 'DELAY' :		args.type = 6;	break;
+				default :
+					if ( parseInt(args.type) != args.type ) {
+						throw 'Not a valid type!';
+					}
+					args.type = parseInt(args.type);
+					break;
+			} // switch
+			
+			// ToDoTypeKey for a Draft email = 5
+			// ToDoTypeKey for a Delayed mail = 6, 
+			xml =	'<?xml version="1.0" encoding="utf-8"?>' 
+					+ '<CRToDo>'
+						+ '<todoTypeKey>' + args.type + '</todoTypeKey>'
+						+ '<subject>' + args.subject + '</subject>'
+						+ '<fromAddress><![CDATA[' + args.from + ']]></fromAddress>'
+						+ '<toAddress>' + args.to + '</toAddress>'
+						+ '<notes><![CDATA[' + args.content.text + ']]></notes>'
+						+ '<isHTML>' + (args.content.isHTML ? 1 : 0) + '</isHTML>'
+						+ '<owner>'
+							+ '<CRUser id="' + cxuser.id + '" />'
+						+ '</owner>'
+						
+
+// 						+ '<toContact><CRAttachmentData id="19117"></toContact>'
+//	    			+ '<toCompany><CRAttachmentData id="19117"></toCompany>'
+			;
+			
+			if ( args.type === 5 || args.type === 6 ) {
+				xml += '<toStatusNode><CRDataNode id="3214"/></toStatusNode>' // NOG TE VERZENDEN STATUS
+			}
+
+			if ( typeof args.replyTo !== typeof undefined ) { 
+				xml += '<replyToAddress>' + args.replyTo + '</replyToAddress>'
+			}
+			
+			if ( typeof args.delay !== typeof undefined ) { // but also include <delay> and <toDelayUnitNode> node
+				xml += '<delay>' + args.delay + '</delay>'
+						+ '<toDelayUnitNode><CRDataNode id="4238"/></toDelayUnitNode>'
+				;
+			}
+					
+			if ( $.isArray(args.attachments) ) {
+				xml +='<attachments>';
+				$.each(args.attachments, function() {
+	  	  	xml	+= '<CRAttachment>'
+	  	  					+ '<content>' + this.content + '</content>'
+	  	  					+ '<label>' + this.label + '</label>'
+	  	  					+ '<filePath>CRToDo/' + this.filename + '</filePath>'
+	  	  					+ '<valid>0</valid>'
+	  	  					+ '<owner>'
+		  							+ '<CRUser id="' + cxuser.id + '" />'
+		  						+ '</owner>'
+	  	  				+ '</CRAttachment>';
+				});
+				xml += '</attachments>';
+			}
+			
+			xml += '</CRToDo>';
+							
+			return $.ajax({
+					url: url + 'save'
+				, type: 'POST'
+				, processData: false
+				, data: xml
+				, headers: {
+					'x-cx-pwd' : cxuser.xmlPass
+				}
+			});
 		} // _sendMail();
+		
+		/**
+		 * Base64 encode the supplied data
+		 */
+		function base64_encode(data) {
+			var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+			var o1, o2, o3, h1, h2, h3, h4, bits, i = 0,
+			ac = 0,
+			enc = "",
+			tmp_arr = [];
+			
+			if ( !data ) return data;
+			
+			do { // pack three octets into four hexets
+				o1 = data.charCodeAt(i++);
+				o2 = data.charCodeAt(i++);
+				o3 = data.charCodeAt(i++);
+			
+				bits = o1 << 16 | o2 << 8 | o3;
+			
+				h1 = bits >> 18 & 0x3f;
+				h2 = bits >> 12 & 0x3f;
+				h3 = bits >> 6 & 0x3f;
+				h4 = bits & 0x3f;
+			
+				// use hexets to index into b64, and append result to encoded string
+				tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
+			} while (i < data.length);
+			
+			enc = tmp_arr.join('');
+			var r = data.length % 3;
+			return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
+		} // base64_encode();
 		
 		/**
 		 * Download the PDF pertaining to the invoice, as the end user would get it
@@ -64,21 +201,21 @@
 					invoice = $this.data('invoice'),
 					$invoice = $('[data-invoice-id=' + invoice.id + ']'),
 					invoiceHTML = "<html><head>"
-							+ "<title>Factuur</title>"
-							+ "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>"
-							+ "</head><body>" 
-							+ $invoice.html() 
+								+ "<title>Factuur</title>"
+								+ "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>"
+								+ "</head><body>" 
+								+ $invoice.html() 
 							+ "</body></html>",
 					iframe = $('#tmpIFrame'),
 					url = 'http://tools.carerix.com/cxconverter/run.php', // endpoint uri for the CxConverter
 					$form = $('<form method="post" action="' + url + '" target="tmpIframe" style="display: none">'
-							+ '<textarea name="url">' + invoiceHTML + '</textarea>'
-							+ '<input name="pdf_name" value="' + (invoice.it + initialInvoiceNumber) + '"/>'
-							+ '<input name="media" value="A4"/>'
-							+ '<input name="cssmedia" value="print"/>'
-							+ '<input name="pixels" value="' + ($invoice.find('.noborder').actual('width')+10) + 'x' + ($invoice.actual('height')+10) + '"/>'
-							+ '<input name="leftmargin" value="15"/>'
-							+ '<input name="rightmargin" value="15"/>'
+								+ '<textarea name="url">' + invoiceHTML + '</textarea>'
+								+ '<input name="pdf_name" value="' + (invoice.it + initialInvoiceNumber) + '"/>'
+								+ '<input name="media" value="A4"/>'
+								+ '<input name="cssmedia" value="print"/>'
+								+ '<input name="pixels" value="' + ($invoice.find('.noborder').actual('width')+10) + 'x' + ($invoice.actual('height')+10) + '"/>'
+								+ '<input name="leftmargin" value="15"/>'
+								+ '<input name="rightmargin" value="15"/>'
 							+ '</form>');
 					
 			if ( iframe.length === 0 ) {
@@ -98,7 +235,7 @@
 		function _setSend() {
 			var $this = $(this);
 			$this.find(':checkbox').attr('checked', 'checked').attr('disabled', 'disabled');
-			$this.find('button').html('Verstuurd').addClass('inactive');
+			$this.find('[data-role=send-mailing]').html('Verstuurd').addClass('inactive');
 		} // _setSend();
 		
 		/**
@@ -128,7 +265,7 @@
 		/**
 		 * Bind the events
 		 */
-		$(document).on('send-email', '[data-role="invoice-export-row"]', _sendMail);
+		$(document).on('send-email', '[data-role="invoice-export-row"]', _sendMailFromInvoice);
 		$(document).on('download', '[data-role="invoice-export-row"]', _downloadInvoicePDF);
 		$(document).on('set-send', '[data-role="invoice-export-row"]', _setSend);
 		$(document).on('click', '[data-role=send-mailing]', _triggerSendMail);
@@ -140,7 +277,14 @@
 		 */
 		$(document).ready(function() {
 			$container = $('#invoiceMailingsTable tbody');
-			$.each(getProjects(), _buildRow);
+			$.each(getInvoices(), _buildRow);
+			$('#overview_actions').append('<button data-click-switch="mailing" style="clear: both">Invoice mails voorbereiden</button>');
+			$('#overview_actions').append(
+					'<span data-role="mailing" style="display: none;">'
+						+ '<label>Vertraging (in minuten)<input type="number" value="15" id="send_email_delay"/></label>'
+						+ '<button data-role="send-all-email">Alle factuurmails versturen</button>'
+					+ '</span>'
+			);
 		});
 		
 	})(jQuery);
@@ -164,7 +308,6 @@
 		color: #ccc;
 	}
 </style>
-<button data-role="send-all-email">Send all emails</button>
 <style type="text/css" media="print">
 	table#invoiceMailingsTable button {
 		border: none;
@@ -177,12 +320,14 @@
 
 <table id="invoiceMailingsTable" class='border'>
 	<thead>
-		<th/>
-		<th>Bedrijf</th>
-		<th>Email adres</th>
-		<th>Bedrag</th>
-		<th/>
-		<th/>
+		<tr>
+			<th/>
+			<th>Bedrijf</th>
+			<th>Email adres</th>
+			<th>Bedrag</th>
+			<th/>
+			<th/>
+		</tr>
 	</thead>
 	<tbody/>
 </table>

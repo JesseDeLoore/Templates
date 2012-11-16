@@ -1,5 +1,4 @@
-<script type="text/javascript"><<cx:write value="!--\n"/>
-; var getProjects, getProjectsWithErrors, getProjectsWithoutGroup, getToday, getMonthNames;
+; var getInvoices, getProjects, getProjectsWithErrors, getProjectsWithoutGroup, getToday, getMonthNames;
 (function() {
 	var _project = null,
 			_projects = [],
@@ -17,7 +16,7 @@
 	/**
 	 * Generic getter for the projects
 	 */
-	getProjects = function() { 
+	getInvoices = getProjects = function() { 
 		return _projects; 
 	}; // getProjects();
 	
@@ -26,20 +25,20 @@
 	 */
 	getProjectsWithoutGroup = function() {
 		return _projectsWithoutGroup;
-	} // getProjectsWithoutGroup();
+	}; // getProjectsWithoutGroup();
 	
 	/**
 	 * Specific getter for those projects that have errors
 	 */
 	getProjectsWithErrors = function() {
 		return _projectsWithErrors;
-	} // getProjectsWithoutGroup();
+	}; // getProjectsWithoutGroup();
 	
 	/**
 	 * Return today.
 	 */	
 	getToday = function() {
-		return _getDate("<cx:write value="$utilities.currentDate" dateformat="%Y-%m-%d %H:%I:%S"/>");
+		return _getDate('<cx:write value="$utilities.currentDate" dateformat="%Y-%m-%d %H:%I:%S"/>');
 	}; // getToday();
 	
 	/**
@@ -61,7 +60,7 @@
 		var parts = string.match(/(\d+)/g), i = 0, fmt = {};
 	  inputFormat.replace(/(yyyy|dd|mm|hh|ii|ss)/g, function(part) { fmt[part] = i++; });
 	  return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']], parts[fmt['hh']], parts[fmt['ii']], parts[fmt['ss']]);
-	};
+	} // _getDate();
 	
 	/**
 	 * Parse a grootboek code as per the exportCode provided in the project's group
@@ -233,4 +232,3 @@
 	</cx:foreach> */
 
 })();
-<cx:write value="\n--"/>></script>

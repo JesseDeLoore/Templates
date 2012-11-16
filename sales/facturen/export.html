@@ -2,20 +2,20 @@
 $(document).ready(function() {
 	var $textarea=$('#export'),
 			columns = [
-					{header: 'Bladzijdenr.',				field: function(project, it)	{ return it; }}
+					{header: 'Bladzijdenr.',				field: function(invoice, it)	{ return it; }}
 				, {header: 'Dagboek',							field: function()							{ return 'VRK'; }}
-				, {header: 'Omschrijving',				field: function(project)			{ return project.company.name + ',' + project.getInvoiceType(); } } 
+				, {header: 'Omschrijving',				field: function(invoice)			{ return invoice.company.name + ',' + invoice.getInvoiceType(); } } 
 				, {header: 'Factuurdatum',				field: function() 						{ return (new Date()).get_dmY();} } 
-				, {header: 'Grootboeknummer',			field: function(project)			{ return project.grootboek.code; } } 
-				, {header: 'Debiteurennummer',		field: function(project)			{ return project.company.debtorNumber; } } 
-				, {header: 'Naam debiteur',				field: function(project)			{ return project.company.name; } }
-				, {header: 'Periode',							field: function(project)			{ return project.getPeriod(); } }
-				, {header: 'BTW-code',						field: function(project)			{ return project.i18n.isDutch ? 1 : (project.i18n.isEU ? 'E' : ' '); } }
-				, {header: 'Factuurbedrag incl.',	field: function(project)			{ return project.getParsedTotal(); } } 
-				, {header: 'BTW bedrag',					field: function(project)			{ return project.getParsedVAT(); } }
-				, {header: 'Factuurnummer',				field: function(project, it)	{ return initialInvoiceNumber + it; } }
-				, {header: 'Kostenplaats',				field: function(project)			{ return project.grootboek.costlocation; } }
-				, {header: 'Kostensoort',					field: function(project)			{ return project.grootboek.costtype; } }
+				, {header: 'Grootboeknummer',			field: function(invoice)			{ return invoice.grootboek.code; } } 
+				, {header: 'Debiteurennummer',		field: function(invoice)			{ return invoice.company.debtorNumber; } } 
+				, {header: 'Naam debiteur',				field: function(invoice)			{ return invoice.company.name; } }
+				, {header: 'Periode',							field: function(invoice)			{ return invoice.getPeriod(); } }
+				, {header: 'BTW-code',						field: function(invoice)			{ return invoice.i18n.isDutch ? 1 : (invoice.i18n.isEU ? 'E' : ' '); } }
+				, {header: 'Factuurbedrag incl.',	field: function(invoice)			{ return invoice.getParsedTotal(); } } 
+				, {header: 'BTW bedrag',					field: function(invoice)			{ return invoice.getParsedVAT(); } }
+				, {header: 'Factuurnummer',				field: function(invoice, it)	{ return initialInvoiceNumber + it; } }
+				, {header: 'Kostenplaats',				field: function(invoice)			{ return invoice.grootboek.costlocation; } }
+				, {header: 'Kostensoort',					field: function(invoice)			{ return invoice.grootboek.costtype; } }
 			];
 			
 	/**
@@ -28,9 +28,9 @@ $(document).ready(function() {
 		$.each(columns, function() { header.push('"' + this.header + '"'); });
 		$textarea.val(header.join('\t') + '\r\n\r\n');
 		
-		$.each(getProjects(), function(it, project) {
+		$.each(getInvoices(), function(it, invoice) {
 			var row = [];
-			$.each(columns, function() { row.push('"' + this.field(project, it) + '"'); });
+			$.each(columns, function() { row.push('"' + this.field(invoice, it) + '"'); });
 			$textarea.val($textarea.val() + row.join('\t') + '\r\n');
 		});
 	} // generateExport();
@@ -44,8 +44,13 @@ $(document).ready(function() {
 	// When the invoicenumber changes: (re)generate the export
 	$(document).on('invoicenumber_update', generateExport);
 	
+	// add the export button to the overview (if any)
+	$('#overview_actions').append('<button data-click-switch="export" style="clear:both">TSV export tonen</button>');
+	
 	// Do the actual generation of the export
 	generateExport();
+	
+	
 });
 --></script>
 <style>

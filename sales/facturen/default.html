@@ -34,7 +34,8 @@
 			 --></cx:silent>
 			 
 			<script type="text/javascript" src="http://sales.carerix.com/templates/facturen/Invoice.js"></script>
-			<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/CxProjects2JSONInvoice.html" invoke="urlContents">
+			<script type="text/javascript"><<cx:write value="!--\n"/>
+			<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/CxProjects2JSONInvoice.js" invoke="urlContents">
 			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="//.*?\n" arg1="$nil">
 			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="/[*].*?[*]/" arg1="$nil">
 			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="[\n\t]+" arg1=" ">
@@ -43,6 +44,18 @@
 			</cx:let>
 			</cx:let>
 			</cx:let>
+			<cx:write value="\n--"/>></script>
+			<script type="text/javascript"><<cx:write value="!--\n"/>
+			<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/CxSystem.js" invoke="urlContents">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="//.*?\n" arg1="$nil">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="/[*].*?[*]/" arg1="$nil">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="[\n\t]+" arg1=" ">
+				<cx:include template="$tmpl"/>
+			</cx:let>
+			</cx:let>
+			</cx:let>
+			</cx:let>
+			<cx:write value="\n--"/>></script>
 			
 			<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
@@ -63,7 +76,7 @@
 					
 					initialInvoiceNumber = parseInt(initialInvoiceNumber);
 					$(this).trigger('invoicenumber_update');
-					$('#invoices').tmpl(getProjects());	
+					$('#invoices').tmpl(getInvoices());	
 				});
 			</script>
 		</head>

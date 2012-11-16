@@ -12,7 +12,7 @@ $(document).ready(function() {
 	});
 	
 	// toggler for the switch buttons 
-	$(this).on('click', '[data-click-switch]', function() {
+	$(this).on('click', '[data-click-switch]', function(e) {
 		$('[data-click-switch]').each(function() {
 			var $this = $(this);
 			$this.removeClass('active');
@@ -24,7 +24,7 @@ $(document).ready(function() {
 	});
 	
 	// filler of the types of invoices
-	$.each(getProjects(), function() {
+	$.each(getInvoices(), function() {
 		var type = 'month',
 				insert = '<li>' + this.company.name; 
 				
@@ -134,6 +134,7 @@ $(document).ready(function() {
 		border: 1px solid #660000;
 		box-shadow:	0px 1px 3px rgba(000,000,000,0.5), inset 0px 0px 1px rgba(255,255,255,0.5);
 		text-shadow: 0px -1px 0px rgba(000,000,000,0.7), 0px 1px 0px rgba(255,255,255,0.3);
+		clear: both;
 	}
 	fieldset#overview  button.active {
 		color: #ccc;
@@ -184,12 +185,10 @@ $(document).ready(function() {
 		</label>
 		<ul data-role="report_year_invoices" style="display:none;"></ul>
 		
-		<label style="margin-bottom: 1em;">
+		<span style="margin-bottom: 1em;" id="overview_actions">
 			Acties
 			<button data-click-switch="invoices" class="active">Facturen tonen</button>
-			<button data-click-switch="export" style="clear:both">TSV export tonen</button>
-			<button data-click-switch="mailing" style="clear: both">Invoice mails voorbereiden</button>
-		</label>
+		</span>
 		
 		<label style="display:none">
 			<b style="color: red;">Let op! De volgende projecten bevatten fouten,<br/> en worden NIET gefactureerd:</b><br/>
