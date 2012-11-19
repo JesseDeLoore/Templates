@@ -16,7 +16,7 @@
 					+ '<th class="sub"><input type="checkbox" checked="checked"/></th>'
 						+ '<td>' + this.company.name + '</td>'
 						+ '<td>' + this.company.invoiceEmail + '</td>'  
-						+ '<td>&euro; ' + this.getParsedSubtotal() + '</td>'  
+						+ '<td>&#x20ac; ' + this.getParsedSubtotal() + '</td>'  
 						+ '<td><button data-role="send-mailing">Versturen</button></td>'
 						+ '<td><button data-role="download-invoice">Downloaden</button></td>'
 					+ '</tr>'
@@ -27,7 +27,7 @@
 						+ '<th class="sub"><input type="checkbox" disabled="disabled"/></th>'
 						+ '<td>' + this.company.name + '</td>'
 						+ '<td>GEEN ADRES BESCHIKBAAR</td>'  
-						+ '<td>&euro; ' + this.getParsedSubtotal() + '</td>'  
+						+ '<td>&#x20ac; ' + this.getParsedSubtotal() + '</td>'  
 						+ '<td><button class="inactive">Versturen</button></td>'
 						+ '<td><button data-role="download-invoice">Downloaden</button></td>'
 					+ '</tr>'
@@ -49,12 +49,31 @@
 					tmp,
 					xml;
 			
-			$('[data-invoice-id=' + id + ']').find('[contentEditable],[contenteditable]').removeAttr('contentEditable').removeAttr('contenteditable');
-			invoiceHTML = "<html><head><title>test</title><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head><body>" + $('[data-invoice-id=' + id + ']').html() + "</body></html>";
+			// remove contentEditables in order to not have them be "changeable" in CX
+			$('[data-invoice-id=' + id + ']')
+					.find('[contentEditable],[contenteditable]')
+					.removeAttr('contentEditable')
+					.removeAttr('contenteditable');
+			
+			// gather the invoice HTML
+			invoiceHTML = "<!DOCTYPE HTML>"
+					+ "<html>"
+						+ "<head>"
+							+ "<title>test</title>"
+							+ "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>" 
+						+ "</head>"
+						+ "<body>"
+							+	"<div class='invoice-wrapper'>"
+								+ $('[data-invoice-id=' + id + ']').html() 
+							+ "</div>"
+						+ "</body>"
+					+ "</html>"
+			;
 
+			// send a mail
 			_sendMail({
 						type:			'DELAY'
-					, subject:	'TEST'
+					, subject:	'Factuur ' + invoice.getInvoiceNumber()
 					, from:			'"Astrid Kool | Carerix" <finance@carerix.com>'
 //					, from:			'jasper@carerix.com'
 					, to:				'jasper@carerix.com'
@@ -65,9 +84,9 @@
 						, isHTML: true
 					}
  					, attachments: [
-							{ 	content: base64_encode('bla')
+							{ 	content: invoiceHTML
 								, label: 'factuur'
-								, filename: 'factuur_' + (invoice.it + initialInvoiceNumber) + '.txt'
+								, filename: 'factuur_' + invoice.getInvoiceNumber() + '.html'
 							}
 					]
  			}).success(function(response) {
@@ -135,7 +154,7 @@
 				xml +='<attachments>';
 				$.each(args.attachments, function() {
 	  	  	xml	+= '<CRAttachment>'
-	  	  					+ '<content>' + this.content + '</content>'
+	  	  					+ '<content>' + this.content.base64encode() + '</content>'
 	  	  					+ '<label>' + this.label + '</label>'
 	  	  					+ '<filePath>CRToDo/' + this.filename + '</filePath>'
 	  	  					+ '<valid>0</valid>'
@@ -161,39 +180,6 @@
 		} // _sendMail();
 		
 		/**
-		 * Base64 encode the supplied data
-		 */
-		function base64_encode(data) {
-			var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-			var o1, o2, o3, h1, h2, h3, h4, bits, i = 0,
-			ac = 0,
-			enc = "",
-			tmp_arr = [];
-			
-			if ( !data ) return data;
-			
-			do { // pack three octets into four hexets
-				o1 = data.charCodeAt(i++);
-				o2 = data.charCodeAt(i++);
-				o3 = data.charCodeAt(i++);
-			
-				bits = o1 << 16 | o2 << 8 | o3;
-			
-				h1 = bits >> 18 & 0x3f;
-				h2 = bits >> 12 & 0x3f;
-				h3 = bits >> 6 & 0x3f;
-				h4 = bits & 0x3f;
-			
-				// use hexets to index into b64, and append result to encoded string
-				tmp_arr[ac++] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
-			} while (i < data.length);
-			
-			enc = tmp_arr.join('');
-			var r = data.length % 3;
-			return (r ? enc.slice(0, r - 3) : enc) + '==='.slice(r || 3);
-		} // base64_encode();
-		
-		/**
 		 * Download the PDF pertaining to the invoice, as the end user would get it
 		 */
 		function _downloadInvoicePDF() {
@@ -210,7 +196,7 @@
 					url = 'http://tools.carerix.com/cxconverter/run.php', // endpoint uri for the CxConverter
 					$form = $('<form method="post" action="' + url + '" target="tmpIframe" style="display: none">'
 								+ '<textarea name="url">' + invoiceHTML + '</textarea>'
-								+ '<input name="pdf_name" value="' + (invoice.it + initialInvoiceNumber) + '"/>'
+								+ '<input name="pdf_name" value="' + invoice.getInvoiceNumber() + '"/>'
 								+ '<input name="media" value="A4"/>'
 								+ '<input name="cssmedia" value="print"/>'
 								+ '<input name="pixels" value="' + ($invoice.find('.noborder').actual('width')+10) + 'x' + ($invoice.actual('height')+10) + '"/>'

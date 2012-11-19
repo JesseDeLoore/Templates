@@ -90,3 +90,12 @@ Invoice.prototype.getInvoiceType = function() {
 		default:	return 'Maand'; 
 	} 
 }; // getInvoiceType();
+
+/**
+ * Return the calculated invoicenumber of this invoice
+ * 
+ * @returns integer
+ */
+Invoice.prototype.getInvoiceNumber = function() {
+	return this.it + (initialInvoiceNumber || 0);
+} // getInvoiceNumber();

@@ -13,7 +13,7 @@ $(document).ready(function() {
 				, {header: 'BTW-code',						field: function(invoice)			{ return invoice.i18n.isDutch ? 1 : (invoice.i18n.isEU ? 'E' : ' '); } }
 				, {header: 'Factuurbedrag incl.',	field: function(invoice)			{ return invoice.getParsedTotal(); } } 
 				, {header: 'BTW bedrag',					field: function(invoice)			{ return invoice.getParsedVAT(); } }
-				, {header: 'Factuurnummer',				field: function(invoice, it)	{ return initialInvoiceNumber + it; } }
+				, {header: 'Factuurnummer',				field: function(invoice, it)	{ return invoice.getInvoiceNumber(); } }
 				, {header: 'Kostenplaats',				field: function(invoice)			{ return invoice.grootboek.costlocation; } }
 				, {header: 'Kostensoort',					field: function(invoice)			{ return invoice.grootboek.costtype; } }
 			];

@@ -214,7 +214,7 @@
 	/**
 	 * Projects
 	 */
-	<cx:foreach list="$projects.@sortAscending.toCompany.name" item="project" index="it">
+	<cx:foreach list="$projects.@sortAscending.vacancyID" item="project" index="it">
 		<cx:project/>
 
 		_projects.push(_project);

@@ -74,7 +74,7 @@ td.invoiceDescription {
 td.footer {
 	text-align: center;
 	vertical-align: bottom;
-	height: 120px;
+	height: 60px;
 }
 
 div.cxLogo {
@@ -84,6 +84,10 @@ div.cxLogo {
 @page {
 	size: A4 portrait;	/* width height */
 	margin-bottom: 1cm;
+}
+
+div.invoice-wrapper {
+	width: 640px;
 }
 
 @media print {

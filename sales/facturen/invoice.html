@@ -1,4 +1,4 @@
-<div data-role="invoice" data-invoice-id="<%=id%>" style="page-break-after:always">
+<div class="invoice-wrapper" data-role="invoice" data-invoice-id="<%=id%>" style="page-break-after: always;">
 	<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
 	<link rel="stylesheet" type="text/css" href="http://sales.carerix.com/templates/facturen/invoice.css" />
 <!-- Set the header 
@@ -67,7 +67,7 @@
 				<td>
 					<span contentEditable="true"><%=(i18n.isDutch?'Factuurnummer':'Invoice number')%></span>
 				</td>
-				<td><span contentEditable="true" data-role="invoicenumber"><%=it+initialInvoiceNumber%></span></td>
+				<td><span contentEditable="true" data-role="invoicenumber"><%=obj.getInvoiceNumber()%></span></td>
 				<td>&nbsp;</td>
 				<td>
 					<span contentEditable="true"><%=(i18n.isDutch?'Onze referentie':'Our reference')%></span>
@@ -136,7 +136,7 @@
 									checkDate = new Date(2012, 7-1, 1),
 									month = (new Date()).nextMonth().nextMonth().getMonth() + 1,
 									test = false,
-									span = '<span contenteditable="true" style="font-size: 8px;">',
+									span = '<span contenteditable="true" style="font-size: .75em;">',
 									spanEnd = '</span><br/><br/>';
 						
 							if ( startDate < checkDate && month <= frequency ) {

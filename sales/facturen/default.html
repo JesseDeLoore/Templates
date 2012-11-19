@@ -60,7 +60,7 @@
 			<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 			<script src="http://sales.carerix.com/templates/facturen/template.js"></script>
-			<script src="http://sales.carerix.com/templates/facturen/dateExtensions.js"></script>
+			<script src="http://sales.carerix.com/templates/facturen/jsObjectExtensions.js"></script>
 			<script type="text/javascript">
 				function warn(string) {
 					return "<font color=red><i>" + string + "</i></font>";
@@ -77,6 +77,7 @@
 					initialInvoiceNumber = parseInt(initialInvoiceNumber);
 					$(this).trigger('invoicenumber_update');
 					$('#invoices').tmpl(getInvoices());	
+					$('#invoices').find('[contentEditable],[contenteditable]').removeAttr('contentEditable').removeAttr('contenteditable');
 				});
 			</script>
 		</head>

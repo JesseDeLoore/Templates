@@ -19,7 +19,7 @@ Use the following variables:
   <cx:let name="start" value="$utilities.currentDate.nextMonth.firstDayOfMonth.midnight">
 
     <!-- Alle projecten ophalen met status = "3:ACTIEF toepassing opzetten" OR "6:ACTIEF contract" OR "actief, maar opgezegd" -->
-    <cx:let name="actieveProjecten" value="$activity.selectedItems" invoke="@filter.toStatusNode.dataNodeID=3315 OR toStatusNode.dataNodeID=3318 OR toStatusNode.dataNodeID=3319">
+    <cx:let name="actieveProjecten" value="$activity.selectedItems" invoke="@filter.toStatusNode.dataNodeID=3315 OR toStatusNode.dataNodeID=3318 OR toStatusNode.dataNodeID=3319 OR toStatusNode.dataNodeID=4770">
 
       <!-- Splitsing per Maand/Kwartaal/Jaar -->
       <cx:let name="projectenZonderTermijn" value="$actieveProjecten" invoke="@filter.estimatedDays!=0 AND estimatedDays!=1 AND estimatedDays!=3 AND estimatedDays!=6 AND estimatedDays!=12">
