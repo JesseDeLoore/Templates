@@ -35,17 +35,6 @@
 			 
 			<script type="text/javascript" src="http://sales.carerix.com/templates/facturen/Invoice.js"></script>
 			<script type="text/javascript"><<cx:write value="!--\n"/>
-			<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/CxProjects2JSONInvoice.js" invoke="urlContents">
-			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="//.*?\n" arg1="$nil">
-			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="/[*].*?[*]/" arg1="$nil">
-			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="[\n\t]+" arg1=" ">
-				<cx:include template="$tmpl"/>
-			</cx:let>
-			</cx:let>
-			</cx:let>
-			</cx:let>
-			<cx:write value="\n--"/>></script>
-			<script type="text/javascript"><<cx:write value="!--\n"/>
 			<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/CxSystem.js" invoke="urlContents">
 			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="//.*?\n" arg1="$nil">
 			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="/[*].*?[*]/" arg1="$nil">
@@ -61,6 +50,17 @@
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 			<script src="http://sales.carerix.com/templates/facturen/template.js"></script>
 			<script src="http://sales.carerix.com/templates/facturen/jsObjectExtensions.js"></script>
+			<script type="text/javascript"><<cx:write value="!--\n"/>
+			<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/CxProjects2JSONInvoice.js" invoke="urlContents">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="//.*?\n" arg1="$nil">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="/[*].*?[*]/" arg1="$nil">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="[\n\t]+" arg1=" ">
+				<cx:include template="$tmpl"/>
+			</cx:let>
+			</cx:let>
+			</cx:let>
+			</cx:let>
+			<cx:write value="\n--"/>></script>
 			<script type="text/javascript">
 				function warn(string) {
 					return "<font color=red><i>" + string + "</i></font>";
@@ -83,7 +83,7 @@
 		</head>
 		<body>
 			<div id="overview" class="noPrint" style="position: fixed; right: 0px; top: 0px;">
-				<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/overview.html" invoke="urlContents">
+				<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/bulk_overview.html" invoke="urlContents">
 					<cx:write value="$tmpl" html="1"/>
 				</cx:let>
 			</div>

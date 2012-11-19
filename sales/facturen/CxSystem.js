@@ -2,6 +2,6 @@
 	this.id = parseInt('<cx:write value="$activity.owner.userID"/>');
 	this.appname = '<cx:write value="$utilities.userDefaults.Customer"/>';
 	this.wosid = '<cx:write value="$wosid"/>';
-	this.xmlPass = 's4l3sc4r3r1x';
+	this.xmlPass = '<cx:write value="$settings.xmlapi.xmlPassword"/>'; 
 };
 var cxuser = new CxUser(); 

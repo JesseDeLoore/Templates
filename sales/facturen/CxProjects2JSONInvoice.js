@@ -208,6 +208,11 @@
 			, addressee: "<cx:write value="$project.invoiceAttention.jsEscapedString"/>" || "<cx:write value="$project.toSignAuthority.informalName.jsEscapedString"/>"
 			, startDate:_getDate('<cx:write value="$project.startDate"/>')
 			, firstLineOfNotes: "<cx:write value="$project.notes.line1.jsEscapedString"/>"
+			, title: {
+					main: ''
+				, sub: ''
+			}
+			, lines: []
 		});
 	</cx:define>
 	

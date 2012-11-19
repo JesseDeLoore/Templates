@@ -73,7 +73,7 @@
 					<span contentEditable="true"><%=(i18n.isDutch?'Onze referentie':'Our reference')%></span>
 				</td>
 				<td>
-					<span contentEditable="true"><%=company.debtorNumber%>&nbsp;&nbsp;(<%=grootboek.code%>)</span>
+					<span contentEditable="true" data-role="invoice-cx-reference"><%=company.debtorNumber%>&nbsp;&nbsp;(<%=grootboek.code%>)</span>
 				</td>
 			</tr>
 		</table>
@@ -88,39 +88,8 @@
 			</tr>
 			<tr>
 				<td colspan="6" class="border" style="font-size: 20px;color:black;border: 1px solid #C0C0C0;">
-					<span contentEditable="true">
-						<%
-							(function() { 
-								var start = getToday().nextMonth(),
-										start_BY = start.get_BY(i18n.isDutch),
-										tm = i18n.isDutch ? ' t/m ' : ' until ';
-										 
-								switch ( frequency ) {
-									case 0:
-									case 1:
-										print((i18n.isDutch ? 'Factuur ' : 'Invoice ') + start_BY);
-										break;
-									case 3:
-										print(i18n.isDutch ? 'Kwartaalfactuur ' : 'Trimester invoice ');
-										print(start_BY + tm + start.nextMonth().nextMonth().get_BY(i18n.isDutch));
-										break;
-									case 6:
-										print(i18n.isDutch ? 'Half jaarfactuur ' : 'Biannual invoice ');
-										print(start_BY + tm + start.nextMonth().nextMonth().nextMonth().nextMonth().nextMonth().get_BY(i18n.isDutch));
-										break;
-									case 12:
-										print(i18n.isDutch ? 'Jaarfactuur ' : 'Annual invoice ');
-										var end = start.prevMonth();
-										end.setFullYear(start.getFullYear()+1);
-										print(start_BY + tm + end.get_BY(i18n.isDutch));
-										break;
-									default:
-										warn('Periode ' + frequency + ' is niet gedefinieerd');
-										break;
-								}
-							})();
-						%>
-					</span>
+					<span contentEditable="true" data-role="invoice-title-main"><%=title.main%></span>
+					<span contentEditable="true" data-role="invoice-title-sub" style="float: right"><%=title.sub%></span>
 				</td>
 			</tr>
 			<tr>
@@ -194,58 +163,21 @@
 					</span>
 				</td>
 			</tr>
-		
-<!-- Invoice line
-			The (single) project based invoice line, detailing the price for the project
--->
+			
+			<% $.each(lines, function() { %>
 			<tr>
 				<td colspan="4">
-					<span contenteditable="true">
-						<%
-							if ( includingDomain ) {
-								print((i18n.isDutch ?
-									'Registratie inclusief domein naam, email & website hosting voor '
-									: 'Registration including domain name, e-mail & website hosting for '
-								)	+ agreement.name);
-							} else { %>
-							<%=agreement.name%> (<%=(i18n.isDutch?'inclusief':'including')%> <%=agreement.numberOfUsers%> users)
-						<% } %> 
-					</span>
+					<span contenteditable="true"><%=this.title%></span>
 				</td>
 				<td class="LeftBorder rt" style="width:10px;">
-					<span contenteditable="true">&euro;</span>
+					<span contenteditable="true"><%=this.currency%></span>
 				</td>
 				<td class="rt" style="width:50px;">
-					<span contenteditable="true"><%=obj.parseAmount(amount)%></span>
+					<span contenteditable="true"><%=this.amount?obj.parseAmount(this.amount):''%></span>
 				</td>
 			</tr>
-		
-<!-- Discount line
-			If any, show the discount as a negative integer (ceiled). 
-			If no discount, show an empty row.
--->
-			<% if ( discount > 0 ) { %>
-				<tr>
-					<td colspan="4">
-						<span contenteditable="true"><%=((i18n.isDutch?'Korting&nbsp;&nbsp;':'Discount&nbsp;&nbsp;')+discount + ' %')%></span>
-					</td>
-					<td class="LeftBorder rt">
-						<span contenteditable="true">&euro;</span>
-					</td>
-					<td class="rt">
-						<span contenteditable="true">- <%=obj.parseAmount(Math.ceil(discountAmount))%></span>
-					</td>
-				</tr>
-			<% } else { %>
-				<tr>
-					<td colspan="4">
-						<span contenteditable="true">&nbsp;</span>
-					</td>
-					<td class="LeftBorder"><span contenteditable="true">&nbsp;</span></td>
-					<td class="rt"><span contenteditable="true"></span></td>
-				</tr>
-			<% } %>
-		
+			<% }); %>
+					
 <!-- Spare rows
 			Some 'spare' rows, which can be edited at will
 -->

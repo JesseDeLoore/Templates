@@ -1,0 +1,368 @@
+<style>
+	fieldset#overview {
+		margin: 1px 1em 1px;
+		padding: .5em; 
+		border: 1px solid blue; 
+		font-family: Verdana;
+		line-height: 1.4em;
+		border-radius: .3em;
+		background: rgb(200,200,255);
+		background: rgba(200,200,255,.75);
+		filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#bfffffff', endColorstr='#bfffffff'); /* IE */
+		
+		-moz-box-shadow: 3px 3px 4px #000; /* Firefox/Mozilla */  
+		-webkit-box-shadow: 3px 3px 4px #000; /*Safari/Chrome */  
+		box-shadow: 3px 3px 4px #000; /* Opera & hoe het zou moeten */  
+		/* Voor IE 8 */  
+		-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";  
+		/* Voor IE 5.5 - 7 */  
+		filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');  
+	}
+	fieldset#overview legend {
+		background: rgb(200,200,255);
+		padding: .5em; 
+		border: 1px solid blue; 
+		font-size: x-large;
+		font-weight: bold;
+		border-top-left-radius: .3em;
+		border-top-right-radius: .3em;
+	}
+	fieldset#overview label {
+		float: left;
+		clear: both;
+		width: 100%;
+	}
+	fieldset#overview label select,
+	fieldset#overview label input {
+		float: right;
+		border: 1px solid silver;
+		margin-left: 1em;
+	}
+	fieldset#overview label input.cb {
+		float: left;
+		margin: .2em .3em 0 0;
+	}
+	fieldset#overview label input.readonly {
+		background: transparent;
+		border: 0px;
+	}
+	fieldset#overview  button {
+		cursor: pointer;
+		float: right;
+		font-size: 1.1em;
+		color: #ffffff;
+		padding: .3em 1em;
+		background: #ffa442;
+		background: -moz-linear-gradient(top,	#ffa442 0%,	#665200);
+		background: -webkit-gradient(linear, left top, left bottom,	from(#ffa442), to(#665200));
+		border-radius: 10px;
+		border: 1px solid #660000;
+		box-shadow:	0px 1px 3px rgba(000,000,000,0.5), inset 0px 0px 1px rgba(255,255,255,0.5);
+		text-shadow: 0px -1px 0px rgba(000,000,000,0.7), 0px 1px 0px rgba(255,255,255,0.3);
+		clear: both;
+	}
+	fieldset#overview button.active {
+		color: #ccc;
+	}
+	fieldset#overview ul {
+		clear: both;
+	}
+	fieldset#overview table {
+		width: auto;
+	}
+	fieldset#overview td {
+		padding: 0px;
+	}
+	fieldset#overview input {
+		border: 1px solid #707070;
+		margin: 0px;
+		padding: 2px;
+	}
+	@media print {
+		fieldset#overview {
+			display: none;
+		} 
+	}
+	
+</style>
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	// since we only have one project, a shortcut to it's properties is probably usefull...
+	var theProject = getProjects(),
+			$container, $subcontainer,
+			it;
+	
+	theProject = theProject[0];
+	
+	function _reparseInvoice() {
+		$('#invoices').tmpl(getInvoices());	
+		$('#invoices').find('[contentEditable],[contenteditable]').removeAttr('contentEditable').removeAttr('contenteditable');
+	} // _reparseInvoice
+	
+	// toggler for the switch buttons 
+	$(this).on('click', '[data-click-switch]', function(e) {
+		$('[data-click-switch]').each(function() {
+			var $this = $(this);
+			$this.removeClass('active');
+			$('[data-role=' + $this.data('click-switch') + ']').hide();
+		});
+		$('[data-role=' + $(this).data('click-switch') + ']').show();
+		$(this).addClass('active');
+		return false;
+	});
+	
+	// filler of the types of invoices
+	$.each(getInvoices(), function() {
+		var type = 'month',
+				insert = '<li>' + this.company.name; 
+				
+		if ( this.frequency === 3 ) type="quarter";
+		if ( this.frequency === 6 ) type="halfyear";
+		if ( this.frequency === 12 ) type="year";
+		
+		if ( this.company.name != this.firstLineOfNotes ) {
+			insert += " - <i>" + this.firstLineOfNotes + "</i>";
+		}
+		insert += "</li>";
+		$container = $("[data-role=report_" + type + "_invoices]").append(insert);
+
+		$container.prev('label').find('input').val($container.find('li').length);
+	});
+	
+	// filler and toggler for the error invoices
+	var errorProjects = getProjectsWithoutGroup(),
+			$container = $('#projectsWithoutGroup');
+	
+	$container.prev('label').toggle(!!errorProjects.length);
+	$.each(errorProjects, function() {
+		$container.append('<li>' + this.id + ' ' + this.company.name + '</li>');
+	});
+	
+	errorProjects = getProjectsWithErrors(),
+	$container = $('#projectsWithErrors');
+	
+	$container.prev('label').toggle(!!errorProjects.length);
+	$.each(errorProjects, function() {
+		$container.append('<li>' + this.id + ' ' + this.company.name + '</li>');
+	});
+	
+	// Define the subtitles
+	var subtypes = {
+		"Extra" : [
+		           {		id: 8001
+									, label: '8001 Extra werk / uren'
+									, dutch: 'Extra werk'
+									, english: 'Additional work'
+								},
+								{		id: 8003
+									, label: '8003 Eenmalige kosten'
+									, dutch: 'Eenmalige kosten'
+									, english: 'One-time costs'
+								},
+								{		id: 8004
+									, label: '8004 Training support'
+									, dutch: 'Training'
+									, english: 'Training'
+								}
+							]
+		, "Standaard" : [
+		            {		id: 8201
+									, label: '8201 Corporate edition'
+									, dutch: 'Corporate edition'
+									, english: 'Corporate edition'
+								},
+								{		id: 8202
+									, label: '8202 Recruitment Edition'
+									, dutch: 'Recruitment Edition'
+									, english: 'Recruitment Edition'
+								},
+								{		id: 8203
+									, label: '8203 Staffing Edition'
+									, dutch: 'Staffing Edition'
+									, english: 'Staffing Edition'
+								},
+								{		id: 8204
+									, label: '8204 Lite / Standard edition'
+									, dutch: 'Standard Edition'
+									, english: 'Standard Edition'
+								},
+								{		id: 8205
+									, label: '8205 Outsource'
+									, dutch: 'Outsource'
+									, english: 'Outsource'
+								},
+								{		id: 8206
+									, label: '8206 CRM'
+									, dutch: 'CRM'
+									, english: 'CRM'
+								},
+								{		id: 8207
+									, label: '8207 E-Recruitment'
+									, dutch: 'e-Recruitment'
+									, english: 'e-Recruitment'
+								},
+								{		id: 8208
+									, label: '8208 Hosting'
+									, dutch: 'Hosting'
+									, english: 'Hosting'
+								},
+								{		id: 8209
+									, label: '8209 Datadump'
+									, dutch: 'Datadump'
+									, english: 'Datadump'
+								},
+								{		id: 8210
+									, label: '8210 Test omgeving'
+									, dutch: 'Test applicatie'
+									, english: 'Test applicatie'
+								},
+							]
+		, "Overig" : [
+		            {		id: '-'
+									, label: 'Credit'
+									, dutch: 'Credit'
+									, english: 'Credit'
+								}
+		          ]
+	};
+
+	// Fill the invoice subtitle filler
+	for ( it in subtypes ) {
+		$container = $('<optgroup label="' + it + '">');
+		$container.appendTo($('[data-role=invoice-title-filler]'));
+		$.each(subtypes[it], function() {
+			$subcontainer = $('<option value="' + this.id + '">' + this.label + '</option>');
+			$subcontainer.data('subtype', this);
+			if ( theProject.grootboek.code === this.id + '' ) {
+				$subcontainer.attr('selected', 'selected');
+			}
+			$subcontainer.appendTo($container);
+		}); // each
+	} // for
+	
+	// update of the invoice title handler
+	$(document).on('change, blur', '[data-role=invoice-title-filler]', function() {
+		var subtype = $(this).find('option:selected').data('subtype');
+		theProject.setTitle(
+				theProject.i18n.isDutch ? 'Factuur' : 'Invoice',
+				theProject.i18n.isDutch ? subtype.dutch : subtype.english
+		);
+		theProject.grootboek.code = subtype.id;
+		_reparseInvoice();
+	});
+	//$('[data-role=invoice-title-filler]').trigger('blur');
+	
+	// filler and updater for the invoicenumber input
+	$('#invoice-number')
+			.val(initialInvoiceNumber||0)
+			.on('change', function() {
+				initialInvoiceNumber = parseInt($(this).val());
+				$(document).trigger('invoicenumber_update');
+			});
+	
+	$(document).on('invoicenumber_update', function() {
+		$('[data-role=invoicenumber]').each(function(it) {
+			$(this).html(initialInvoiceNumber + it);	
+		});		
+	});
+	
+	// filler and handler for the VAT percentage updater
+	$('[data-role=vat-percentage-filler]').val(theProject.getVATPercentage());
+	$(document).on('change', '[data-role=vat-percentage-filler]', function() {
+		theProject.setVATPercentage(parseInt($(this).val()));
+		_reparseInvoice();
+	});
+	
+	// filler and handler for the invoicelines
+	function _addLine() {
+		var $this = $(this),
+				$clone = $this.clone(true);
+		
+		$this.closest('tbody').append($clone);
+		$clone.find('input').each(function() { $(this).val('') });
+		$clone.find('[data-role=invoice-line-currency-filler]').val('€');
+	} // _addLine();
+	
+	$.each(theProject.lines, function() {
+		$container = $('[data-role=invoice-lines-filler] tbody tr:last');
+		$container.find('[data-role=invoice-line-title-filler]').val(this.title);
+		$container.find('[data-role=invoice-line-currency-filler]').val(this.currency);
+		$container.find('[data-role=invoice-line-amount]').val(this.amount);
+		$.proxy(_addLine, $container)();
+	}); // each
+	
+	$(document).on('change', '[data-role=invoice-lines-filler] tbody tr input', function() {
+		$container = $(this).closest('tr');
+		if ( $container.index() === $container.closest('tbody').find('tr').length - 1) {
+			$.proxy(_addLine, $container)();
+		}
+		while ( theProject.lines.length <= $container.index() ) {
+			theProject.lines.push({title: '',currency: '', amount: 0});
+		} // while
+		
+		theProject.lines[$container.index()].title = $container.find('[data-role=invoice-line-title-filler]').val();
+		theProject.lines[$container.index()].currency = $container.find('[data-role=invoice-line-currency-filler]').val();
+		theProject.lines[$container.index()].amount = parseInt($container.find('[data-role=invoice-line-amount]').val());
+		
+		_reparseInvoice();
+	});
+	
+});
+--></script>
+
+<fieldset id="overview" class="noPrint">
+	<legend>Overzicht</legend>
+	<div>
+		<label>
+			Factuurnummer
+			<input type="number" id="invoice-number" />
+		</label>
+
+		<label>
+			BTW Percentage
+			<input type="number" data-role="vat-percentage-filler" />
+		</label>
+		
+		<label>
+			Factuurtype
+			<select data-role="invoice-title-filler">
+			</select>
+		</label>
+		
+		<span style="margin-bottom: 1em;" id="overview_actions">
+			Acties
+			<button data-click-switch="invoices" class="active">Facturen tonen</button>
+		</span>
+		
+		<table data-role="invoice-lines-filler" class="noborder">
+			<caption>Factuur regels</caption>
+			<thead>
+				<tr>
+					<th>Omschrijving</th>
+					<th>Valuta</th>
+					<th>Bedrag</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input type="text" data-role="invoice-line-title-filler" style="width: 17em;"/></td>
+					<td><input type="text" data-role="invoice-line-currency-filler" style="width: 3em; border-width: 1px 0px;" value="€"/></td>
+					<td><input type="text" data-role="invoice-line-amount" style="width: 5em;"/></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<label style="display:none">
+			<b style="color: red;">Let op! Dit project bevatten fouten,<br/> en wordt NIET gefactureerd:</b><br/>
+		</label>
+		<ul id="projectsWithErrors"></ul>
+		
+		<label style="display:none">
+			<b style="color: red;">Let op! Dit projecte heeft een group<br/>waarvan de export code óf niet, óf incompleet is<br/>ingevuld<br/></b>
+		</label>
+		<ul id="projectsWithoutGroup"></ul>
+		
+	</div>
+</fieldset>
+
+
