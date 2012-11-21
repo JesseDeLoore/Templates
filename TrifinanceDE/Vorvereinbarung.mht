@@ -1,0 +1,1513 @@
+<cx:header name="Content-Type" value="text/html; charset=UTF-8"/>MIME-Version: 1.0
+Content-Type: multipart/related; boundary="----=_NextPart_01CDABAC.86021360"
+
+Dit document is een gecombineerd webpaginabestand, ook wel webarchiefbestand genoemd. Als dit bericht wordt weergegeven, worden webarchiefbestanden niet ondersteund door de browser of editor. Download een browser die webarchieven ondersteunt, bijvoorbeeld Microsoft Internet Explorer.
+
+------=_NextPart_01CDABAC.86021360
+Content-Location: file:///C:/495C4512/Vorvereinbarung.htm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="us-ascii"
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml"
+xmlns:o=3D"urn:schemas-microsoft-com:office:office"
+xmlns:w=3D"urn:schemas-microsoft-com:office:word"
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<cx:bare-string-format>
+	<cx:let name="void" value="$response" invoke="setContentEncoding:" arg0="1"/>
+	<cx:if condition="activity.toEmployee.toGenderNode hasTag:'MaleTag'">
+		<cx:let keep="" name="A1" value="Herr"/>
+	</cx:if>
+	<cx:if condition="activity.toEmployee.toGenderNode hasTag: 'FemaleTag'">
+		<cx:let keep="" name="A1" value="Frau"/>
+	</cx:if>
+	<cx:let keep="" name="A2" value="${activity.toEmployee.toUser.firstName} ${activity.toEmployee.toUser.lastName}" expand=""/>
+	<cx:let keep="" name="A3" value="$activity.toEmployee.toUser.homeAddress"/>
+	<cx:let keep="" name="A4" value="$activity.toEmployee.toUser.homePostalCode"/>
+	<cx:let keep="" name="A5" value="$activity.toEmployee.toUser.homeCity"/>
+	<cx:let keep="" name="A6" value="${A1} ${activity.toEmployee.toUser.firstName} ${activity.toEmployee.toUser.lastName}, ${activity.toEmployee.toUser.homeAddress}," expand=""/>
+	<cx:let keep="" name="A7" value="$activity.toEmployee.toUser.homePostalCode"/>
+	<cx:let keep="" name="A8" value="$activity.toEmployee.toUser.homeCity"/>
+	<cx:let keep="" name="A9" value="$activity.toJob.toVacancy.toCompany.name"/>
+	<cx:let keep="" name="A10" value="$activity.toVacancy.toSalaryPeriodNode.value"/> 
+	<cx:let keep="" name="A11" value="$activity.toVacancy.minSalary"/>
+	<cx:let keep="" name="A12" value="$activity.toVacancy.hoursPerWeek"/>	
+	<cx:let keep="" name="A13" value="${A1} ${activity.toEmployee.toUser.firstName} ${activity.toEmployee.toUser.lastName}" expand="" />
+	<cx:let keep="" name="A14" value="$activity.toPreviousToDo.toActivityTypeNode.value"/>
+	<cx:let keep="" name="A15" value="$activity.toJob.toVacancy.toCompany.name"/> 
+	<cx:let keep="" name="A16" value="$activity.toPreviousToDo.deadline" dateformat="%d.%m.%Y"/>
+	<cx:let keep="" name="A17" value="$activity.toPreviousToDo.startTime" dateformat="%H:%M"/>
+	<cx:let keep="" name="A18" value="$utilities.currentDate.formattedDate"/>
+	<cx:let keep="" name="A19" value="$activity.toEmployee.toUser.homeCity"/>
+	<cx:let keep="" name="A20" value="$activity.toUser.name"/>
+	<cx:let keep="" name="A21" value="$activity.toUser.jobTitle"/>
+	<cx:let keep="" name="A22" value="$activity.toEmployee.name"/>
+	<cx:let keep="" name="A23" value="$activity.toVacancy.owner.name"/>
+	<cx:let keep="" name="A24" value="$activity.toVacancy.owner.jobTitle"/>
+</cx:bare-string-format>
+<head>
+<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dus-ascii">
+<meta name=3DProgId content=3DWord.Document>
+<meta name=3DGenerator content=3D"Microsoft Word 11">
+<meta name=3DOriginator content=3D"Microsoft Word 11">
+<link rel=3DFile-List href=3D"Vorvereinbarung2_bestanden/filelist.xml">
+<link rel=3DEdit-Time-Data href=3D"Vorvereinbarung2_bestanden/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Hier soll der Text auf der 2ten Seite beginnen</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Claudia Koep</o:Author>
+  <o:Keywords>Text1</o:Keywords>
+  <o:Template>Briefbogen TriFinance 1teSeite Kopf_Fu&#223;_2te Seite nur Ko=
+pf final20070423.dot</o:Template>
+  <o:LastAuthor>Reserve 1</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>11</o:TotalTime>
+  <o:LastPrinted>2012-06-05T14:15:00Z</o:LastPrinted>
+  <o:Created>2012-10-16T12:42:00Z</o:Created>
+  <o:LastSaved>2012-10-16T12:42:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>535</o:Words>
+  <o:Characters>2948</o:Characters>
+  <o:Company>DP</o:Company>
+  <o:Lines>24</o:Lines>
+  <o:Paragraphs>6</o:Paragraphs>
+  <o:CharactersWithSpaces>3477</o:CharactersWithSpaces>
+  <o:Version>11.9999</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:HyphenationZone>21</w:HyphenationZone>
+  <w:DrawingGridHorizontalSpacing>6 pt</w:DrawingGridHorizontalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>2</w:DisplayHorizontalDrawingGridEve=
+ry>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SelectEntireFieldWithStartOrEnd/>
+   <w:UseWord2002TableStyleRules/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState=3D"false" LatentStyleCount=3D"156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:1627421319 -2147483648 8 0 66047 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;}
+h1
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:11.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:Arial;
+	mso-font-kerning:0pt;
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;}
+h2
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:9.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:Arial;
+	mso-ansi-language:EN-GB;
+	mso-fareast-language:DE;
+	font-weight:normal;
+	font-style:italic;}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-link:" Char Char1";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 8.0cm right 16.0cm;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 8.0cm right 16.0cm;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;}
+span.MsoFootnoteReference
+	{mso-style-parent:"";
+	vertical-align:super;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:bold;}
+p.MsoSubtitle, li.MsoSubtitle, div.MsoSubtitle
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{mso-style-parent:"";
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-link:" Char Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:Tahoma;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:X-NONE;
+	mso-fareast-language:X-NONE;}
+span.CharChar1
+	{mso-style-name:" Char Char1";
+	mso-style-locked:yes;
+	mso-style-link:Voetnoottekst;}
+span.CharChar
+	{mso-style-name:" Char Char";
+	mso-style-locked:yes;
+	mso-style-parent:"";
+	mso-style-link:Ballontekst;
+	mso-ansi-font-size:8.0pt;
+	mso-bidi-font-size:8.0pt;
+	font-family:Tahoma;
+	mso-ascii-font-family:Tahoma;
+	mso-hansi-font-family:Tahoma;}
+p.Lijstalinea, li.Lijstalinea, div.Lijstalinea
+	{mso-style-name:Lijstalinea;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:35.4pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;}
+ /* Page Definitions */
+ @page
+	{mso-footnote-separator:url("Vorvereinbarung2_bestanden/header.htm") fs;
+	mso-footnote-continuation-separator:url("Vorvereinbarung2_bestanden/header=
+.htm") fcs;
+	mso-endnote-separator:url("Vorvereinbarung2_bestanden/header.htm") es;
+	mso-endnote-continuation-separator:url("Vorvereinbarung2_bestanden/header.=
+htm") ecs;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:70.9pt 70.9pt 80.9pt 70.9pt;
+	mso-header-margin:35.45pt;
+	mso-footer-margin:35.45pt;
+	mso-page-numbers-chapter-style:header-1;
+	mso-title-page:yes;
+	mso-footer:url("Vorvereinbarung2_bestanden/header.htm") f1;
+	mso-first-header:url("Vorvereinbarung2_bestanden/header.htm") fh1;
+	mso-first-footer:url("Vorvereinbarung2_bestanden/header.htm") ff1;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:12727324;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-2070007546 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l0:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1
+	{mso-list-id:84494750;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-508281586 -1414221934 67567641 67567643 67567631 67=
+567641 67567643 67567631 67567641 67567643;}
+@list l1:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l2
+	{mso-list-id:106970226;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1214307114 1297257704 67567641 67567643 67567631 675=
+67641 67567643 67567631 67567641 67567643;}
+@list l2:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l3
+	{mso-list-id:188691570;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1562690814 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l3:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4
+	{mso-list-id:262035517;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1275301672 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l4:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5
+	{mso-list-id:347489823;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1484217658 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l5:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l6
+	{mso-list-id:890534315;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1224043324 -675791862 67567641 67567643 67567631 67=
+567641 67567643 67567631 67567641 67567643;}
+@list l6:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l7
+	{mso-list-id:968899038;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-2048740050 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l7:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l8
+	{mso-list-id:1132989771;
+	mso-list-template-ids:-2147190182;}
+@list l8:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l8:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l8:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l8:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l8:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l8:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l8:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l8:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l8:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l9
+	{mso-list-id:1237936828;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-656275564 1694507986 67567641 67567643 67567631 675=
+67641 67567643 67567631 67567641 67567643;}
+@list l9:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l10
+	{mso-list-id:1488396234;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-2147190182 -675791862 67567641 67567643 67567631 67=
+567641 67567643 67567631 67567641 67567643;}
+@list l10:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l11
+	{mso-list-id:1508253936;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1083289792 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l11:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l12
+	{mso-list-id:1643997903;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1795896924 -1860805432 67567641 67567643 67567631 6=
+7567641 67567643 67567631 67567641 67567643;}
+@list l12:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l13
+	{mso-list-id:1730761241;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1901027506 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l13:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l14
+	{mso-list-id:1872525547;
+	mso-list-type:hybrid;
+	mso-list-template-ids:721870736 1097916542 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l14:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l15
+	{mso-list-id:1975210620;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1341917674 -506282888 67567641 67567643 67567631 675=
+67641 67567643 67567631 67567641 67567643;}
+@list l15:level1
+	{mso-level-tab-stop:19.85pt;
+	mso-level-number-position:left;
+	margin-left:19.85pt;
+	text-indent:-19.85pt;
+	mso-ansi-font-size:11.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";}
+@list l16
+	{mso-list-id:2000843737;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1177553612 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l16:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:Standaardtabel;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+table.MsoTableGrid
+	{mso-style-name:Tabelraster;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"3074"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=3DNL link=3Dblue vlink=3Dpurple style=3D'tab-interval:35.4pt'>
+
+<div class=3DSection1>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>Vereinbarung<o:p></o:p></span>=
+</p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>zwischen<o:p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'><cx:write value="$A1"/><o:p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><cx:write value="$A2"/><o=
+:p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;color:red;mso-ansi-language:EN-=
+US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><cx:write value="$A3"/><o=
+:p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><cx:write value="$A4"/><o=
+:p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><cx:write value="$A5"/><o=
+:p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'>Und<o:=
+p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'font-size:11.0pt;font-family:Arial;mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>TriFinance GmbH<o:p></o:p></sp=
+an></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>Franz-Rennefeld-Weg 5<o:p></o:=
+p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>40472 D&uuml;sseldorf<o:p></o:=
+p></span></p>
+
+<span lang=3DDE style=3D'font-size:11.0pt;font-family:Arial;mso-fareast-fon=
+t-family:
+"Times New Roman";mso-ansi-language:DE;mso-fareast-language:DE;mso-bidi-lan=
+guage:
+AR-SA'><br clear=3Dall style=3D'page-break-before:always'>
+</span>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'>Zwischen<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><cx:write value="$A6"/><o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fami=
+ly:Arial;
+mso-ansi-language:EN-US'><cx:write value="$A7"/><o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fami=
+ly:Arial;
+mso-ansi-language:EN-US'><cx:write value="$A8"/><o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fami=
+ly:Arial;
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'>im
+weiteren &#8222;Auftragnehmer&#8220; genannt,<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'>und
+der<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'>TriFinance
+GmbH, Franz-Rennefeld-Weg 5, 40472 D&uuml;sseldorf, <o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'>im
+weiteren &#8222;Auftraggeber&#8220; genannt,<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'>wird
+folgender Vertrag geschlossen:<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>&sect; 1<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Der Auftragnehmer verpflichtet sich, alle
+Verhandlungen und Gespr&auml;che mit <br>
+dem Kunden <cx:write value="$A9"/> (nachfolgend Kunde genannt) in Abstimmung mit TriFinance zu
+f&uuml;hren.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>In s&auml;mtlichen Verhandlungen und Besprechnung=
+en
+wird der Auftragnehmer ausschlie&szlig;lich unter dem Namen von TriFinance
+auftreten. Ein Recht zur rechtsgesch&auml;ftlichen Vertretung von TriFinance
+besteht in keinem Fall.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Der Auftragnehmer verpflichtet sich, f&uuml;r die
+Dauer von 12 Monaten nach Unterzeichnung dieser Vereinbarung kein Vertragsv=
+erh&auml;ltnis
+(auf eigene Rechnung oder durch Dritte) bei dem Kunden einzugehen, welches =
+die
+&Uuml;bernahme des von TriFinance vorgestellten Projektes und daraus
+resultierende Folgeprojekte zum Inhalt hat.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Der Auftragnehmer wird seinen Mitarbeitern den
+vorgenannten Regelungen entsprechende Pflichten auferlegen.<o:p></o:p></spa=
+n></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>&sect; 2<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Der Auftragnehmer ist verpflichtet, s&auml;mtliche
+Informationen, die ihm von TriFinance oder dem Kunden im Rahmen von
+Verhandlungen und Gespr&auml;chen mitgeteilt oder zug&auml;nglich gemacht
+wurden oder ihm in irgendeiner Weise zur Kenntnis gelangt sind bzw. gelangen
+werden, geheim zu halten.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Dies gilt nicht f&uuml;r allgemein bekannte
+Informationen oder f&uuml;r Informationen, die dem Auftragnehmer bereits im
+Vorfeld der Vertragsanbahnung zur Verf&uuml;gung standen. Die Geheimhaltung=
+spflicht
+bezieht sich insbesondere auch auf die Inhalte von zwischen dem Auftragnehm=
+er
+und TriFinance bestehenden oder noch abzuschlie&szlig;enden Vertr&auml;gen.=
+<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><br>
+Der Auftragnehmer wird seinen Mitarbeitern den vorgenannten Regelungen ents=
+prechende
+Pflichten auferlegen.<o:p></o:p></span></p>
+
+<span lang=3DDE style=3D'font-size:11.0pt;font-family:Arial;mso-fareast-fon=
+t-family:
+"Times New Roman";mso-ansi-language:DE;mso-fareast-language:DE;mso-bidi-lan=
+guage:
+AR-SA'><br clear=3Dall style=3D'page-break-before:always'>
+</span>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>&sect; 3<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Kommt es zu einer Auftragserteilung durch den Kun=
+den,
+werden der Auftragnehmer und TriFinance entsprechende Vertr&auml;ge
+abschlie&szlig;en, die unter anderem Regelungen zur Aufgabe, zur
+Verg&uuml;tung, zu Schutzrechten sowie dem Beginn und Ende des Projektes
+beinhalten.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Der Auftragnehmer wird im Fall einer
+Auftragserteilung durch TriFinance die vereinbarten Leistungen zum <cx:write value="$A10"/></s=
+pan><span
+lang=3DDE> von </span><span lang=3DDE style=3D'font-size:11.0pt;font-family=
+:Arial'><cx:write value="$A11"/></span><span
+lang=3DDE> Euro (Basis von </span><span lang=3DDE style=3D'font-size:11.0pt;
+font-family:Arial'><cx:write value="$A12"/></span><span lang=3DDE> Stunden)</span><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'> zuz&uuml;glich der gesetzlich=
+en
+Umsatzsteuer erbringen. In diesem Verrechnungssatz sind s&auml;mtliche Spes=
+en
+und sonstige Nebenkosten am Projekteinsatzort enthalten.<o:p></o:p></span><=
+/p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><br>
+Die Durchf&uuml;hrung der Leistungen wird <cx:write value="$A13"/> pers&ouml;nlich vor.<span
+style=3D'mso-spacerun:yes'>&nbsp; </span><o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'f=
+ont-size:
+11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>&sect; 4<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Der <cx:write value="$A14"/> mit dem Kunden <cx:write value="$A15"/> findet am <cx:write value="$A16"/> um=
+ <cx:write value="$A17"/>
+Uhr statt. Eine Erstattung von Reisekosten oder sonstigen Auslagen erfolgt
+generell nicht.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'>&sect; 5<o:p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'font-size:11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Der Auftragnehmer wird mit der R&uuml;cksendung
+dieser Vereinbarung die Kopie eines g&uuml;ltigen Personaldokumentes
+(Personalausweis oder Reisepass) an TriFinance &uuml;bersenden.<o:p></o:p><=
+/span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Der Auftragnehmer versichert, dass sein polizeili=
+ches
+F&uuml;hrungszeugnis keine negativen Eintragungen aufweist. Er wird zu jedem
+Zeitpunkt w&auml;hrend der gegenseitigen Zusammenarbeit auf Aufforderung von
+TriFinance eine aktuelle Kopie eines F&uuml;hrungszeugnisses dieser Person
+vorlegen.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE style=3D'=
+font-size:
+11.0pt;font-family:Arial'>Die Nichtvorlage des F&uuml;hrungszeugnisses nach=
+ vorheriger
+Anforderung oder eine falsche Angabe nach &sect; 5 Abs. 2 berechtigt TriFin=
+ance
+zur sofortigen K&uuml;ndigung von bestehenden oder zuk&uuml;nftig
+abgeschlossenen Rahmen- und/oder Projekteinzelvertr&auml;gen.<o:p></o:p></s=
+pan></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-family:=
+Arial'><o:p>&nbsp;</o:p></span></p>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+ style=3D'border-collapse:collapse;mso-padding-alt:0cm 3.5pt 0cm 3.5pt'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'>D&uuml;sseldorf, <cx:write value="$A18"/><o:p></o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><cx:write value="$A19"/>, <cx:write value="$A18"/><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:1'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:2'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'>TriFinance
+  GmbH<o:p></o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:3'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:4'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;border:none;border-b=
+ottom:
+  solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;
+  padding:0cm 3.5pt 0cm 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;border:none;border-bo=
+ttom:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;padding:0cm 3.5pt 0cm 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:5'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:6'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><cx:write value="$A20"/><o:p></o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><cx:write value="$A22"/></span><span lang=3DDE style=3D'font-size:1=
+1.0pt;
+  font-family:Arial'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:7'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><cx:write value="$A21"/><o:p></o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:8'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:9'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:10'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:11'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;border:none;border-b=
+ottom:
+  solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;
+  padding:0cm 3.5pt 0cm 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;border:none;border-bo=
+ttom:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;padding:0cm 3.5pt 0cm 3.5pt'>
+  <p class=3DMsoNormal><span lang=3DDE style=3D'font-size:11.0pt;font-famil=
+y:Arial'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:12;height:4.0pt'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:13;height:4.0pt'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><cx:write value="$A23"/><o:p></o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:14;mso-yfti-lastrow:yes;height:4.0pt'>
+  <td width=3D307 valign=3Dtop style=3D'width:230.25pt;padding:0cm 3.5pt 0c=
+m 3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><cx:write value="$A24"/><o:p></o:p></span></p>
+  </td>
+  <td width=3D45 valign=3Dtop style=3D'width:33.75pt;padding:0cm 3.5pt 0cm =
+3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D304 valign=3Dtop style=3D'width:228.0pt;padding:0cm 3.5pt 0cm=
+ 3.5pt;
+  height:4.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fa=
+mily:Arial;
+  mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:11.0pt;font-fami=
+ly:Arial;
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+</div>
+
+</body>
+
+</html>
+
+------=_NextPart_01CDABAC.86021360
+Content-Location: file:///C:/495C4512/Vorvereinbarung2_bestanden/header.htm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="us-ascii"
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml"
+xmlns:o=3D"urn:schemas-microsoft-com:office:office"
+xmlns:w=3D"urn:schemas-microsoft-com:office:word"
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dus-ascii">
+<meta name=3DProgId content=3DWord.Document>
+<meta name=3DGenerator content=3D"Microsoft Word 11">
+<meta name=3DOriginator content=3D"Microsoft Word 11">
+<link id=3DMain-File rel=3DMain-File href=3D"../Vorvereinbarung2.htm">
+<![if IE]>
+<base href=3D"file:///C:\495C4512\Vorvereinbarung2_bestanden\header.htm"
+id=3D"webarch_temp_base_tag">
+<![endif]><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"3074"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"2"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=3DNL link=3Dblue vlink=3Dpurple>
+
+<div style=3D'mso-element:footnote-separator' id=3Dfs>
+
+<p class=3DMsoNormal><span lang=3DDE><span style=3D'mso-special-character:f=
+ootnote-separator'><![if !supportFootnotes]>
+
+<hr align=3Dleft size=3D1 width=3D"33%">
+
+<![endif]></span></span></p>
+
+</div>
+
+<div style=3D'mso-element:footnote-continuation-separator' id=3Dfcs>
+
+<p class=3DMsoNormal><span lang=3DDE><span style=3D'mso-special-character:f=
+ootnote-continuation-separator'><![if !supportFootnotes]>
+
+<hr align=3Dleft size=3D1>
+
+<![endif]></span></span></p>
+
+</div>
+
+<div style=3D'mso-element:endnote-separator' id=3Des>
+
+<p class=3DMsoNormal><span lang=3DDE><span style=3D'mso-special-character:f=
+ootnote-separator'><![if !supportFootnotes]>
+
+<hr align=3Dleft size=3D1 width=3D"33%">
+
+<![endif]></span></span></p>
+
+</div>
+
+<div style=3D'mso-element:endnote-continuation-separator' id=3Decs>
+
+<p class=3DMsoNormal><span lang=3DDE><span style=3D'mso-special-character:f=
+ootnote-continuation-separator'><![if !supportFootnotes]>
+
+<hr align=3Dleft size=3D1>
+
+<![endif]></span></span></p>
+
+</div>
+
+<div style=3D'mso-element:footer' id=3Df1>
+
+<p class=3DMsoTitle><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB;fon=
+t-weight:
+normal;mso-bidi-font-weight:bold'>TriFinance<span style=3D'mso-tab-count:3'=
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;
+</span>Vorvereinbarung<span style=3D'mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><!--[if supportFields]><span
+lang=3DDE style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span
+style=3D'mso-element:field-begin'></span> DATE \@ &quot;dd.MM.yyyy&quot; <s=
+pan
+style=3D'mso-element:field-separator'></span></span><![endif]--><span lang=
+=3DDE
+style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span style=3D'mso-n=
+o-proof:
+yes'>16.10.2012</span></span><!--[if supportFields]><span lang=3DDE
+style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span style=3D'mso-e=
+lement:
+field-end'></span></span><![endif]--><span lang=3DEN-GB style=3D'mso-ansi-l=
+anguage:
+EN-GB;font-weight:normal;mso-bidi-font-weight:bold'> - Seite </span><!--[if=
+ supportFields]><span
+lang=3DDE style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span
+style=3D'mso-element:field-begin'></span></span><span lang=3DEN-GB
+style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-font-weight:bo=
+ld'><span
+style=3D'mso-spacerun:yes'>&nbsp;</span>PAGE </span><span lang=3DDE
+style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span style=3D'mso-e=
+lement:
+field-separator'></span></span><![endif]--><span lang=3DEN-GB style=3D'mso-=
+ansi-language:
+EN-GB;font-weight:normal;mso-bidi-font-weight:bold;mso-no-proof:yes'>3</spa=
+n><!--[if supportFields]><span
+lang=3DDE style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span
+style=3D'mso-element:field-end'></span></span><![endif]--><span lang=3DEN-GB
+style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-font-weight:bo=
+ld'>
+von </span><!--[if supportFields]><span lang=3DDE style=3D'font-weight:norm=
+al;
+mso-bidi-font-weight:bold'><span style=3D'mso-element:field-begin'></span><=
+/span><span
+lang=3DEN-GB style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-f=
+ont-weight:
+bold'><span style=3D'mso-spacerun:yes'>&nbsp;</span>NUMPAGES </span><span
+lang=3DDE style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span
+style=3D'mso-element:field-separator'></span></span><![endif]--><span lang=
+=3DEN-GB
+style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-font-weight:bo=
+ld;
+mso-no-proof:yes'>3</span><!--[if supportFields]><span lang=3DDE
+style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span style=3D'mso-e=
+lement:
+field-end'></span></span><![endif]--><span lang=3DEN-GB style=3D'mso-ansi-l=
+anguage:
+EN-GB;font-weight:normal;mso-bidi-font-weight:bold'><o:p></o:p></span></p>
+
+<p class=3DMsoFooter><b style=3D'mso-bidi-font-weight:normal'><span lang=3D=
+DE><o:p>&nbsp;</o:p></span></b></p>
+
+</div>
+
+<div style=3D'mso-element:header' id=3Dfh1>
+
+<p class=3DMsoHeader><span lang=3DDE><span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;
+</span></span></p>
+
+</div>
+
+<div style=3D'mso-element:footer' id=3Dff1>
+
+<p class=3DMsoFooter><span lang=3DDE style=3D'mso-no-proof:yes'><!--[if gte=
+ vml 1]><v:line
+ id=3D"_x0000_s2069" style=3D'position:absolute;z-index:1' from=3D"0,8.7pt"=
+ to=3D"456pt,8.7pt"/><![endif]--></span></p>
+
+<p class=3DMsoFooter><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoTitle><span lang=3DEN-GB style=3D'mso-ansi-language:EN-GB;fon=
+t-weight:
+normal;mso-bidi-font-weight:bold'>TriFinance<span style=3D'mso-tab-count:2'=
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style=3D'mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; </span><span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;
+</span>Vorvereinbarung<span style=3D'mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style=3D'mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; </span></span><span
+lang=3DDE style=3D'font-weight:normal;mso-bidi-font-weight:bold'><cx:write value="$A18"/></spa=
+n><span
+lang=3DEN-GB style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-f=
+ont-weight:
+bold'> - Seite </span><!--[if supportFields]><span lang=3DDE style=3D'font-=
+weight:
+normal;mso-bidi-font-weight:bold'><span style=3D'mso-element:field-begin'><=
+/span></span><span
+lang=3DEN-GB style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-f=
+ont-weight:
+bold'><span style=3D'mso-spacerun:yes'>&nbsp;</span>PAGE </span><span lang=
+=3DDE
+style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span style=3D'mso-e=
+lement:
+field-separator'></span></span><![endif]--><span lang=3DEN-GB style=3D'mso-=
+ansi-language:
+EN-GB;font-weight:normal;mso-bidi-font-weight:bold;mso-no-proof:yes'>1</spa=
+n><!--[if supportFields]><span
+lang=3DDE style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span
+style=3D'mso-element:field-end'></span></span><![endif]--><span lang=3DEN-GB
+style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-font-weight:bo=
+ld'>
+von </span><!--[if supportFields]><span lang=3DDE style=3D'font-weight:norm=
+al;
+mso-bidi-font-weight:bold'><span style=3D'mso-element:field-begin'></span><=
+/span><span
+lang=3DEN-GB style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-f=
+ont-weight:
+bold'><span style=3D'mso-spacerun:yes'>&nbsp;</span>NUMPAGES </span><span
+lang=3DDE style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span
+style=3D'mso-element:field-separator'></span></span><![endif]--><span lang=
+=3DEN-GB
+style=3D'mso-ansi-language:EN-GB;font-weight:normal;mso-bidi-font-weight:bo=
+ld;
+mso-no-proof:yes'>1</span><!--[if supportFields]><span lang=3DDE
+style=3D'font-weight:normal;mso-bidi-font-weight:bold'><span style=3D'mso-e=
+lement:
+field-end'></span></span><![endif]--><span lang=3DEN-GB style=3D'mso-ansi-l=
+anguage:
+EN-GB;font-weight:normal;mso-bidi-font-weight:bold'><o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>
+
+------=_NextPart_01CDABAC.86021360
+Content-Location: file:///C:/495C4512/Vorvereinbarung2_bestanden/filelist.xml
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/xml; charset="utf-8"
+
+<xml xmlns:o=3D"urn:schemas-microsoft-com:office:office">
+ <o:MainFile HRef=3D"../Vorvereinbarung2.htm"/>
+ <o:File HRef=3D"header.htm"/>
+ <o:File HRef=3D"filelist.xml"/>
+</xml>
+------=_NextPart_01CDABAC.86021360--
+<cx:header name="Content-Type" value="application/ms-word; charset=UTF-8"/>

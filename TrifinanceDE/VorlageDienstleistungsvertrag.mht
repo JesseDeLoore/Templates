@@ -1,0 +1,3293 @@
+<cx:header name="Content-Type" value="text/html; charset=UTF-8"/>MIME-Version: 1.0
+Content-Type: multipart/related; boundary="----=_NextPart_01CDC334.7D1DC0B0"
+
+Dit document is een gecombineerd webpaginabestand, ook wel webarchiefbestand genoemd. Als dit bericht wordt weergegeven, worden webarchiefbestanden niet ondersteund door de browser of editor. Download een browser die webarchieven ondersteunt, bijvoorbeeld Microsoft Internet Explorer.
+
+------=_NextPart_01CDC334.7D1DC0B0
+Content-Location: file:///C:/515BD487/VorlageDienstleistungsvertrag.htm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="us-ascii"
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml"
+xmlns:o=3D"urn:schemas-microsoft-com:office:office"
+xmlns:w=3D"urn:schemas-microsoft-com:office:word"
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<cx:bare-string-format>
+	<cx:let name="void" value="$response" invoke="setContentEncoding:" arg0="1"/>
+	
+	<cx:define tag="germanDateFormat">
+		<cx:if condition="$_date<>'NIET TONEN'">
+			<cx:write value="$_date" dateformat="%d. %B %Y" language="German"/>
+		</cx:if>
+	</cx:define>
+	
+	<cx:let keep="" name="A1" value="$utilities.currentDate"/>
+	<cx:let keep="" name="A2" value="$activity.toVacancy.toCompany.name"/>
+	<cx:let keep="" name="A3" value="$activity.toVacancy.toCompany.visitAddress"/>
+	<cx:let keep="" name="A4" value="${activity.toVacancy.toCompany.visitPostalCode} ${activity.toVacancy.toCompany.visitCity}" expand="" />
+	<cx:let keep="" name="A5" value="$activity.toCompany.name"/> 
+	<cx:let keep="" name="A6" value="$activity.toCompany.visitAddress"/> 
+	<cx:let keep="" name="A7" value="$activity.toCompany.visitPostalCode"/> 
+	<cx:let keep="" name="A8" value="$activity.toCompany.visitCity"/>
+	<cx:let name="gendernode" value="$activity.toJob.toEmployee.toGenderNode"> 
+		<cx:if condition="$gendernode hasTag:'MaleTag'">
+			<cx:let keep="" name="A9" value="Herrn"/>
+		</cx:if>
+		<cx:if condition="$gendernode hasTag: 'FemaleTag'">
+			<cx:let keep="" name="A9" value="Frau"/>
+		</cx:if>
+	</cx:let>
+	<cx:let keep="" name="A10" value="$activity.toJob.toEmployee.lessFormalName"/> 
+	<cx:let keep="" name="A11" value="$activity.toVacancy.jobTitle"/>
+	<cx:let keep="" name="A12" value="$activity.toJob.startDate"/>
+	<cx:let keep="" name="A13" value="$activity.toJob.endDate"/>
+	<cx:let name="gendernode" value="$activity.toJob.toVacancy.toUser.toGenderNode"> 
+		<cx:if condition="$gendernode hasTag:'MaleTag'">
+			<cx:let keep="" name="A14" value="Herrn"/>
+		</cx:if>
+		<cx:if condition="$gendernode hasTag: 'FemaleTag'">
+			<cx:let keep="" name="A14" value="Frau"/>
+		</cx:if>
+	</cx:let>
+	<cx:let keep="" name="A15" value="$activity.toJob.toVacancy.toUser.firstName"/>
+	<cx:let keep="" name="A16" value="$activity.toJob.toVacancy.toUser.lastName"/>
+	<cx:let name="gendernode" value="$activity.toJob.toVacancy.toCompany.owner.toGenderNode"> 
+		<cx:if condition="$gendernode hasTag:'MaleTag'">
+			<cx:let keep="" name="A17" value="Herrn"/>
+		</cx:if>
+		<cx:if condition="$gendernode hasTag: 'FemaleTag'">
+			<cx:let keep="" name="A17" value="Frau"/>
+		</cx:if>
+	</cx:let>
+	<cx:let keep="" name="A18" value="$activity.toJob.toVacancy.toUser.informalName"/>
+	<cx:let keep="" name="A19" value="$activity.toVacancy.toSalaryPeriodNode.value"/>
+	<cx:let keep="" name="A20" value="$activity.toVacancy.minSalary"/>
+	<cx:let keep="" name="A21" value="$utilities.currentDate.formattedDate"/>
+	<cx:let keep="" name="A22" value="$activity.toCompany.visitCity"/>
+	<cx:let keep="" name="A23" value="$utilities.currentDate.formattedDate"/>
+	<cx:let keep="" name="A24" value="$activity.toCompany.name"/>
+
+	<cx:let keep="" name="B1" value="$activity.toVacancy.jobTitle"/>
+</cx:bare-string-format>
+
+<head>
+<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dus-ascii">
+<meta name=3DProgId content=3DWord.Document>
+<meta name=3DGenerator content=3D"Microsoft Word 11">
+<meta name=3DOriginator content=3D"Microsoft Word 11">
+<link rel=3DFile-List href=3D"VorlageDienstleistungsvertrag_bestanden/filel=
+ist.xml">
+<link rel=3DEdit-Time-Data
+href=3D"VorlageDienstleistungsvertrag_bestanden/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Hier soll der Text auf der 2ten Seite beginnen</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>mfu</o:Author>
+  <o:Template>Briefbogen Seite1_2.dot</o:Template>
+  <o:LastAuthor>Reserve 1</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>12</o:TotalTime>
+  <o:LastPrinted>2012-11-08T13:29:00Z</o:LastPrinted>
+  <o:Created>2012-11-15T12:24:00Z</o:Created>
+  <o:LastSaved>2012-11-15T12:24:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>1903</o:Words>
+  <o:Characters>10471</o:Characters>
+  <o:Company>Microsoft</o:Company>
+  <o:Lines>87</o:Lines>
+  <o:Paragraphs>24</o:Paragraphs>
+  <o:CharactersWithSpaces>12350</o:CharactersWithSpaces>
+  <o:Version>11.9999</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:AutoHyphenation/>
+  <w:HyphenationZone>22</w:HyphenationZone>
+  <w:DrawingGridHorizontalSpacing>6 pt</w:DrawingGridHorizontalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>2</w:DisplayHorizontalDrawingGridEve=
+ry>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SelectEntireFieldWithStartOrEnd/>
+   <w:UseWord2002TableStyleRules/>
+  </w:Compatibility>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState=3D"false" LatentStyleCount=3D"156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:1627421319 -2147483648 8 0 66047 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+h1
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:16.0pt;
+	mso-bidi-font-size:11.0pt;
+	font-family:Arial;
+	mso-font-kerning:0pt;
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:normal;
+	mso-bidi-font-weight:bold;}
+h2
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:16.0pt;
+	mso-bidi-font-size:11.0pt;
+	font-family:Arial;
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:normal;
+	mso-bidi-font-weight:bold;
+	font-style:italic;}
+h3
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:14.0pt;
+	mso-bidi-font-size:11.0pt;
+	font-family:Arial;
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:normal;
+	mso-bidi-font-weight:bold;}
+h4
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	font-size:14.0pt;
+	mso-bidi-font-size:11.0pt;
+	font-family:Arial;
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;}
+h5
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:5;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:normal;
+	mso-bidi-font-weight:bold;}
+h6
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:6;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:normal;}
+p.MsoHeading7, li.MsoHeading7, div.MsoHeading7
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:7;
+	font-size:10.0pt;
+	mso-bidi-font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;}
+p.MsoHeading8, li.MsoHeading8, div.MsoHeading8
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:8;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.MsoHeading9, li.MsoHeading9, div.MsoHeading9
+	{mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:9;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.MsoToc1, li.MsoToc1, div.MsoToc1
+	{mso-style-update:auto;
+	mso-style-noshow:yes;
+	mso-style-next:Standaard;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	tab-stops:30.0pt right 453.0pt;
+	font-size:10.0pt;
+	mso-bidi-font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 8.0cm right 16.0cm;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:center 8.0cm right 16.0cm;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	mso-layout-grid-align:none;
+	text-autospace:none;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:Arial;
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.MsoBodyText2, li.MsoBodyText2, div.MsoBodyText2
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.MsoBodyText3, li.MsoBodyText3, div.MsoBodyText3
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+a:link, span.MsoHyperlink
+	{mso-style-parent:"";
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-noshow:yes;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:Tahoma;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.Z0, li.Z0, div.Z0
+	{mso-style-name:Z0;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	mso-bidi-font-weight:bold;}
+p.TriFinancemittigParagraph, li.TriFinancemittigParagraph, div.TriFinancemi=
+ttigParagraph
+	{mso-style-name:"TriFinance mittig Paragraph";
+	mso-style-parent:"Kop 1";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:bold;}
+p.TriFinanceParagraph, li.TriFinanceParagraph, div.TriFinanceParagraph
+	{mso-style-name:"TriFinance Paragraph";
+	mso-style-parent:"TriFinance mittig Paragraph";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:11.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:DE;
+	mso-fareast-language:DE;
+	font-weight:bold;}
+ /* Page Definitions */
+ @page
+	{mso-footnote-separator:url("VorlageDienstleistungsvertrag_bestanden/heade=
+r.htm") fs;
+	mso-footnote-continuation-separator:url("VorlageDienstleistungsvertrag_bes=
+tanden/header.htm") fcs;
+	mso-endnote-separator:url("VorlageDienstleistungsvertrag_bestanden/header.=
+htm") es;
+	mso-endnote-continuation-separator:url("VorlageDienstleistungsvertrag_best=
+anden/header.htm") ecs;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:98.95pt 70.9pt 2.0cm 70.9pt;
+	mso-header-margin:35.45pt;
+	mso-footer-margin:35.45pt;
+	mso-page-numbers-chapter-style:header-1;
+	mso-title-page:yes;
+	mso-footer:url("VorlageDienstleistungsvertrag_bestanden/header.htm") f1;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:13074083;
+	mso-list-type:hybrid;
+	mso-list-template-ids:662457572 67567617 67567619 67567621 67567617 675676=
+19 67567621 67567617 67567619 67567621;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l1
+	{mso-list-id:103505188;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-209162822 67567617 67567627 67567621 67567617 67567=
+619 67567621 67567617 67567619 67567621;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l1:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2
+	{mso-list-id:162552473;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-825433896 67567617 67567619 67567621 67567617 67567=
+619 67567621 67567617 67567619 67567621;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l3
+	{mso-list-id:198516488;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-302988226 67567617 67567619 67567621 67567617 67567=
+619 67567621 67567617 67567619 67567621;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l3:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4
+	{mso-list-id:246617928;
+	mso-list-template-ids:-453764684;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l4:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l4:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l5
+	{mso-list-id:268591754;
+	mso-list-template-ids:-957473762;}
+@list l5:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l5:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:54.0pt;
+	mso-level-number-position:left;
+	margin-left:54.0pt;
+	text-indent:-18.0pt;}
+@list l5:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:90.0pt;
+	mso-level-number-position:right;
+	margin-left:90.0pt;
+	text-indent:-9.0pt;}
+@list l5:level4
+	{mso-level-tab-stop:126.0pt;
+	mso-level-number-position:left;
+	margin-left:126.0pt;
+	text-indent:-18.0pt;}
+@list l5:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:162.0pt;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-18.0pt;}
+@list l5:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:198.0pt;
+	mso-level-number-position:right;
+	margin-left:198.0pt;
+	text-indent:-9.0pt;}
+@list l5:level7
+	{mso-level-tab-stop:234.0pt;
+	mso-level-number-position:left;
+	margin-left:234.0pt;
+	text-indent:-18.0pt;}
+@list l5:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:270.0pt;
+	mso-level-number-position:left;
+	margin-left:270.0pt;
+	text-indent:-18.0pt;}
+@list l5:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:306.0pt;
+	mso-level-number-position:right;
+	margin-left:306.0pt;
+	text-indent:-9.0pt;}
+@list l6
+	{mso-list-id:314577640;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-262602920 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l6:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l7
+	{mso-list-id:337735505;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1038635264 67567617 -504876250 67567621 67567617 675=
+67619 67567621 67567617 67567619 67567621;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l7:level2
+	{mso-level-start-at:2001;
+	mso-level-number-format:bullet;
+	mso-level-text:\F0AE;
+	mso-level-tab-stop:90.0pt;
+	mso-level-number-position:left;
+	margin-left:90.0pt;
+	text-indent:-36.0pt;
+	font-family:Symbol;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:Arial;}
+@list l7:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l8
+	{mso-list-id:380594184;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1032463374 67567631 536778958 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l8:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l8:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:54.0pt;
+	mso-level-number-position:left;
+	margin-left:54.0pt;
+	text-indent:-18.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l9
+	{mso-list-id:573517021;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1084738760 67567617 67567619 67567621 67567617 6756=
+7619 67567621 67567617 67567619 67567621;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10
+	{mso-list-id:623774892;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-656906252 701236698 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l10:level1
+	{mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l11
+	{mso-list-id:647705511;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1448055434 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l11:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l12
+	{mso-list-id:653752811;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1349233622 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l12:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l13
+	{mso-list-id:673652733;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1484226832 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l13:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l14
+	{mso-list-id:701057096;
+	mso-list-template-ids:-1962000520;}
+@list l14:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:106.8pt;
+	mso-level-number-position:left;
+	margin-left:106.8pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l14:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:142.8pt;
+	mso-level-number-position:left;
+	margin-left:142.8pt;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l14:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:178.8pt;
+	mso-level-number-position:left;
+	margin-left:178.8pt;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l14:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:214.8pt;
+	mso-level-number-position:left;
+	margin-left:214.8pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l14:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:250.8pt;
+	mso-level-number-position:left;
+	margin-left:250.8pt;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l14:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:286.8pt;
+	mso-level-number-position:left;
+	margin-left:286.8pt;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l14:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:322.8pt;
+	mso-level-number-position:left;
+	margin-left:322.8pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l14:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:358.8pt;
+	mso-level-number-position:left;
+	margin-left:358.8pt;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l14:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:394.8pt;
+	mso-level-number-position:left;
+	margin-left:394.8pt;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l15
+	{mso-list-id:868570466;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1902734846 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l15:level1
+	{mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l16
+	{mso-list-id:918247422;
+	mso-list-template-ids:67567647;}
+@list l16:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l16:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:39.6pt;
+	mso-level-number-position:left;
+	margin-left:39.6pt;
+	text-indent:-21.6pt;}
+@list l16:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	margin-left:61.2pt;
+	text-indent:-25.2pt;}
+@list l16:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	margin-left:86.4pt;
+	text-indent:-32.4pt;}
+@list l16:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:126.0pt;
+	mso-level-number-position:left;
+	margin-left:111.6pt;
+	text-indent:-39.6pt;}
+@list l16:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:162.0pt;
+	mso-level-number-position:left;
+	margin-left:136.8pt;
+	text-indent:-46.8pt;}
+@list l16:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-54.0pt;}
+@list l16:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	margin-left:187.2pt;
+	text-indent:-61.2pt;}
+@list l16:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	margin-left:216.0pt;
+	text-indent:-72.0pt;}
+@list l17
+	{mso-list-id:922497296;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-219412338 67567617 67567619 67567621 67567617 67567=
+619 67567621 67567617 67567619 67567621;}
+@list l17:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18
+	{mso-list-id:932280250;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-647956504 67567617 67567619 67567621 67567617 67567=
+619 67567621 67567617 67567619 67567621;}
+@list l18:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19
+	{mso-list-id:1130711441;
+	mso-list-template-ids:-302988226;}
+@list l19:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l19:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l19:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l19:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l19:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l19:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l19:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l19:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l20
+	{mso-list-id:1224295256;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1962000520 67567617 67567619 67567621 67567617 6756=
+7619 67567621 67567617 67567619 67567621;}
+@list l20:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:106.8pt;
+	mso-level-number-position:left;
+	margin-left:106.8pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l21
+	{mso-list-id:1277641948;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-957473762 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l21:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l22
+	{mso-list-id:1281111378;
+	mso-list-template-ids:-262602920;}
+@list l22:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l22:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:54.0pt;
+	mso-level-number-position:left;
+	margin-left:54.0pt;
+	text-indent:-18.0pt;}
+@list l22:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:90.0pt;
+	mso-level-number-position:right;
+	margin-left:90.0pt;
+	text-indent:-9.0pt;}
+@list l22:level4
+	{mso-level-tab-stop:126.0pt;
+	mso-level-number-position:left;
+	margin-left:126.0pt;
+	text-indent:-18.0pt;}
+@list l22:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:162.0pt;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-18.0pt;}
+@list l22:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:198.0pt;
+	mso-level-number-position:right;
+	margin-left:198.0pt;
+	text-indent:-9.0pt;}
+@list l22:level7
+	{mso-level-tab-stop:234.0pt;
+	mso-level-number-position:left;
+	margin-left:234.0pt;
+	text-indent:-18.0pt;}
+@list l22:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:270.0pt;
+	mso-level-number-position:left;
+	margin-left:270.0pt;
+	text-indent:-18.0pt;}
+@list l22:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:306.0pt;
+	mso-level-number-position:right;
+	margin-left:306.0pt;
+	text-indent:-9.0pt;}
+@list l23
+	{mso-list-id:1315337429;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-922074674 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l23:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l24
+	{mso-list-id:1340235228;
+	mso-list-type:hybrid;
+	mso-list-template-ids:579654110 67567617 67567619 67567621 67567617 675676=
+19 67567621 67567617 67567619 67567621;}
+@list l24:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:42.0pt;
+	mso-level-number-position:left;
+	margin-left:42.0pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l25
+	{mso-list-id:1392116708;
+	mso-list-type:hybrid;
+	mso-list-template-ids:317626846 67567631 67567641 67567643 67567631 675676=
+41 67567643 67567631 67567641 67567643;}
+@list l25:level1
+	{mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l26
+	{mso-list-id:1560894436;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1509121714 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l26:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l27
+	{mso-list-id:1585339867;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1429560710 67567631 67567641 67567643 67567631 6756=
+7641 67567643 67567631 67567641 67567643;}
+@list l27:level1
+	{mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l28
+	{mso-list-id:1590700040;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-693834330 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l28:level1
+	{mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l29
+	{mso-list-id:1630551085;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1644798512 67567617 67567619 67567621 67567617 6756=
+7619 67567621 67567617 67567619 67567621;}
+@list l29:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l29:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l29:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l29:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l29:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l29:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l29:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l29:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l30
+	{mso-list-id:1636713451;
+	mso-list-type:hybrid;
+	mso-list-template-ids:470043818 67567631 67567641 67567643 67567631 675676=
+41 67567643 67567631 67567641 67567643;}
+@list l30:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l31
+	{mso-list-id:1652758446;
+	mso-list-template-ids:1834269392;}
+@list l31:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l31:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:54.0pt;
+	mso-level-number-position:left;
+	margin-left:54.0pt;
+	text-indent:-18.0pt;}
+@list l31:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:90.0pt;
+	mso-level-number-position:right;
+	margin-left:90.0pt;
+	text-indent:-9.0pt;}
+@list l31:level4
+	{mso-level-tab-stop:126.0pt;
+	mso-level-number-position:left;
+	margin-left:126.0pt;
+	text-indent:-18.0pt;}
+@list l31:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:162.0pt;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-18.0pt;}
+@list l31:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:198.0pt;
+	mso-level-number-position:right;
+	margin-left:198.0pt;
+	text-indent:-9.0pt;}
+@list l31:level7
+	{mso-level-tab-stop:234.0pt;
+	mso-level-number-position:left;
+	margin-left:234.0pt;
+	text-indent:-18.0pt;}
+@list l31:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:270.0pt;
+	mso-level-number-position:left;
+	margin-left:270.0pt;
+	text-indent:-18.0pt;}
+@list l31:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:306.0pt;
+	mso-level-number-position:right;
+	margin-left:306.0pt;
+	text-indent:-9.0pt;}
+@list l32
+	{mso-list-id:1749618026;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-987694498 67567617 67567631 67567621 67567617 67567=
+619 67567621 67567617 67567619 67567621;}
+@list l32:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l32:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l33
+	{mso-list-id:1757096681;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-453764684 67567617 67567619 67567621 67567617 67567=
+619 67567621 67567617 67567619 67567621;}
+@list l33:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l33:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l33:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l33:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l33:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l33:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l33:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l33:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l33:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l34
+	{mso-list-id:1761682018;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-873833978 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l34:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l35
+	{mso-list-id:1763648706;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1216714728 67567619 67567619 67567621 67567617 6756=
+7619 67567621 67567617 67567619 67567621;}
+@list l35:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l35:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l35:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l35:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l35:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l35:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l35:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l35:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l35:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l36
+	{mso-list-id:1788936691;
+	mso-list-template-ids:-209162822;}
+@list l36:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l36:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l36:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l36:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l36:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l36:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l36:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l36:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l36:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l37
+	{mso-list-id:1950120580;
+	mso-list-template-ids:-1509121714;}
+@list l37:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l37:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:54.0pt;
+	mso-level-number-position:left;
+	margin-left:54.0pt;
+	text-indent:-18.0pt;}
+@list l37:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:90.0pt;
+	mso-level-number-position:right;
+	margin-left:90.0pt;
+	text-indent:-9.0pt;}
+@list l37:level4
+	{mso-level-tab-stop:126.0pt;
+	mso-level-number-position:left;
+	margin-left:126.0pt;
+	text-indent:-18.0pt;}
+@list l37:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:162.0pt;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-18.0pt;}
+@list l37:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:198.0pt;
+	mso-level-number-position:right;
+	margin-left:198.0pt;
+	text-indent:-9.0pt;}
+@list l37:level7
+	{mso-level-tab-stop:234.0pt;
+	mso-level-number-position:left;
+	margin-left:234.0pt;
+	text-indent:-18.0pt;}
+@list l37:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:270.0pt;
+	mso-level-number-position:left;
+	margin-left:270.0pt;
+	text-indent:-18.0pt;}
+@list l37:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:306.0pt;
+	mso-level-number-position:right;
+	margin-left:306.0pt;
+	text-indent:-9.0pt;}
+@list l38
+	{mso-list-id:2000843737;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1021062332 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l38:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l39
+	{mso-list-id:2006321707;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-891246188 67567631 67567641 67567643 67567631 67567=
+641 67567643 67567631 67567641 67567643;}
+@list l39:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l40
+	{mso-list-id:2020541978;
+	mso-list-template-ids:-1484226832;}
+@list l40:level1
+	{mso-level-tab-stop:18.0pt;
+	mso-level-number-position:left;
+	margin-left:18.0pt;
+	text-indent:-18.0pt;}
+@list l40:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:54.0pt;
+	mso-level-number-position:left;
+	margin-left:54.0pt;
+	text-indent:-18.0pt;}
+@list l40:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:90.0pt;
+	mso-level-number-position:right;
+	margin-left:90.0pt;
+	text-indent:-9.0pt;}
+@list l40:level4
+	{mso-level-tab-stop:126.0pt;
+	mso-level-number-position:left;
+	margin-left:126.0pt;
+	text-indent:-18.0pt;}
+@list l40:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:162.0pt;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-18.0pt;}
+@list l40:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:198.0pt;
+	mso-level-number-position:right;
+	margin-left:198.0pt;
+	text-indent:-9.0pt;}
+@list l40:level7
+	{mso-level-tab-stop:234.0pt;
+	mso-level-number-position:left;
+	margin-left:234.0pt;
+	text-indent:-18.0pt;}
+@list l40:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:270.0pt;
+	mso-level-number-position:left;
+	margin-left:270.0pt;
+	text-indent:-18.0pt;}
+@list l40:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:306.0pt;
+	mso-level-number-position:right;
+	margin-left:306.0pt;
+	text-indent:-9.0pt;}
+@list l41
+	{mso-list-id:2050294912;
+	mso-list-type:hybrid;
+	mso-list-template-ids:2112095452 67567617 67567619 67567621 67567617 67567=
+619 67567621 67567617 67567619 67567621;}
+@list l41:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l42
+	{mso-list-id:2099710759;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-789577476 -25538644 67567619 67567621 67567617 6756=
+7619 67567621 67567617 67567619 67567621;}
+@list l42:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:104.2pt;
+	mso-level-number-position:left;
+	margin-left:104.05pt;
+	text-indent:-17.85pt;
+	font-family:Symbol;}
+@list l29:level1 lfo2
+	{mso-level-start-at:0;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:Standaardtabel;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+table.MsoTableWeb1
+	{mso-style-name:"Webtabel 1";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-cellspacing:2.0pt;
+	border:outset 1.0pt;
+	mso-border-alt:outset windowtext .75pt;
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-border-insideh:.75pt outset windowtext;
+	mso-border-insidev:.75pt outset windowtext;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+table.MsoTableWeb1FirstRow
+	{mso-style-name:"Webtabel 1";
+	mso-table-condition:first-row;
+	mso-tstyle-diagonal-down:0cm none windowtext;
+	mso-tstyle-diagonal-up:0cm none windowtext;
+	color:windowtext;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"3074"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=3DNL link=3Dblue vlink=3Dpurple style=3D'tab-interval:35.4pt'>
+
+<div class=3DSection1>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<h2><b style=3D'mso-bidi-font-weight:normal'><span lang=3DDE style=3D'mso-b=
+idi-font-size:
+16.0pt;font-style:normal'>Dienstleistungsvertrag<o:p></o:p></span></b></h2>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span la=
+ng=3DDE><cx:germanDateFormat date="$A1"/></span></b><b><span
+lang=3DEN-US style=3D'mso-ansi-language:EN-US'><o:p></o:p></span></b></p>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'mso-ansi-language:EN-US;ms=
+o-bidi-font-style:
+italic'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'mso-ansi-language:EN-US;ms=
+o-bidi-font-style:
+italic'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'mso-ansi-language:EN-US;ms=
+o-bidi-font-style:
+italic'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'>Zwischen<o:p><=
+/o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><o:p>&nbsp;</o=
+:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span la=
+ng=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><cx:write value="$A2"/><o:p></o=
+:p></span></b></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span la=
+ng=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><cx:write value="$A3"/><o:p></o=
+:p></span></b></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span la=
+ng=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><cx:write value="$A4"/><o:p></o=
+:p></span></b></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span la=
+ng=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><o:p>&nbsp;</o=
+:p></span></b></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><o:p>&nbsp;</o=
+:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><o:p>&nbsp;</o=
+:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><o:p>&nbsp;</o=
+:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><o:p>&nbsp;</o=
+:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'mso-bidi-font-style:italic'>und<o:p></o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'mso-bidi-font-style:italic'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'mso-bidi-font-style:italic'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span la=
+ng=3DDE
+style=3D'mso-bidi-font-style:italic'>TriFinance GmbH<o:p></o:p></span></b><=
+/p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span la=
+ng=3DDE
+style=3D'mso-bidi-font-style:italic'>Franz-Rennefeld-Weg 5<o:p></o:p></span=
+></b></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span la=
+ng=3DDE
+style=3D'mso-bidi-font-style:italic'>40472 D&uuml;sseldorf<o:p></o:p></span=
+></b></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'mso-bidi-font-style:italic'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE
+style=3D'mso-bidi-font-style:italic'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'mso-bidi-font-style:italic'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<span lang=3DDE style=3D'font-size:11.0pt;font-family:Arial;mso-fareast-fon=
+t-family:
+"Times New Roman";mso-ansi-language:DE;mso-fareast-language:DE;mso-bidi-lan=
+guage:
+AR-SA;mso-bidi-font-weight:bold'><br clear=3Dall style=3D'mso-special-chara=
+cter:
+line-break;page-break-before:always'>
+</span>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoToc1><!--[if supportFields]><span lang=3DDE><span style=3D'ms=
+o-element:
+field-begin'></span><span style=3D'mso-spacerun:yes'>&nbsp;</span>TOC \o
+&quot;1-1&quot; \h \z \u <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+lang=3DDE><a href=3D"#_Toc184631101"><span style=3D'font-size:11.0pt;line-h=
+eight:
+150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-count:1'>&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; </span>1
+<span style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>Allgemeines</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'>&=
+nbsp; </span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631101 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>3<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300031000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631102"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>2 <span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>Manager</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'> =
+</span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631102 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300032000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631103"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>3 <span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>Berichterstattung</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'>&=
+nbsp; </span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631103 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300033000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631104"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>4 <span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>K&uuml;ndigung</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'>&=
+nbsp; </span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631104 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>5<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300034000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631105"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>5 <span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>Honorar</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'> =
+</span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631105 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>5<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300035000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631106"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>6 <span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>Infrastruktur</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'> =
+</span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631106 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>5<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300036000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631107"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>7 <span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>Ausschlie&szlig;lichkeit</spa=
+n><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'> =
+</span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631107 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>6<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300037000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631108"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>8 <span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>Verschwiegenheit</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'> =
+</span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631108 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>6<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300038000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631109"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>9 <span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;</span>Datenschutz</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'>&=
+nbsp; </span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631109 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>6<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100300039000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631110"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>10 Haftung</span><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'>&=
+nbsp; </span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631110 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>6<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100310030000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoToc1><span lang=3DDE><a href=3D"#_Toc184631111"><span style=
+=3D'font-size:
+11.0pt;line-height:150%;mso-no-proof:yes'>&sect; <span style=3D'mso-tab-cou=
+nt:
+1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>11 Schlussvorschriften</span=
+><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-tab-count:1'>&=
+nbsp; </span></span><!--[if supportFields]><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'><span style=3D'mso-element:field-=
+begin'></span>
+PAGEREF _Toc184631111 \h <span style=3D'mso-element:field-separator'></span=
+></span><![endif]--><span
+style=3D'color:windowtext;display:none;mso-hide:screen;mso-no-proof:yes;
+text-decoration:none;text-underline:none'>7<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F005400=
+6F0063003100380034003600330031003100310031000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style=3D'color:window=
+text;
+display:none;mso-hide:screen;mso-no-proof:yes;text-decoration:none;text-und=
+erline:
+none'><span style=3D'mso-element:field-end'></span></span><![endif]--></a><=
+/span><span
+lang=3DDE style=3D'font-family:"Times New Roman";mso-no-proof:yes'><o:p></o=
+:p></span></p>
+
+<p class=3DMsoNormal style=3D'line-height:150%'><!--[if supportFields]><span
+lang=3DDE style=3D'mso-bidi-font-weight:normal'><span style=3D'mso-element:=
+field-end'></span></span><![endif]--><span
+lang=3DDE style=3D'mso-bidi-font-weight:normal'><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE style=3D'mso-bidi-font-weight:normal'>=
+<o:p>&nbsp;</o:p></span></p>
+
+<span lang=3DDE style=3D'font-size:11.0pt;font-family:Arial;mso-fareast-fon=
+t-family:
+"Times New Roman";mso-ansi-language:DE;mso-fareast-language:DE;mso-bidi-lang=
+uage:
+AR-SA;mso-bidi-font-weight:bold'><br clear=3Dall style=3D'mso-special-chara=
+cter:
+line-break;page-break-before:always'>
+</span>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE>Zwischen der</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span lang=3D=
+DE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><b><span lang=3DEN-US style=3D'mso-ansi-language:EN-US;
+mso-bidi-font-style:italic'><cx:write value="$A5"/>, </span></b><span lang=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><cx:write value="$A6"/>, <cx:write value="$A7"/>
+<cx:write value="$A8"/><b><o:p></o:p></b></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'mso-ansi-language:EN-US;mso-bidi-font-style:italic'><span
+style=3D'mso-spacerun:yes'>&nbsp;</span><o:p></o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'mso-ansi-language:EN-US'><=
+o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span lang=3D=
+DE>im
+weiteren <b>&#8222;Kunde&#8220;</b> genannt,</span></p>
+
+<p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span lang=3D=
+DE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE>und der</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><b><span lang=3DDE>TriFinance GmbH</span></b><span lan=
+g=3DDE>,
+Franz-Rennefeld-Weg 5, 40472 D&uuml;sseldorf,</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span lang=3D=
+DE>im
+weiteren <b>&#8222;TriFinance&#8220;</b> genannt,</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE>wird folgender Vertrag geschlossen:</s=
+pan></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631101"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial'>&sect; 1 Allgemeines</span></strong></a><strong=
+><span
+lang=3DDE style=3D'font-family:Arial'><o:p></o:p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l13 level1 lfo26;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>1.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>TriFinance erbringt die Dienstleistungen in Abstimmung mit dem Ku=
+nden
+und dem geeigneten externen Experten (im weiteren &#8222;Manager&#8220;
+genannt). Es ist geplant, <cx:write value="$A9"/> <cx:write value="$A10"/><span
+style=3D'mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>mit dem Auftrag &#8222;<cx:write value="$A11"/>&#8220; beim Kunden zu betrauen.</span=
+></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l13 level1 lfo26;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>2.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Sollten Einzelheiten des Auftrages relevant sein, richten sie sic=
+h nach
+der in diesem Fall als Anlage beigef&uuml;gten Beschreibung oder nach den
+zwischen den Parteien getroffenen sonstigen Vereinbarungen. Weder TriFinance
+noch der Manager &uuml;bernehmen im Rahmen des Auftrags Wirtschaftspr&uuml;=
+fungs-,
+Steuerberatungs- oder Rechtsberatungsaufgaben. Des Weiteren wird der Manager
+keine Gesch&auml;ftsf&uuml;hrungs- oder Vorstandsaufgaben &uuml;bernehmen.<=
+/span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l13 level1 lfo26;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>3.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>TriFinance wird den Manager mit der Ausf&uuml;hrung des Auftrags
+beauftragen. Der Manager steht ausschlie&szlig;lich in einem
+Vertragsverh&auml;ltnis zu TriFinance und wird nicht mit dem Kunden
+vertragliche Beziehungen eingehen.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l13 level1 lfo26;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>4.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Der Auftrag wird im ersten Schritt in der Zeit vom <cx:germanDateFormat date="$A12"/> bis
+voraussichtlich <cx:germanDateFormat date="$A13"/> ausgef&uuml;hrt. Soweit dem Manager durch TriFinanc=
+e im
+Einzelfall dar&uuml;ber hinaus Aufgaben zugewiesen werden, geschieht dies im
+Rahmen des vorliegenden Vertrages.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l13 level1 lfo26;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>5.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Als Koordinator und Ansprechpartner f&uuml;r die Dauer des Auftra=
+ges
+wird vom Kunden <cx:write value="$A14"/> <cx:write value="$A15"/> <cx:write value="$A16"/> und von TriFinance <cx:write value="$A17"/> <cx:write value="$A18"/> =
+benannt.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l13 level1 lfo26;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>6.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Es gelten unsere Allgemeinen Gesch&auml;ftsbedingungen in der jew=
+eils
+geltenden Fassung, die diesem Angebot beigef&uuml;gt sind.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<h1 align=3Dleft style=3D'text-align:left'><strong><span lang=3DDE style=3D=
+'font-size:
+11.0pt;font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p></span></stro=
+ng></h1>
+
+<span lang=3DDE style=3D'font-size:11.0pt;font-family:Arial;mso-fareast-fon=
+t-family:
+"Times New Roman";mso-ansi-language:DE;mso-fareast-language:DE;mso-bidi-lan=
+guage:
+AR-SA;mso-bidi-font-weight:bold'><br clear=3Dall style=3D'mso-special-chara=
+cter:
+line-break;page-break-before:always'>
+</span>
+
+<p class=3DMsoNormal><strong><span lang=3DDE style=3D'font-family:Arial;mso=
+-bidi-font-weight:
+normal'><o:p>&nbsp;</o:p></span></strong></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631102"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial'>&sect; 2</span></strong></a><a name=3D"_Toc1845=
+52542"><span
+style=3D'mso-bookmark:_Toc184631102'><strong><span lang=3DDE style=3D'font-=
+family:
+Arial'> Manager</span></strong></span></a><strong><span lang=3DDE
+style=3D'font-family:Arial'><o:p></o:p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l39 level1 lfo29;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>1.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Ist der Manager &#8211; gleichg&uuml;ltig, aus welchem Grund &#82=
+11;
+nicht in der Lage, den Auftrag zu erf&uuml;llen, so setzt TriFinance einen
+anderen Manager mit gleichen oder vergleichbaren Qualifikationen binnen 15
+Tagen in Abstimmung mit dem Kunden ein.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l39 level1 lfo29;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>2.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Der Manager tr&auml;gt f&uuml;r seine steuer- und
+sozialversicherungsrechtlichen Belange selbst Sorge, ebenso f&uuml;r eine
+etwaige Gewerbeanmeldung. TriFinance hat den Manager entsprechend belehrt.<=
+/span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l39 level1 lfo29;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>3.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Der Kunde hat gegen&uuml;ber dem von TriFinance eingesetzten Mana=
+ger
+keine Weisungsbefugnis hinsichtlich T&auml;tigkeitsort und &#8211;zeit, Url=
+aub,
+Pausenzeiten und des jeweiligen Einsatzortes des Managers. Der Manager ist =
+in
+der Einteilung der Arbeitszeit frei. TriFinance bzw. der Manager wird sich =
+bei
+der Zusammenarbeit mit Mitarbeitern des Kunden zur Einhaltung von Terminen =
+und
+dem vertragsgem&auml;&szlig;en Abschluss des Auftrages &uuml;ber die
+T&auml;tigkeit abstimmen.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l39 level1 lfo29;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>4.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Der von TriFinance eingesetzte Manager hat nach Voranmeldung oder
+Vereinbarung jederzeit freien Zutritt zu den f&uuml;r die Durchf&uuml;hrung=
+ des
+Auftrages ma&szlig;geblichen T&auml;tigkeitsorten. Der Kunde wird TriFinance
+und den Manager nach Kr&auml;ften unterst&uuml;tzen, um eine erfolgreiche
+Ausf&uuml;hrung des Auftrages zu erm&ouml;glichen, und alle zur Ausf&uuml;h=
+rung
+erforderlichen Informationen und Unterlagen zur Verf&uuml;gung stellen. Der
+Kunde wird TriFinance und dem Manager alle f&uuml;r die Ausf&uuml;hrung des
+Auftrages erforderlichen Bestimmungen (Satzungen der Gesellschaft,
+Gesch&auml;ftsordnungen, Organigramme, Richtlinien, Interna usw.) zur
+Verf&uuml;gung stellen. F&uuml;r Fehler, die auf das Fehlen derartiger Unte=
+rlagen
+zur&uuml;ckzuf&uuml;hren sind, haften weder TriFinance noch der Manager.</s=
+pan></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l39 level1 lfo29;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>5.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Der Manager wird, sofern nicht etwas anderes vereinbart ist, seine
+T&auml;tigkeit am Standort des Kunden wahrnehmen.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631103"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial'>&sect; 3</span></strong></a><a name=3D"_Toc1845=
+52544"><span
+style=3D'mso-bookmark:_Toc184631103'><strong><span lang=3DDE style=3D'font-=
+family:
+Arial'> Berichterstattung</span></strong></span></a><strong><span lang=3DDE
+style=3D'font-family:Arial'><o:p></o:p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l34 level1 lfo30;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>1.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Der Manager wird von TriFinance verpflichtet,
+gr&ouml;&szlig;tm&ouml;gliche Anstrengung und Sorgfalt bei der Bew&auml;lti=
+gung
+des Auftrages an den Tag zu legen. Der Kunde verpflichtet sich, alle
+Informationen zu liefern, die f&uuml;r die zeitige, vollst&auml;ndige und
+korrekte Ausf&uuml;hrung des Auftrages notwendig sind. Wenn der Kunde
+Informationen, die f&uuml;r die Ausf&uuml;hrung des Auftrages erforderlich =
+sind
+unvollst&auml;ndig, falsch oder zu sp&auml;t liefert, wird der Manager die =
+Aufgaben
+lediglich im Rahmen der vorliegenden Informationen erledigen.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l34 level1 lfo30;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>2.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Der Manager erstellt w&ouml;chentlich einen T&auml;tigkeitsnachwe=
+is mit
+Meldungen der geleisteten Stunden an den Kunden. Dieser Wochenbericht wird =
+vom
+Manager und vom Kunden unterzeichnet, ist Grundlage f&uuml;r die
+Rechnungserstellung und <span
+style=3D'mso-spacerun:yes'>&nbsp;</span>gew&auml;hrleistet Transparenz und
+Kontrolle im Projektverlauf.</span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center;line-height:=
+150%'><b><span
+lang=3DDE><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=3DMsoNormal><strong><span lang=3DDE style=3D'font-family:Arial;fon=
+t-weight:
+normal;mso-bidi-font-weight:bold'><o:p>&nbsp;</o:p></span></strong></p>
+
+<p class=3DMsoNormal><strong><span lang=3DDE style=3D'font-family:Arial;fon=
+t-weight:
+normal;mso-bidi-font-weight:bold'><o:p>&nbsp;</o:p></span></strong></p>
+
+<strong><span lang=3DDE style=3D'font-size:11.0pt;font-family:Arial;mso-far=
+east-font-family:
+"Times New Roman";mso-ansi-language:DE;mso-fareast-language:DE;mso-bidi-lan=
+guage:
+AR-SA;font-weight:normal;mso-bidi-font-weight:bold'><br clear=3Dall
+style=3D'mso-special-character:line-break;page-break-before:always'>
+</span></strong>
+
+<p class=3DMsoNormal><strong><span lang=3DDE style=3D'font-family:Arial;fon=
+t-weight:
+normal;mso-bidi-font-weight:bold'><o:p>&nbsp;</o:p></span></strong></p>
+
+<p class=3DMsoNormal><strong><span lang=3DDE style=3D'font-family:Arial;fon=
+t-weight:
+normal;mso-bidi-font-weight:bold'><o:p>&nbsp;</o:p></span></strong></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631104"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial;mso-bidi-font-weight:normal'>&sect; 4</span></st=
+rong></a><a
+name=3D"_Toc184552546"><span style=3D'mso-bookmark:_Toc184631104'><strong><=
+span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'> K&uuml;n=
+digung</span></strong></span></a><strong><span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'><o:p></o:=
+p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l8 level1 lfo31;tab-stops:list 18.0pt'><![if !supportLists=
+]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>1.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>F&uuml;r den Vertrag wird eine Probezeit von 2 Wochen vereinbart.=
+ In
+der Probezeit kann der Vertrag von beiden Seiten t&auml;glich gek&uuml;ndigt
+werden. Nach Ablauf dieser Probezeit kann der Vertrag von beiden Seiten mit
+einer Frist von 2 Wochen gek&uuml;ndigt werden.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l8 level1 lfo31;tab-stops:list 18.0pt'><![if !supportLists=
+]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>2.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Das Recht zur au&szlig;erordentlichen K&uuml;ndigung bleibt
+unber&uuml;hrt. Ein wichtiger Grund f&uuml;r eine au&szlig;erordentliche
+K&uuml;ndigung liegt insbesondere vor bei</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><strong><span lang=3DDE
+style=3D'font-family:Arial;font-weight:normal;mso-bidi-font-weight:bold'><o=
+:p>&nbsp;</o:p></span></strong></p>
+
+<ul style=3D'margin-top:0cm' type=3Dcircle>
+ <li class=3DMsoNormal style=3D'text-align:justify;mso-list:l35 level1 lfo1=
+0;
+     tab-stops:list 36.0pt'><strong><span lang=3DDE style=3D'font-family:Ar=
+ial;
+     font-weight:normal'>der Er&ouml;ffnung des Insolvenzverfahrens &uuml;b=
+er
+     das Verm&ouml;gen der jeweils anderen Partei, das Stellen eines Antrag=
+es
+     auf Er&ouml;ffnung eines derartigen Verfahrens oder die Ablehnung eines
+     solchen Antrags mangels Masse,<o:p></o:p></span></strong></li>
+</ul>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><strong><span lang=3DDE
+style=3D'font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p></span></st=
+rong></p>
+
+<ul style=3D'margin-top:0cm' type=3Dcircle>
+ <li class=3DMsoNormal style=3D'text-align:justify;mso-list:l35 level1 lfo1=
+0;
+     tab-stops:list 36.0pt'><strong><span lang=3DDE style=3D'font-family:Ar=
+ial;
+     font-weight:normal'>der Nichterf&uuml;llung wesentlicher Vertragspflic=
+hten
+     durch die jeweils andere Partei; vorausgesetzt, der betroffenen Partei
+     wurde eine schriftliche Aufforderung zur Abhilfe binnen 10 Arbeitstagen
+     gesetzt und die Partei hat diese Frist ergebnislos verstreichen lassen=
+.<o:p></o:p></span></strong></li>
+</ul>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><strong><span lang=3DDE
+style=3D'font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p></span></st=
+rong></p>
+
+<ul style=3D'margin-top:0cm' type=3Dcircle>
+ <li class=3DMsoNormal style=3D'text-align:justify;mso-list:l35 level1 lfo1=
+0;
+     tab-stops:list 36.0pt'><strong><span lang=3DDE style=3D'font-family:Ar=
+ial;
+     font-weight:normal'>dem schuldhaften Versto&szlig; gegen wesentliche
+     Bestimmungen dieses Vertrages durch die jeweils andere Partei.<o:p></o=
+:p></span></strong></li>
+</ul>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><strong><span lang=3DDE
+style=3D'font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p></span></st=
+rong></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><strong><span lang=3DDE
+style=3D'font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p></span></st=
+rong></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631105"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial;mso-bidi-font-weight:normal'>&sect; 5</span></st=
+rong></a><a
+name=3D"_Toc184552548"><span style=3D'mso-bookmark:_Toc184631105'><strong><=
+span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'> Honorar<=
+/span></strong></span></a><strong><span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'><o:p></o:=
+p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l11 level1 lfo33;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>1.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Der vom Kunden zu zahlende <cx:write value="$A19"/> betr&auml;gt EUR <cx:write value="$A20"/> zzgl.=
+ der
+gesetzlichen Umsatzsteuer im Zeitpunkt der Leistungserbringung sowie
+Reisekosten und Spesen.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l11 level1 lfo33;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>2.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Reisekosten und Spesen zum Standort des Unternehmens bzw. zum
+Einsatzort des Managers werden separat auf der Rechnung ausgewiesen und dem
+Kunden in Rechnung gestellt. Die Rechnungen sind 10 Tage nach Rechnungsdatum
+f&auml;llig.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l11 level1 lfo33;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>3.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Die Abrechnung erfolgt zweimal pro Monat (die erste Rechnung zur
+Monatsh&auml;lfte und die zweite Rechnung zum Monatsende) auf Basis der
+T&auml;tigkeitsnachweise im Sinne des &sect; 3 sowie eventueller Auslagen. =
+Das
+gesamte Honorar ist ausschlie&szlig;lich an TriFinance zu entrichten.</span=
+></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631106"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial;mso-bidi-font-weight:normal'>&sect; 6</span></st=
+rong></a><a
+name=3D"_Toc184552550"><span style=3D'mso-bookmark:_Toc184631106'><strong><=
+span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'> Infrastr=
+uktur</span></strong></span></a><strong><span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'><o:p></o:=
+p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE>Der Kunde=
+ stellt
+dem Manager die zur Durchf&uuml;hrung des Auftrages notwendigen Mittel, Mat=
+erialien,
+R&auml;umlichkeiten sowie sonstige technische und nichttechnische Infrastru=
+ktur
+an den jeweiligen Standorten zur Verf&uuml;gung. Des Weiteren stellt der Ku=
+nde
+seine Einrichtungen und Ma&szlig;nahmen der Ersten Hilfe zur Mitbenutzung im
+Notfall zur Verf&uuml;gung.</span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><strong><sp=
+an
+lang=3DDE style=3D'font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p><=
+/span></strong></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><strong><span lang=3DDE
+style=3D'font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p></span></st=
+rong></p>
+
+<strong><span lang=3DDE style=3D'font-size:11.0pt;font-family:Arial;mso-far=
+east-font-family:
+"Times New Roman";mso-ansi-language:DE;mso-fareast-language:DE;mso-bidi-lan=
+guage:
+AR-SA;font-weight:normal'><br clear=3Dall style=3D'mso-special-character:li=
+ne-break;
+page-break-before:always'>
+</span></strong>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><strong><span lang=3DDE
+style=3D'font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p></span></st=
+rong></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><strong><span lang=3DDE
+style=3D'font-family:Arial;font-weight:normal'><o:p>&nbsp;</o:p></span></st=
+rong></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631107"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial;mso-bidi-font-weight:normal'>&sect; 7</span></st=
+rong></a><a
+name=3D"_Toc184552552"><span style=3D'mso-bookmark:_Toc184631107'><strong><=
+span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'> Ausschli=
+e&szlig;lichkeit</span></strong></span></a><strong><span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'><o:p></o:=
+p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-indent:-18.0pt;mso-li=
+st:l30 level1 lfo36;
+tab-stops:list 18.0pt'><![if !supportLists]><span lang=3DDE style=3D'mso-fa=
+reast-font-family:
+Arial'><span style=3D'mso-list:Ignore'>1.<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DDE>W&auml;hrend des Auftrages
+bestehen keine vertraglichen Bindungen zwischen dem Kunden und dem Manager.=
+ Der
+Kunde wird keine vertraglichen Beziehungen zum Manager anbahnen.</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-indent:-18.0pt;mso-li=
+st:l30 level1 lfo36;
+tab-stops:list 18.0pt'><![if !supportLists]><span lang=3DDE style=3D'mso-fa=
+reast-font-family:
+Arial'><span style=3D'mso-list:Ignore'>2.<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DDE>Gehen Kunde und Manager binn=
+en 12
+Monaten nach Ende des Auftrages ein Vertragsverh&auml;ltnis &#8211; gleich
+welcher Art &#8211; ein, oder erfolgt eine T&auml;tigkeit des Managers
+&uuml;ber andere Auftragnehmer bei dem Kunden, so zahlt der Kunde an TriFin=
+ance
+eine Vermittlungsprovision in H&ouml;he von 25 % der dem Manager oder dem
+Auftragnehmer geschuldeten Bruttojahresverg&uuml;tung. Der Kunde ist auf Ve=
+rlangen
+verpflichtet, TriFinance ent-sprechend Auskunft zu erteilen.</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-indent:-18.0pt;mso-li=
+st:l30 level1 lfo36;
+tab-stops:list 18.0pt'><![if !supportLists]><span lang=3DDE style=3D'mso-fa=
+reast-font-family:
+Arial'><span style=3D'mso-list:Ignore'>3.<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DDE>Die Bruttojahresverg&uuml;tu=
+ng ist
+die in einem Zeitraum von zw&ouml;lf Monaten erzielte &#8211; oder in
+Ermangelung einer solchen &uuml;blicherweise zu erzielende &#8211;
+Verg&uuml;tung f&uuml;r eine dem Auftrag entsprechende Position im Unterneh=
+men
+des Kunden. Bei der Ermittlung der Bruttojahresverg&uuml;tung sind freiwill=
+ig
+gezahlte zus&auml;tzliche Verg&uuml;tungen, Gratifikationen, vertragliche
+Bonusregelungen sowie s&auml;mtliche geldwerten Vorteile mit einzubeziehen.=
+</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-indent:-18.0pt;mso-li=
+st:l30 level1 lfo36;
+tab-stops:list 18.0pt'><![if !supportLists]><span lang=3DDE style=3D'mso-fa=
+reast-font-family:
+Arial'><span style=3D'mso-list:Ignore'>4.<span style=3D'font:7.0pt "Times N=
+ew Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=3DDE>Zeigt der Kunde ein direkt
+eingegangenes Vertragsverh&auml;ltnis gegen&uuml;ber TriFinance schuldhaft
+nicht unverz&uuml;glich an, ist TriFinance berechtigt, eine Vertragsstrafe =
+in
+H&ouml;he von 5.000,00 EUR zu verlangen. Dar&uuml;ber hinaus ist TriFinance
+berechtigt, einen weitergehenden Schaden geltend zu machen.</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631108"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial'>&sect; 8</span></strong></a><a name=3D"_Toc1845=
+52554"><span
+style=3D'mso-bookmark:_Toc184631108'><strong><span lang=3DDE style=3D'font-=
+family:
+Arial'> Verschwiegenheit</span></strong></span></a><strong><span lang=3DDE
+style=3D'font-family:Arial'><o:p></o:p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE>TriFinance
+verpflichtet das f&uuml;r sie t&auml;tige Personal zur absoluten
+Verschwiegenheit &uuml;ber s&auml;mtliche Daten und Informationen, von denen
+man anl&auml;sslich oder bei Gelegenheit der nach diesem Vertrag
+auszuf&uuml;hrenden T&auml;tigkeiten annehmen kann, dass sie vertraulich zu
+behandeln sind, sowohl w&auml;hrend der Ausf&uuml;hrung des Auftrags als au=
+ch
+nach dessen Beendigung. Diese Verpflichtung gilt nicht f&uuml;r den Fall, d=
+ass
+Informationen an Dritte gegeben werden, um den Auftrag ausf&uuml;hren zu
+k&ouml;nnen.</span></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631109"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial;mso-bidi-font-weight:normal'><br style=3D'mso-sp=
+ecial-character:
+line-break'>
+<![if !supportLineBreakNewLine]><br style=3D'mso-special-character:line-bre=
+ak'>
+<![endif]><o:p></o:p></span></strong></a></p>
+
+<p class=3DTriFinanceParagraph><span style=3D'mso-bookmark:_Toc184631109'><=
+strong><span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'>&sect; 9<a
+name=3D"_Toc184552556"> Datenschutz</a></span></strong></span><strong><span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'><o:p></o:=
+p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE>TriFinance
+verpflichtet die Manager die geltenden Bundes- und Landesdatenschutzgesetze
+einzuhalten. Insbesondere darf der Manager ihm bekannt gewordene personenbe=
+zogene
+Daten nur in befugter Weise und ausschlie&szlig;lich im Rahmen des jeweilig=
+en
+Auftragszweckes verwenden und nicht an Dritte weitergeben. Die Verpflichtung
+besteht auch nach Beendigung der Zusammenarbeit unbefristet fort.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631110"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial;mso-bidi-font-weight:normal'>&sect; 10</span></s=
+trong></a><a
+name=3D"_Toc184552558"><span style=3D'mso-bookmark:_Toc184631110'><strong><=
+span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'> Haftung<=
+/span></strong></span></a><strong><span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'><o:p></o:=
+p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l12 level1 lfo41;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>1.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Anspr&uuml;che des Kunden auf Schadensersatz aus diesem Auftrag
+k&ouml;nnen nur innerhalb einer Ausschlussfrist von einem Jahr ab dem
+gesetzlichen Verj&auml;hrungsbeginn schriftlich geltend gemacht werden. Dies
+gilt nicht, wenn TriFinance Arglist oder grobes Verschulden zur Last
+f&auml;llt.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l12 level1 lfo41;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>2.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>TriFinance haftet nur f&uuml;r Sch&auml;den, die von TriFinance,
+Mitarbeitern oder beauftragten Personen durch mangelhafte Ausf&uuml;hrung d=
+es
+Auftrages vors&auml;tzlich oder grob fahrl&auml;ssig verursacht wurden. In
+diesem Fall haftet TriFinance nur f&uuml;r den Schaden, der typischerweise =
+mit
+dem Auftrag verbunden und vorhersehbar ist. F&uuml;r fahrl&auml;ssig
+verursachte Sch&auml;den haftet TriFinance gem&auml;&szlig; vorstehendem Sa=
+tz
+nur bei Verletzung wesentlicher Vertragspflichten (Kardinalpflichten).</spa=
+n></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l12 level1 lfo41;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>3.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Eine Haftung von TriFinance (aus welchem Rechtsgrund auch immer)
+f&uuml;r Sch&auml;den, die durch einfache Fahrl&auml;ssigkeit verursacht
+werden, ist auf das Zwanzigfache des Tageshonorars gem&auml;&szlig; &sect; =
+5 Absatz
+(1) begrenzt. Vorstehende Haftungsbeschr&auml;nkung gilt auch f&uuml;r
+Mitarbeiter und Erf&uuml;llungsgehilfen.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DTriFinanceParagraph><a name=3D"_Toc184631111"><strong><span lang=
+=3DDE
+style=3D'font-family:Arial;mso-bidi-font-weight:normal'>&sect; 11</span></s=
+trong></a><a
+name=3D"_Toc184552560"><span style=3D'mso-bookmark:_Toc184631111'><strong><=
+span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'> S</span>=
+</strong></span></a><strong><span
+lang=3DDE style=3D'font-family:Arial;mso-bidi-font-weight:normal'>chlussvor=
+schriften<o:p></o:p></span></strong></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l38 level1 lfo43;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>1.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>TriFinance ist berechtigt, Daten und Inhalte, die dieses
+Auftragsverh&auml;ltnis betreffen, zu nutzen und selbst oder durch
+Erf&uuml;llungsgehilfen auf Datentr&auml;gern jedweder Art zu speichern,
+innerhalb des TriFinance Netzwerks weiterzuleiten oder aufzubewahren. Nach =
+Erl&ouml;schen
+der geschuldeten Leistungspflichten ist TriFinance berechtigt, den Namen des
+Auftraggebers, dessen Logo und die Art der konkreten T&auml;tigkeit inner- =
+und
+au&szlig;erhalb der internationalen TriFinance-Gruppe als Referenz zu
+verwenden. Insoweit entbindet der Auftraggeber TriFinance bereits jetzt von=
+ der
+Verpflichtung zur Wahrung der Verschwiegenheit. Wir bitten Sie, Ihr
+Einverst&auml;ndnis mit dem Inhalt dieses Schreibens auf der beigef&uuml;gt=
+en
+Kopie zu dokumentieren und diese rechtsverbindlich unterzeichnet zur&uuml;c=
+kzusenden.
+Wir danken f&uuml;r die Gelegenheit, Ihnen dieses Angebot unterbreiten zu
+d&uuml;rfen und freuen uns auf eine weiterhin angenehme Zusammenarbeit.
+F&uuml;r das durch die Auftragserteilung zum Ausdruck kommende Vertrauen
+bedanken wir uns und versichern Ihnen, dass wir dem Auftrag unsere volle
+Aufmerksamkeit widmen werden.</span></p>
+
+<p class=3DMsoNormal><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l38 level1 lfo43;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>2.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Auf diesen Vertrag findet ausschlie&szlig;lich deutsches Recht An=
+wendung.
+Gerichtsstand ist, soweit gesetzlich zul&auml;ssig, D&uuml;sseldorf.</span>=
+</p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l38 level1 lfo43;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>3.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>Sollten einzelne Bestimmungen dieses Vertrages ganz oder teilweise
+unwirksam sein oder wirksam werden, so wird dadurch die G&uuml;ltigkeit im
+&Uuml;brigen nicht ber&uuml;hrt. Die unwirksame Bestimmung ist durch eine
+Regelung zu ersetzen, die dem Zweck der unwirksamen Bestimmung m&ouml;glich=
+st
+nahe kommt.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'margin-left:18.0pt;text-align:justify;text-in=
+dent:
+-18.0pt;mso-list:l38 level1 lfo43;tab-stops:list 18.0pt'><![if !supportList=
+s]><span
+lang=3DDE style=3D'mso-fareast-font-family:Arial'><span style=3D'mso-list:I=
+gnore'>4.<span
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </spa=
+n></span></span><![endif]><span
+lang=3DDE>&Auml;nderungen und Erg&auml;nzungen dieses Vertrages,
+einschlie&szlig;lich dieser Schriftformklausel, bed&uuml;rfen der Schriftfo=
+rm.
+M&uuml;ndliche Nebenabreden sind unwirksam.</span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DDE><o:p>&nbs=
+p;</o:p></span></p>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+ style=3D'border-collapse:collapse;mso-yfti-tbllook:480;mso-padding-alt:0cm=
+ 5.4pt 0cm 5.4pt'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=3D295 valign=3Dtop style=3D'width:221.0pt;padding:0cm 5.4pt 0cm=
+ 5.4pt'>
+  <p class=3DZ0><span lang=3DDE>D&uuml;sseldorf, den <cx:write value="$A21"/></span></p>
+  </td>
+  <td width=3D25 valign=3Dtop style=3D'width:18.9pt;padding:0cm 5.4pt 0cm 5=
+.4pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D294 valign=3Dtop style=3D'width:220.65pt;padding:0cm 5.4pt 0c=
+m 5.4pt'>
+  <p class=3DZ0 align=3Dleft style=3D'text-align:left'><span lang=3DEN-US
+  style=3D'mso-ansi-language:EN-US'><cx:write value="$A22"/>, den <span
+  style=3D'mso-spacerun:yes'>&nbsp;</span><cx:write value="$A23"/><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:1;height:8.25pt'>
+  <td width=3D295 valign=3Dtop style=3D'width:221.0pt;padding:0cm 5.4pt 0cm=
+ 5.4pt;
+  height:8.25pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D25 valign=3Dtop style=3D'width:18.9pt;padding:0cm 5.4pt 0cm 5=
+.4pt;
+  height:8.25pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D294 valign=3Dtop style=3D'width:220.65pt;padding:0cm 5.4pt 0c=
+m 5.4pt;
+  height:8.25pt'>
+  <p class=3DZ0><span lang=3DEN-US style=3D'mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:2;height:4.0pt'>
+  <td width=3D295 valign=3Dtop style=3D'width:221.0pt;padding:0cm 5.4pt 0cm=
+ 5.4pt;
+  height:4.0pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D25 valign=3Dtop style=3D'width:18.9pt;padding:0cm 5.4pt 0cm 5=
+.4pt;
+  height:4.0pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D294 valign=3Dtop style=3D'width:220.65pt;padding:0cm 5.4pt 0c=
+m 5.4pt;
+  height:4.0pt'>
+  <p class=3DZ0><span lang=3DEN-US style=3D'mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:3;height:4.0pt'>
+  <td width=3D295 valign=3Dtop style=3D'width:221.0pt;padding:0cm 5.4pt 0cm=
+ 5.4pt;
+  height:4.0pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D25 valign=3Dtop style=3D'width:18.9pt;padding:0cm 5.4pt 0cm 5=
+.4pt;
+  height:4.0pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D294 valign=3Dtop style=3D'width:220.65pt;padding:0cm 5.4pt 0c=
+m 5.4pt;
+  height:4.0pt'>
+  <p class=3DZ0><span lang=3DEN-US style=3D'mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:4;height:4.0pt'>
+  <td width=3D295 valign=3Dtop style=3D'width:221.0pt;border:none;border-bo=
+ttom:solid windowtext 1.0pt;
+  mso-border-bottom-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:4.0pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D25 valign=3Dtop style=3D'width:18.9pt;padding:0cm 5.4pt 0cm 5=
+.4pt;
+  height:4.0pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D294 valign=3Dtop style=3D'width:220.65pt;border:none;border-b=
+ottom:
+  solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:4.0pt'>
+  <p class=3DZ0><span lang=3DEN-US style=3D'mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:5;height:9.0pt'>
+  <td width=3D295 valign=3Dtop style=3D'width:221.0pt;border:none;mso-borde=
+r-top-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:9.0pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D25 valign=3Dtop style=3D'width:18.9pt;padding:0cm 5.4pt 0cm 5=
+.4pt;
+  height:9.0pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D294 valign=3Dtop style=3D'width:220.65pt;border:none;mso-bord=
+er-top-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:9.0pt'>
+  <p class=3DZ0><span lang=3DEN-US style=3D'mso-ansi-language:EN-US'><o:p>&=
+nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:6;mso-yfti-lastrow:yes;height:8.25pt'>
+  <td width=3D295 valign=3Dtop style=3D'width:221.0pt;padding:0cm 5.4pt 0cm=
+ 5.4pt;
+  height:8.25pt'>
+  <p class=3DZ0><span lang=3DDE>TriFinance GmbH</span></p>
+  </td>
+  <td width=3D25 valign=3Dtop style=3D'width:18.9pt;padding:0cm 5.4pt 0cm 5=
+.4pt;
+  height:8.25pt'>
+  <p class=3DZ0><span lang=3DDE><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D294 valign=3Dtop style=3D'width:220.65pt;padding:0cm 5.4pt 0c=
+m 5.4pt;
+  height:8.25pt'>
+  <p class=3DZ0><span lang=3DEN-US style=3D'mso-ansi-language:EN-US'><cx:write value="$A24"/>=
+<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=3DMsoNormal style=3D'text-align:justify'><span lang=3DEN-US
+style=3D'mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+</div>
+
+</body>
+
+</html>
+
+------=_NextPart_01CDC334.7D1DC0B0
+Content-Location: file:///C:/515BD487/VorlageDienstleistungsvertrag_bestanden/header.htm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="us-ascii"
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml"
+xmlns:o=3D"urn:schemas-microsoft-com:office:office"
+xmlns:w=3D"urn:schemas-microsoft-com:office:word"
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dus-ascii">
+<meta name=3DProgId content=3DWord.Document>
+<meta name=3DGenerator content=3D"Microsoft Word 11">
+<meta name=3DOriginator content=3D"Microsoft Word 11">
+<link id=3DMain-File rel=3DMain-File href=3D"../VorlageDienstleistungsvertr=
+ag.htm">
+<![if IE]>
+<base
+href=3D"file:///C:\515BD487\VorlageDienstleistungsvertrag_bestanden\header.=
+htm"
+id=3D"webarch_temp_base_tag">
+<![endif]><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"3074"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"2"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=3DNL link=3Dblue vlink=3Dpurple>
+
+<div style=3D'mso-element:footnote-separator' id=3Dfs>
+
+<p class=3DMsoNormal><span lang=3DDE><span style=3D'mso-special-character:f=
+ootnote-separator'><![if !supportFootnotes]>
+
+<hr align=3Dleft size=3D1 width=3D"33%">
+
+<![endif]></span></span></p>
+
+</div>
+
+<div style=3D'mso-element:footnote-continuation-separator' id=3Dfcs>
+
+<p class=3DMsoNormal><span lang=3DDE><span style=3D'mso-special-character:f=
+ootnote-continuation-separator'><![if !supportFootnotes]>
+
+<hr align=3Dleft size=3D1>
+
+<![endif]></span></span></p>
+
+</div>
+
+<div style=3D'mso-element:endnote-separator' id=3Des>
+
+<p class=3DMsoNormal><span lang=3DDE><span style=3D'mso-special-character:f=
+ootnote-separator'><![if !supportFootnotes]>
+
+<hr align=3Dleft size=3D1 width=3D"33%">
+
+<![endif]></span></span></p>
+
+</div>
+
+<div style=3D'mso-element:endnote-continuation-separator' id=3Decs>
+
+<p class=3DMsoNormal><span lang=3DDE><span style=3D'mso-special-character:f=
+ootnote-continuation-separator'><![if !supportFootnotes]>
+
+<hr align=3Dleft size=3D1>
+
+<![endif]></span></span></p>
+
+</div>
+
+<div style=3D'mso-element:footer' id=3Df1>
+
+<p class=3DMsoFooter><b><span lang=3DDE style=3D'font-size:8.0pt;mso-no-pro=
+of:yes'><!--[if gte vml 1]><v:line
+ id=3D"_x0000_s2726" style=3D'position:absolute;z-index:1' from=3D"0,8.7pt"=
+ to=3D"456pt,8.7pt"/><![endif]--></span></b><b><span
+lang=3DDE style=3D'font-size:8.0pt'><o:p></o:p></span></b></p>
+
+<p class=3DMsoFooter><b><span lang=3DDE style=3D'font-size:8.0pt'><o:p>&nbs=
+p;</o:p></span></b></p>
+
+<p class=3DMsoFooter><b><span lang=3DDE style=3D'font-size:8.0pt'>TriFinanc=
+e &#8211;
+Dienstleistungsvertrag &#8222;<cx:write value="$B1"/>&#8220; <span style=3D'mso-tab-count:1'>=
+ </span></span></b><!--[if supportFields]><b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-element:field-begin'=
+></span>
+DATE \@ &quot;dd.MM.yyyy&quot; <span style=3D'mso-element:field-separator'>=
+</span></span></b><![endif]--><b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-no-proof:yes'>15.11.=
+2012</span></span></b><!--[if supportFields]><b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-element:field-end'><=
+/span></span></b><![endif]--><b><span
+lang=3DDE style=3D'font-size:8.0pt'> -Seite </span></b><!--[if supportField=
+s]><b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-element:field-begin'=
+></span><span
+style=3D'mso-spacerun:yes'>&nbsp;</span>PAGE <span style=3D'mso-element:fie=
+ld-separator'></span></span></b><![endif]--><b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-no-proof:yes'>2</spa=
+n></span></b><!--[if supportFields]><b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-element:field-end'><=
+/span></span></b><![endif]--><b><span
+lang=3DDE style=3D'font-size:8.0pt'> von </span></b><!--[if supportFields]>=
+<b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-element:field-begin'=
+></span><span
+style=3D'mso-spacerun:yes'>&nbsp;</span>NUMPAGES <span style=3D'mso-element=
+:field-separator'></span></span></b><![endif]--><b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-no-proof:yes'>7</spa=
+n></span></b><!--[if supportFields]><b><span
+lang=3DDE style=3D'font-size:8.0pt'><span style=3D'mso-element:field-end'><=
+/span></span></b><![endif]--><b><span
+lang=3DDE style=3D'font-size:8.0pt'><o:p></o:p></span></b></p>
+
+</div>
+
+</body>
+
+</html>
+
+------=_NextPart_01CDC334.7D1DC0B0
+Content-Location: file:///C:/515BD487/VorlageDienstleistungsvertrag_bestanden/filelist.xml
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/xml; charset="utf-8"
+
+<xml xmlns:o=3D"urn:schemas-microsoft-com:office:office">
+ <o:MainFile HRef=3D"../VorlageDienstleistungsvertrag.htm"/>
+ <o:File HRef=3D"header.htm"/>
+ <o:File HRef=3D"filelist.xml"/>
+</xml>
+------=_NextPart_01CDC334.7D1DC0B0--<cx:header name="Content-Type" value="application/ms-word; charset=UTF-8"/>
