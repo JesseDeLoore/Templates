@@ -1,6 +1,6 @@
 <div class="invoice-wrapper" data-role="invoice" data-invoice-id="<%=id%>" style="page-break-after: always;">
 	<link rel="stylesheet" href="http://templates.carerix.com/templates/cxtemplatesGS.css" type="text/css">
-	<link rel="stylesheet" type="text/css" href="http://sales.carerix.com/templates/facturen/invoice.css" />
+	<link rel="stylesheet" type="text/css" href="http://sales.carerix.com/templates/facturen/pages/invoice.css" />
 <!-- Set the header 
 			This header is currently comprised of only the logo
 -->
@@ -38,7 +38,7 @@
 					<span contentEditable="true"><%=(i18n.isDutch?'Orderdatum':'Order date')%></span>
 				</td>
 				<td class="value">
-					<span contentEditable="true"><%=(startDate.get_eBY(i18n.isDutch)||warn('startdatum invullen bij project ' + id))%></span>
+					<span contentEditable="true"><%=(startDate.get_eBY(i18n.isDutch)||("startdatum invullen bij project ' + id"))%></span>
 				</td>
 				<td>&nbsp;</td>
 				<td>
@@ -131,9 +131,9 @@
 				
 					<span contenteditable="true">
 						<% if ( i18n.isDutch ) { %>
-							Conform overeenkomst <b><%=agreement.id%></b> ten behoeve van <b><%=agreement.name%></b> brengen wij u thans het volgende in rekening:
+							Conform overeenkomst <b><%=agreement.id%></b> ten behoeve van <b><%=company.name%></b> brengen wij u het volgende in rekening:
 						<% } else { %>
-							In accordance with agreement <b><%=agreement.id%></b>	on behalf of <b><%=agreement.name%></b> we charge you with the following:
+							In accordance with agreement <b><%=agreement.id%></b>	on behalf of <b><%=company.name%></b> we charge you with the following:
 						<% } %>
 					</span>
 				</td>
@@ -156,7 +156,7 @@
 									print(i18n.isDutch ? 'jaarlijkse kosten' : 'annual costs');
 									break;
 								default:
-									warn('Periode ' + frequency + ' is niet gedefinieerd');
+									print("<font color=red><i>" + string + "</i></font>");
 									break;
 							}
 						%>

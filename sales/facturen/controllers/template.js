@@ -4,18 +4,18 @@
 ; (function($){
   var cache = {};
   
-  $.fn.tmpl = function tmpl(data){
+  $.fn.tmpl = function tmpl(data, isLater){
 	  	var $container = $(this),
 	  			html = '',
-	  			id = $container.attr('id'),
-	  			str = $(this).find('script').html();
+	  			id = $container.attr('id');
 	  	
+	  
 	  	if ( $.isArray(this) ) {
 	  		return $.each(this, function() { $(this).tmpl(data); });
 	  	} else if ( $.isArray(data) ) {
 	  		$.each(data, function(it) {
 	  			this.it = it;
-	  			html+=$container.tmpl(this).html(); 
+	  			html+=$container.tmpl(this, true).html(); 
 	  		});
 	  	} else {
 		  	// Figure out if we're getting a template, or if we need to
@@ -23,6 +23,11 @@
 	  		if ( !(id in cache) ) {
 		      // Generate a reusable function that will serve as a template
 		      // generator (and which will be cached).
+	  			str = $container.find('script').html();
+	  	  	if ( typeof str === typeof undefined ) {
+	  	  		str = $(document).find('#' + id + '_template').html();
+	  	  	}
+	  			
 	  			cache[id] = new Function("obj",
 	  					"var p=[],print=function(){p.push.apply(p,arguments);};" +
 			        
@@ -47,7 +52,8 @@
 		    html = fn(data);
 	  	};
 	  	
-	  	$container.html(html);
+  		$container.html(html);
+	  	
 	  	return $container;
   };
   

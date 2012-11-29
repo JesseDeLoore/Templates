@@ -1,0 +1,34 @@
+<cx:bare-string-format>
+	<cx:let name="s" value=";" keep=""												comment="CSV Separator. 	Default: ;"/>
+	<cx:let name="e" value='"' keep=""												comment="CSV Enclosure. 	Default: "/>
+	<cx:let name="n" value="\r\n" keep=""											comment="CSV End of line. Default: \r\n"/>
+	<cx:let name="b" value="${e}${s}${e}" expand="1" keep=""/>
+	<cx:let name="a" value="${e}${n}" expand="1" keep=""/>
+
+	<cx:write value="$e"/>GROEPNAAM
+	<cx:write value="$b"/>GROEPID
+	<cx:write value="$b"/># PROJECTEN
+	<cx:write value="$b"/>PROJECTEN
+	<cx:write value="$a"/>
+
+	<cx:fetch list="projects" entity="CRVacancy" qualifier="deleted=0" ordering="({key=value;sel=ascending})">
+		<cx:fetch list="groups" entity="CRDataNode" qualifier="deleted=0 AND type.localizedName='Groep vacature'" ordering="({key=value;sel=ascending})">
+			<cx:foreach list="$groups" item="g" index="index">
+				<cx:write value="$e"/><cx:write value="$g.value"/>
+				<cx:write value="$b"/><cx:write value="$g.dataNodeID"/>
+				<cx:let name="filter" value="@filter.groups.dataNodeID=${g.dataNodeID}" expand="">
+					<cx:let name="ps" value="$projects" invoke="$filter">
+						<cx:write value="$b"/><cx:write value="$ps.count"/>
+						<cx:foreach list="$ps" item="p">
+							<cx:write value="$b"/><cx:write value="$p.jobTitle"/> <cx:write value="$p.vacancyID"/>
+						</cx:foreach>		
+					</cx:let>
+				</cx:let>		
+			  <cx:write value="$a"/>
+			</cx:foreach>
+		</cx:fetch>
+	</cx:fetch>
+
+</cx:bare-string-format>
+
+

@@ -114,6 +114,7 @@
 	<cx:define tag="project">
 		_project = new Invoice({
 				id: <cx:write value="$project.vacancyID"/>+0
+			, it: <cx:write value="$it"/>+0
 				
 			// language of the project's invoice
 			, i18n: {

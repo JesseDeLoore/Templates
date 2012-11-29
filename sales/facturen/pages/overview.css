@@ -1,0 +1,88 @@
+fieldset#overview {
+	position: fixed; 
+	right: 0px; 
+	top: 0px;
+	
+	margin: 1px 1em 1px;
+	padding: .5em; 
+	border: 1px solid blue; 
+	font-family: Verdana;
+	line-height: 1.4em;
+	border-radius: .3em;
+	background: rgb(200,200,255);
+	background: rgba(200,200,255,.75);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#bfffffff', endColorstr='#bfffffff'); /* IE */
+	
+	-moz-box-shadow: 3px 3px 4px #000; /* Firefox/Mozilla */  
+	-webkit-box-shadow: 3px 3px 4px #000; /*Safari/Chrome */  
+	box-shadow: 3px 3px 4px #000; /* Opera & hoe het zou moeten */  
+	/* Voor IE 8 */  
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";  
+	/* Voor IE 5.5 - 7 */  
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+}
+fieldset#overview legend {
+	background: rgb(200,200,255);
+	padding: .5em; 
+	border: 1px solid blue; 
+	font-size: x-large;
+	font-weight: bold;
+	border-top-left-radius: .3em;
+	border-top-right-radius: .3em;
+}
+fieldset#overview label {
+	float: left;
+	clear: both;
+	width: 100%;
+}
+fieldset#overview label select,
+fieldset#overview label input {
+	float: right;
+	border: 1px solid silver;
+	margin-left: 1em;
+}
+fieldset#overview label input.cb {
+	float: left;
+	margin: .2em .3em 0 0;
+}
+fieldset#overview label input.readonly {
+	background: transparent;
+	border: 0px;
+}
+fieldset#overview  button {
+	cursor: pointer;
+	float: right;
+	font-size: 1.1em;
+	color: #ffffff;
+	padding: .3em 1em;
+	background: #ffa442;
+	background: -moz-linear-gradient(top,	#ffa442 0%,	#665200);
+	background: -webkit-gradient(linear, left top, left bottom,	from(#ffa442), to(#665200));
+	border-radius: 10px;
+	border: 1px solid #660000;
+	box-shadow:	0px 1px 3px rgba(000,000,000,0.5), inset 0px 0px 1px rgba(255,255,255,0.5);
+	text-shadow: 0px -1px 0px rgba(000,000,000,0.7), 0px 1px 0px rgba(255,255,255,0.3);
+	clear: both;
+}
+fieldset#overview  button.active {
+	color: #ccc;
+}
+fieldset#overview ul {
+	clear: both;
+}
+fieldset#overview table {
+	width: auto;
+}
+fieldset#overview td {
+	padding: 0px;
+}
+fieldset#overview input {
+	border: 1px solid #707070;
+	margin: 0px;
+	padding: 2px;
+}
+@media print {
+	fieldset#overview {
+		display: none;
+	} 
+}

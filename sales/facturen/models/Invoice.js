@@ -55,7 +55,7 @@ Invoice.prototype.setDefaultTitle = function() {
 			);
 			break;
 		default:
-			this.setTitle(warn('Periode ' + frequency + ' is niet gedefinieerd'));
+			this.setTitle("<font color=red><i>" + 'Periode ' + frequency + ' is niet gedefinieerd' + "</i></font>");
 			break;
 	} // switch
 	
