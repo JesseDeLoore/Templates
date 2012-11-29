@@ -5,7 +5,7 @@
 
 <cx:define tag="placementTable">
 	<cx:if condition="$_placements.count > 0">
-		<h3 style="font-family: Arial, sans-serif; color: #333333; font-size: 11pt; font-weight: normal; margin-bottom: 0.83em;"><cx:write value="$_title"/></h3>
+		<h3 style="font-family: Arial, sans-serif; color: #333333; font-size: 11pt; font-weight: normal; margin-bottom: 0.83em;"><cx:write value="$_title"/> (Number in total: <cx:write value="$_placements.count"/>)</h3>
 		<table style="font-family: Arial, sans-serif; font-size: 8pt; color: #333333; text-align: left; vertical-align: text-top; width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto; border-top-color: #cccccc; border-right-color: #cccccc; border-bottom-color: #cccccc; border-left-color: #cccccc; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
 			<thead style="display: table-header-group;">
 				<tr>
@@ -39,10 +39,11 @@
 
 <cx:define tag="projectTable">
 	<cx:if condition="$_placements.count > 0">
-		<h3 style="font-family: Arial, sans-serif; color: #333333; font-size: 11pt; font-weight: normal; margin-bottom: 0.83em;"><cx:write value="$_title"/></h3>
+		<h3 style="font-family: Arial, sans-serif; color: #333333; font-size: 11pt; font-weight: normal; margin-bottom: 0.83em;"><cx:write value="$_title"/> (Number in total: <cx:write value="$_placements.count"/>)</h3>
 		<table style="font-family: Arial, sans-serif; font-size: 8pt; color: #333333; text-align: left; vertical-align: text-top; width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto; border-top-color: #cccccc; border-right-color: #cccccc; border-bottom-color: #cccccc; border-left-color: #cccccc; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
 			<thead style="display: table-header-group;">
 				<tr>
+					<th style="background-color: #707070; color: #ffffff; border-top-style: none; border-left-width: 0; border-bottom-width: 0; border-right-width: 0; border-top-width: 0; border-left-style: none; border-bottom-style: none; border-right-style: none; text-align: left; vertical-align: text-top; padding-bottom: 2pt; padding-left: 2pt; padding-top: 2pt; padding-right: 2pt;" align="left" bgcolor="#707070" valign="text-top">Name of candidate</th>
 					<th style="background-color: #707070; color: #ffffff; border-top-style: none; border-left-width: 0; border-bottom-width: 0; border-right-width: 0; border-top-width: 0; border-left-style: none; border-bottom-style: none; border-right-style: none; text-align: left; vertical-align: text-top; padding-bottom: 2pt; padding-left: 2pt; padding-top: 2pt; padding-right: 2pt;" align="left" bgcolor="#707070" valign="text-top">Company</th>
 					<th style="background-color: #707070; color: #ffffff; border-top-style: none; border-left-width: 0; border-bottom-width: 0; border-right-width: 0; border-top-width: 0; border-left-style: none; border-bottom-style: none; border-right-style: none; text-align: left; vertical-align: text-top; padding-bottom: 2pt; padding-left: 2pt; padding-top: 2pt; padding-right: 2pt;" align="left" bgcolor="#707070" valign="text-top">Contact</th>
 					<th style="background-color: #707070; color: #ffffff; border-top-style: none; border-left-width: 0; border-bottom-width: 0; border-right-width: 0; border-top-width: 0; border-left-style: none; border-bottom-style: none; border-right-style: none; text-align: left; vertical-align: text-top; padding-bottom: 2pt; padding-left: 2pt; padding-top: 2pt; padding-right: 2pt;" align="left" bgcolor="#707070" valign="text-top">Company City</th>
@@ -54,8 +55,9 @@
 			<tbody>
 				<cx:foreach list="$_placements" item="p" index="it">
 					<tr>
+						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$p.toEmployee.informalName"/></td>
 						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$p.toCompany.name"/></td>
-						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$p.toCompany.toContact.informalName"/></td>
+						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$p.toVacancy.toUser.informalName"/></td>
 						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$p.toCompany.visitCity"/></td>
 						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$p.startDate.formattedDate"/></td>
 						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$p.endDate.formattedDate"/></td>
@@ -67,25 +69,50 @@
 	</cx:if>
 </cx:define>
 
+<cx:define tag="availableTable">
+	<cx:if condition="$_available.count > 0">
+		<h3 style="font-family: Arial, sans-serif; color: #333333; font-size: 11pt; font-weight: normal; margin-bottom: 0.83em;"><cx:write value="$_title"/> (Number in total: <cx:write value="$_available.count"/>)</h3>
+		<table style="font-family: Arial, sans-serif; font-size: 8pt; color: #333333; text-align: left; vertical-align: text-top; width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto; border-top-color: #cccccc; border-right-color: #cccccc; border-bottom-color: #cccccc; border-left-color: #cccccc; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
+			<thead style="display: table-header-group;">
+				<tr>
+					<th style="background-color: #707070; color: #ffffff; border-top-style: none; border-left-width: 0; border-bottom-width: 0; border-right-width: 0; border-top-width: 0; border-left-style: none; border-bottom-style: none; border-right-style: none; text-align: left; vertical-align: text-top; padding-bottom: 2pt; padding-left: 2pt; padding-top: 2pt; padding-right: 2pt;" align="left" bgcolor="#707070" valign="text-top">Name of Project consultant</th>
+					<th style="background-color: #707070; color: #ffffff; border-top-style: none; border-left-width: 0; border-bottom-width: 0; border-right-width: 0; border-top-width: 0; border-left-style: none; border-bottom-style: none; border-right-style: none; text-align: left; vertical-align: text-top; padding-bottom: 2pt; padding-left: 2pt; padding-top: 2pt; padding-right: 2pt;" align="left" bgcolor="#707070" valign="text-top">Function group</th>
+					<th style="background-color: #707070; color: #ffffff; border-top-style: none; border-left-width: 0; border-bottom-width: 0; border-right-width: 0; border-top-width: 0; border-left-style: none; border-bottom-style: none; border-right-style: none; text-align: left; vertical-align: text-top; padding-bottom: 2pt; padding-left: 2pt; padding-top: 2pt; padding-right: 2pt;" align="left" bgcolor="#707070" valign="text-top">Availability</th>
+				</tr>
+			</thead>
+			<tbody>
+				<cx:foreach list="$_available" item="a" index="it">
+					<tr>
+						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$a.informalName"/></td>
+						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$a.toFunction1Level1Node.value"/></td>
+						<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top"><cx:write value="$a.availableDate.formattedDate"/></td>
+					</tr>
+				</cx:foreach>
+			</tbody>
+		</table>
+	</cx:if>
+</cx:define>
+
 <cx:define tag="perAgency">
-	<h2 style="font-family: Arial, sans-serif; color: #333333; font-size: 12pt; font-weight: normal; margin-bottom: 0.83em;">Team <cx:write value="$_placements.@first.owner.agency.name"/></h2>
-	<cx:let name="placements" value="$_placements" invoke="@filter.toStatusNode.dataNodeID = 6816">
-	<cx:let name="title" value="Project Consultants in a client project (Number in total: ${placements.count})" expand="">
-		<cx:placementTable placements="$placements" title="$title"/>
-	</cx:let>
-	</cx:let>
+	<cx:let name="filter" value="@filter.owner.agency.agencyID=${_team.agencyID}" expand="">
+	<cx:let name="pcplacements" value="$_pcplacements" invoke="$filter">
+	<cx:let name="implacements" value="$_implacements" invoke="$filter">
+	<cx:let name="crplacements" value="$_crplacements" invoke="$filter">
+	<cx:let name="available" value="$_available" invoke="$filter">
+
+	<cx:if condition="$pcplacements.count > 0 OR $implacements.count > 0 OR $crplacements.count > 0 OR $available.count > 0">
+		<h2 style="font-family: Arial, sans-serif; color: #333333; font-size: 12pt; font-weight: bold; text-decoration: underline; margin-bottom: 0.83em;">Team <cx:write value="$_team.name"/></h2>
+		<cx:placementTable placements="$pcplacements" title="Project Consultants in a client project"/>
+		<cx:placementTable placements="$implacements" title="Interim Manager in a client project"/>
+		<cx:projectTable placements="$crplacements" title="Actual CRS Project"/>
+		<cx:availableTable available="$available" title="Available TF project consultants on the bench"/>
+	</cx:if>
 	
-	<cx:let name="placements" value="$_placements" invoke="@filter.toStatusNode.dataNodeID = 6817">
-	<cx:let name="title" value="Interim Manager in a client project (Number in total: ${placements.count})" expand="">
-		<cx:placementTable placements="$placements" title="$title"/>
 	</cx:let>
 	</cx:let>
-	
-	<cx:let name="placements" value="$_placements" invoke="@filter.toStatusNode.dataNodeID = 9159">
-	<cx:let name="title" value="Actual CRS Project (Number in total: ${placements.count})" expand="">
-		<cx:projectTable placements="$placements" title="$title"/>
 	</cx:let>
 	</cx:let>
+	</cx:let filter>
 </cx:define>
 
 
@@ -104,17 +131,61 @@
 	Week <cx:write value="$s.calendarWeek"/>
 </p>
 
-<cx:let name="filter" value="@filter.startDate < (NSCalendarDate)'${s.lastDayOfWeek.nextDay}' AND endDate>=(NSCalendarDate)'${s}' AND owner.agency<>nil" expand="true">
+
+<cx:fetch list="available" entity="CREmployee" ordering="({key=creationDate;sel=Ascending})" qualifier="owner.deleted = 0 AND deleted = 0 AND toStatusNode.dataNodeID=6229 AND owner.agency<>nil">
 <cx:fetch list="placements" entity="CRJob" ordering="({key=creationDate;sel=Ascending})" qualifier="owner.deleted = 0 AND deleted = 0">
+	<cx:let name="filter" value="@filter.startDate < (NSCalendarDate)'${s.lastDayOfWeek.nextDay}' AND endDate>=(NSCalendarDate)'${s}' AND owner.agency<>nil" expand="true">
 	<cx:let name="placements" value="$placements" invoke="$filter">
-		<cx:let name="groupedPlacements" value="$placements" invoke="@group.owner.agency.agencyID">
-			<cx:foreach list="$groupedPlacements" item="placements">
-				<cx:perAgency placements="$placements"/>
+	
+		<cx:let name="pcplacements" value="$placements" invoke="@filter.toStatusNode.dataNodeID = 6816">
+		<cx:let name="implacements" value="$placements" invoke="@filter.toStatusNode.dataNodeID = 6817">
+		<cx:let name="crplacements" value="$placements" invoke="@filter.toStatusNode.dataNodeID = 9159">
+		
+		<table style="font-family: Arial, sans-serif; font-size: 8pt; color: #333333; text-align: left; vertical-align: text-top; width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto; border-top-color: #cccccc; border-right-color: #cccccc; border-bottom-color: #cccccc; border-left-color: #cccccc; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
+			<tbody>
+				<tr>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">Project consultants in a client project:</td>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">&nbsp;</td>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">over all <cx:write value="$pcplacements.count"/></td>
+				</tr>
+				<tr>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">Interim Manager:</td>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">&nbsp;</td>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">over all <cx:write value="$implacements.count"/></td>
+				</tr>
+				<tr>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">CRS Projects:</td>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">&nbsp;</td>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">over all <cx:write value="$crplacements.count"/></td>
+				</tr>
+				<tr>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">Available TF project consultants on the bench:</td>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">&nbsp;</td>
+					<td style="font-family: Arial, sans-serif; font-size: 8pt; color: #555555; text-align: left; vertical-align: top; padding-top: 2pt; padding-right: 2pt; padding-bottom: 2pt; padding-left: 2pt; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" align="left" valign="top">over all <cx:write value="$available.count"/></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<cx:fetch list="agencies" entity="CRAgency" ordering="({key=name;sel=Ascending})" qualifier="deleted = 0">
+			<cx:foreach list="$agencies" item="team">
+				<cx:perAgency team="$team"
+											pcplacements="$pcplacements"
+											implacements="$implacements"
+											crplacements="$crplacements"
+											available="$available"
+				/>
 			</cx:foreach>
+		</cx:fetch>
+		
 		</cx:let>
+		</cx:let>
+		</cx:let>
+		
 	</cx:let>
+	</cx:let filter>
 </cx:fetch placements>
-</cx:let filter>
+</cx:fetch available>
+
 
 </cx:let s>
 </cx:let recipient>

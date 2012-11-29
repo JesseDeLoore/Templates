@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <cx:let name="date" value="$utilities.currentDate.previousMonth.previousMonth.previousMonth"> 
-<cx:let name="title" value="Kwartaal: Plaatsingen en Verlengingen - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
+<cx:let name="title" value="Kwartaal: Plaatsingen en Tarieven - Q${date.quarterOfYear} ${date.yearOfCommonEra}" expand="">
 <head>
 	<cx:let name="ct" value="$response" invoke="headerForKey:" arg0="content-type"><meta http-equiv="Content-Type" content="<cx:write value="$ct"/>"></cx:let>
 	<title><cx:write value="$title"/></title>
@@ -257,23 +257,20 @@ td.allow_space {
 			<tr id="placements">
 				<th>Plaatsingen</th>
 			</tr>
-			<tr id="extensions">
+			<!-- <tr id="extensions">
 				<th>Verlengingen</th>
-			</tr>
+			</tr> -->
 		</tbody>
 	</table>
 	
-	<p>
-		<!-- Opmerkingen: de begindatum van de plaatsingen bepaalt het kwartaal waarin iedere plaatsing valt. Zo kunnen 
-				we per kwartaal de verdeling Vast/FL tonen op basis van de plaatsingen die in dat kwartaal gestart zijn. (begindatum). 
-				(verlengingen horen hier niet bij. Verlengingen zijn gekenmerkt doordat ze in een groep ‘verlenging’ zitten) -->
+	<!-- <p>
 		<span class="allow_space float left" id="placements_chart">
 			<code>Hier komt een piechart: "Inzicht in de invulling van de plaatsingen"</code>
 		</span>
 		<span class="allow_space float right" id="extensions_chart">
 			<code>Hier komt een piechart: "Inzicht in de invullingen van de verlengingen"</code>
 		</span>
-	</p>
+	</p> -->
 	
 	<h4 class="page-break">Ontwikkeling afgelopen 5 kwartalen</h4>
 	<p class="allow_space" id="placements_barchart">
@@ -282,9 +279,9 @@ td.allow_space {
 				Max van de linkeras op 100, van de rechteras op 30%.
 		 -->
 	</p>
-	<p class="allow_space" id="extensions_barchart">
+	<!-- <p class="allow_space" id="extensions_barchart">
 		<code>Hier komt barchart: "Ontwikkeling van de invulling van verlengingen"</code>
-	</p>
+	</p> -->
 	<dl>
 		<dt/>
 		<dd>Bovenstaande overzichten betreffen plaatsingen met een startdatum in dit kwartaal</dd>
@@ -475,10 +472,14 @@ charts.push(chart);
  * @see https://google-developers.appspot.com/chart/interactive/docs/gallery
  */
  function drawChart() {
-		var $container = $('#' + this.id),
-				data = new google.visualization.DataTable(),
+		var $container = $('#' + this.id);
+		if ( !$container.length ) {
+			return;
+		}
+		
+		
+		var data = new google.visualization.DataTable(),
 				chart = new google.visualization[this.chartType]($container.get(0));
-
 		
 		//data = google.visualization.arrayToDataTable([]);
 		data.addColumn('string', this.data[0][0]);

@@ -150,11 +150,11 @@ td.allow_space {
 				<td><cx:write value="$j.toCompany.name"/></td>
 				<td><cx:write value="$j.toContractTypeNode.value"/></td>
 				<td><cx:write value="$j.endDate.formattedDate"/></td>
-				<td><cx:let name="tmp" value="$j.groups" invoke="@filter.value='Verlenging'">
+				<!-- <td><cx:let name="tmp" value="$j.groups" invoke="@filter.value='Verlenging'">
 				<cx:let name="vp" condition="$tmp.count > 0" iftrue="V" iffalse="P">
 					<cx:write value="$vp"/>
 				</cx:let>
-			</cx:let></td>
+			</cx:let></td> -->
 				<td><cx:write value="$j.toEmployee.owner.lessFormalName"/></td>
 			</tr>
 		</cx:foreach>
@@ -206,7 +206,7 @@ td.allow_space {
 				<th>Opdrachtgever</th>
 				<th>Soort contract</th>
 				<th>Einddatum plaatsing</th>
-				<th>V / P</th>
+				<!-- <th>V / P</th> -->
 				<th>PC</th>
 			</tr>
 		</thead>
