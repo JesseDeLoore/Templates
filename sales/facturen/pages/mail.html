@@ -1,88 +1,56 @@
 <div data-role="mail" data-mail-id="<%=id%>">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0; padding:0; width:100% !important; line-height: 100% !important; background-color: #ececec; font-family: verdana, arial;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0; padding:0; width:100% !important; line-height: 100% !important; background-color: #ececec; font-family: calibri, arial;">
 <tr><td bgcolor="#ececec" height="20"></td></tr>
 <tr>
 	<td align="center" bgcolor="#ececec">
-	<table style="margin:0 10px;" width="640" cellpadding="0" cellspacing="0" border="0" align="center">
-	<tr><td height="20" bgcolor="#aaaaff" style="border-top: 1px solid silver; border-left: 1px solid silver;"></td>
-			<td height="20" bgcolor="#aaaaff" style="border-top: 1px solid silver;"></td>
-			<td height="20" bgcolor="#aaaaff" style="border-right: 1px solid silver;border-top: 1px solid silver;"></td>
+	<table width="800" cellpadding="0" cellspacing="0" border="0" align="center">
+	<tr><td height="2" bgcolor="#004780" style="border-top: 1px solid silver; border-left: 1px solid silver;"></td>
+			<td height="2" bgcolor="#004780" style="border-top: 1px solid silver;"></td>
+			<td height="2" bgcolor="#004780" style="border-top: 1px solid silver;"></td>
+			<td height="2" bgcolor="#004780" style="border-top: 1px solid silver;"></td>
+			<td height="2" bgcolor="#004780" style="border-right: 1px solid silver; border-top: 1px solid silver;"></td>
 	</tr>
-	<tr><td width="20" bgcolor="#aaaaff" style="border-left: 1px solid silver;" align="left"></td>
-			<td bgcolor="#aaaaff">
+	<tr><td width="2" height="10" bgcolor="#004780" style="border-left: 1px solid silver;"></td>
+			<td bgcolor="white"></td>
+			<td bgcolor="white"></td>
+			<td bgcolor="white"></td>
+			<td bgcolor="#004780" style="border-right: 1px solid silver;"></td>
+	</tr>
+	<tr><td width="2" bgcolor="#004780" style="border-left: 1px solid silver;"></td>
+			<td width="18" bgcolor="white"></td>
+			<td bgcolor="white" align="left">
 				<table width="100%" cellpadding="0" cellspacing="0" border="0">
 					<tr>
-						<td><h1>Factuur <%=obj.getInvoiceNumber()%></h1></td>
-						<td width="210" align="right"><img alt="Carerix" height="42" width="210" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANIAAAAqCAYAAADGWAU2AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
-bWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
-bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
-eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEz
-NDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo
-dHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlw
-dGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAv
-IiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RS
-ZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpD
-cmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlE
-PSJ4bXAuaWlkOjA0MDE3QzMxRkVEOTExREY5Qzk1OUZDMEE1QzBEQUNBIiB4bXBNTTpEb2N1bWVu
-dElEPSJ4bXAuZGlkOjA0MDE3QzMyRkVEOTExREY5Qzk1OUZDMEE1QzBEQUNBIj4gPHhtcE1NOkRl
-cml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDQwMTdDMkZGRUQ5MTFERjlDOTU5
-RkMwQTVDMERBQ0EiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDQwMTdDMzBGRUQ5MTFERjlD
-OTU5RkMwQTVDMERBQ0EiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1l
-dGE+IDw/eHBhY2tldCBlbmQ9InIiPz47SuLOAAAJN0lEQVR42uxd33niOBBX8vEeroJ4r4GQCgIv
-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
-lCTSeQAAAABJRU5ErkJggg=="/></td>
+						<td style="vertical-align: middle;"><h3 style="margin: 0">Factuur <%=obj.getInvoiceNumber()%>, <%=(new Date()).get_BY()%></h3></td>
+						<td width="150" align="right"><img alt="Carerix" height="30" width="150" src="http://www.carerix.com/wp-content/themes/carerix/assets/images/logo_carerix.png"/></td>
 					</tr>
 				</table>
 			</td>
-			<td width="20" bgcolor="#aaaaff" style="border-right: 1px solid silver;"></td>
+			<td width="18" bgcolor="white"></td>
+			<td width="2" bgcolor="#004780" style="border-right: 1px solid silver;"></td>
 	</tr>
-	<tr><td height="20" bgcolor="#aaaaff" style="border-left: 1px solid silver;"></td>
-			<td height="20" bgcolor="#aaaaff"></td>
-			<td height="20" bgcolor="#aaaaff" style="border-right: 1px solid silver;"></td>
+	<tr><td width="2" height="10" bgcolor="#004780" style="border-left: 1px solid silver;"></td>
+			<td bgcolor="white"></td>
+			<td bgcolor="white"></td>
+			<td bgcolor="white"></td>
+			<td bgcolor="#004780" style="border-right: 1px solid silver;"></td>
+	</tr>
+	<tr><td height="2" bgcolor="#004780" style="border-left: 1px solid silver;"></td>
+			<td height="2" bgcolor="#004780"></td>
+			<td height="2" bgcolor="#004780"></td>
+			<td height="2" bgcolor="#004780"></td>
+			<td height="2" bgcolor="#004780" style="border-right: 1px solid silver;"></td>
 	</tr>
 	
-	<tr><td height="20" bgcolor="#ffffff" style="border-top: 1px solid silver; border-left: 1px solid silver;"></td><td height="20" bgcolor="#ffffff" style="border-top: 1px solid silver;"></td><td height="20" bgcolor="#ffffff" style="border-top: 1px solid silver; border-right: 1px solid silver;"></td></tr>
-	<tr><td width="20" bgcolor="#ffffff" style="border-left: 1px solid silver;"></td><td bgcolor="#ffffff" style="line-height: 120% !important">
+	<tr><td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver; border-left: 1px solid silver;"></td>
+			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver;"></td>
+			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver;"></td>
+			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver;"></td>
+			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver; border-right: 1px solid silver;"></td>
+	</tr>
+	<tr><td width="2" bgcolor="#ffffff" style="border-left: 1px solid silver;"></td>
+			<td width="18" bgcolor="#ffffff"></td>
+			<td bgcolor="#ffffff" style="line-height: 120% !important" align="left">
 <% 
 
 	if ( i18n.isNL || i18n.isBE ) { 
@@ -93,15 +61,15 @@ Bijgaand treft u de factuur aan voor het gebruik van het Carerix systeem voor de
 <br/>
 Conform de overeenkomst <%=agreement.id%> ten behoeve van <%=company.name%> wordt het volgende in rekening gebracht:<br/>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr><td width="200">Maandbedrag</td><td width="2">&nbsp;</td><td>&euro; <%=obj.getParsedSubtotal()%></td></tr>
-<tr><td width="200">BTW</td><td width="2">&nbsp;</td><td>&euro; <%=obj.getParsedVAT()%></td></tr>
-<tr><td width="200">Totaal bedrag</td><td width="2">&nbsp;</td><td>&euro; <%=obj.getParsedTotal()%></td></tr>
+<tr><td width="200">Maandbedrag</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedSubtotal()%></td></tr>
+<tr><td width="200">BTW</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedVAT()%></td></tr>
+<tr><td width="200">Totaal bedrag</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
 <tr><td width="200">&nbsp;</td><td width="2">&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td width="200">Factuurnummer</td><td width="2">&nbsp;</td><td><%=obj.getInvoiceNumber()%></td></tr>
 <tr><td width="200">Factuur datum</td><td width="2">&nbsp;</td><td><%=(new Date()).get_eBY(i18n.isDutch)%></td></tr>
 <tr><td width="200">Onze referentie</td><td width="2">&nbsp;</td><td><%=company.debtorNumber%></td></tr>
 </table><br/>
-<span style="color: #FF0000"><b>Gelieve het bedrag &euro; <%=obj.getParsedTotal()%> over te maken voor <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> op onderstaande rekening onder vermelding van het referentie nummer <%=company.debtorNumber%>.</b></span><br/>
+<span style="color: #FF0000"><b>Gelieve het bedrag <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> over te maken voor <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> op onderstaande rekening onder vermelding van het referentie nummer <%=company.debtorNumber%>.</b></span><br/>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
 <% if ( i18n.isNL ) { %>
 <tr><td width="200">Bankrekeningnummer</td><td width="2">&nbsp;</td><td>50.82.29.871, tnv Carerix te Delft</td></tr>
@@ -143,15 +111,15 @@ Attached is the invoice for the use of the Carerix system for the period <%=(new
 <br/>
 In accordance with the agreement <%=agreement.id%> for <%=company.name%>, the following amount will be charged:<br/>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr><td width="200">Monthly fee</td><td width="2">&nbsp;</td><td>&euro; <%=obj.getParsedSubtotal()%></td></tr>
-<tr><td width="200">VAT</td><td width="2">&nbsp;</td><td>&euro; <%=obj.getParsedVAT()%></td></tr>
-<tr><td width="200">Total Amount</td><td width="2">&nbsp;</td><td>&euro; <%=obj.getParsedTotal()%></td></tr>
+<tr><td width="200">Monthly fee</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedSubtotal()%></td></tr>
+<tr><td width="200">VAT</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedVAT()%></td></tr>
+<tr><td width="200">Total Amount</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
 <tr><td width="200">&nbsp;</td><td width="2">&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td width="200">Invoice number</td><td width="2">&nbsp;</td><td><%=obj.getInvoiceNumber()%></td></tr>
 <tr><td width="200">Invoice Date</td><td width="2">&nbsp;</td><td><%=(new Date()).get_eBY(i18n.isDutch)%></td></tr>
 <tr><td width="200">Our reference</td><td width="2">&nbsp;</td><td><%=company.debtorNumber%></td></tr>
 </table><br/>
-<span style="color: #FF0000">Please transfer the amount of &euro; <%=obj.getParsedTotal()%> before <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> to the bank account number below, with transaction reference <%=company.debtorNumber%>.</span><br/>
+<span style="color: #FF0000">Please transfer the amount of <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> before <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> to the bank account number below, with transaction reference <%=company.debtorNumber%>.</span><br/>
 <table>
 <tr><td width="200">Bank account</td><td width="2">&nbsp;</td><td>50.82.29.871, Carerix in Delft</td></tr>
 <tr><td width="200">Bank</td><td width="2">&nbsp;</td><td>ABNAMRO</td></tr>
@@ -172,8 +140,17 @@ Netherlands<%
 
 	}
 	
-%></td><td width="20" bgcolor="#ffffff" style="border-right: 1px solid silver;"></td></tr>
-<tr><td bgcolor="#ffffff" height="20" style="border-bottom: 1px solid silver; border-left: 1px solid silver;"></td><td height="20" bgcolor="#ffffff" style="border-bottom: 1px solid silver;"></td><td height="20" bgcolor="#ffffff" style="border-bottom: 1px solid silver; border-right: 1px solid silver;"></td></tr>
+%></td>
+	<td width="18" bgcolor="#ffffff"></td>
+	<td width="2" bgcolor="#ffffff" style="border-right: 1px solid silver;"></td>
+</tr>
+<tr><td bgcolor="#ffffff" height="10" style="border-bottom: 1px solid silver; border-left: 1px solid silver;"></td>
+		<td height="10" bgcolor="#ffffff" style="border-bottom: 1px solid silver;"></td>
+		<td height="10" bgcolor="#ffffff" style="border-bottom: 1px solid silver;"></td>
+		<td height="10" bgcolor="#ffffff" style="border-bottom: 1px solid silver;"></td>
+		<td height="10" bgcolor="#ffffff" style="border-bottom: 1px solid silver; border-right: 1px solid silver;"></td>
+</tr>
+</table>
 <tr><td bgcolor="#ececec" height="20"></td></tr>
 </table>
 </div>

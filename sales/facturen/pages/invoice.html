@@ -298,7 +298,7 @@
 					<span contenteditable="true"><%=i18n.isDutch?'subtotaal':'sub-total'%></span>
 				</td>
 				<td class="rt">
-					<span contenteditable="true">&euro;</span>
+					<span contenteditable="true"><%=obj.lines[0].currency%></span>
 				</td>
 				<td class="rt">
 					<span contenteditable="true"><%=obj.getParsedSubtotal()%></span>
@@ -311,7 +311,7 @@
 				if ( i18n.isNL ) { %>
 					<tr>
 						<td class="rt"><span contenteditable="true">BTW <%=obj.getVATPercentage()%>%</span></td>
-						<td class="rt"><span contenteditable="true">&euro;</span></td>
+						<td class="rt"><span contenteditable="true"><%=obj.lines[0].currency%></span></td>
 						<td class="rt"><span contenteditable="true"><%=obj.getParsedVAT()%></span></td>
 					</tr>
 				<% } else { %>	
@@ -326,7 +326,7 @@
 					<td class="rt">
 						<span contenteditable="true"><%=i18n.isDutch?'BTW ' + obj.getVATPercentage() + '%':'VAT 0%'%></span>
 					</td>
-					<td class="rt"><span contenteditable="true">&euro;</span></td>
+					<td class="rt"><span contenteditable="true"><%=obj.lines[0].currency%></span></td>
 					<td class="rt">
 						<span contenteditable="true"><%=i18n.isNL?obj.getParsedVAT():obj.parseAmount(0)%></span>
 					</td>
@@ -338,7 +338,7 @@
 					<span contenteditable="true"><b><%=(i18n.isDutch?'TOTAAL TE VOLDOEN':'TOTAL AMOUNT')%></b></span>
 				</td>
 				<td class="rt">
-					<span contenteditable="true"><b>&euro;</b></span>
+					<span contenteditable="true"><b><%=obj.lines[0].currency%></b></span>
 				</td>
 				<td class="rt" style="border-top:2px solid black;">
 					<span contenteditable="true">
