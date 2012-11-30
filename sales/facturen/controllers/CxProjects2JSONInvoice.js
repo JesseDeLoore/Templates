@@ -207,6 +207,7 @@
 			, automated: <cx:let condition="$project.toCompany.toPaymentPeriodNode.value='Automatische Incasso'" iftrue="true" iffalse="false" name="v"><cx:write value="$v"/></cx:let>
 			, paymentPeriod: parseInt("<cx:write value="$project.toCompany.toPaymentPeriodNode.value"/>".replace(_regexp.nonDigits, '')) 
 			, addressee: "<cx:write value="$project.invoiceAttention.jsEscapedString"/>" || "<cx:write value="$project.toSignAuthority.informalName.jsEscapedString"/>"
+			, addresseeShort: "<cx:write value="$project.toSignAuthority.formalOpening.jsEscapedString"/>"
 			, startDate:_getDate('<cx:write value="$project.startDate"/>')
 			, firstLineOfNotes: "<cx:write value="$project.notes.line1.jsEscapedString"/>"
 			, title: {

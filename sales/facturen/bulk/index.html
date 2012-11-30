@@ -1,12 +1,6 @@
 <!DOCTYPE HTML>
 <html>
 	<cx:bare-string-format>
-		<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/controllers/CxProjects4Invoices.html" invoke="urlContents">
-			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="<!--.*?-->" arg1="$nil">
-				<cx:include template="$tmpl"/>
-			</cx:let>
-		</cx:let>
-		
 		<cx:define tag="includeParsedScript">
 			<script type="text/javascript"><<cx:write value="!--\n"/>
 				<cx:let name="tmpl" value="$_script" invoke="urlContents">
@@ -26,6 +20,12 @@
 				<cx:write value="$tmpl" html="1"/>
 			</cx:let>
 		</cx:define>
+		
+		<cx:let name="tmpl" value="http://sales.carerix.com/templates/facturen/controllers/CxProjects4Invoices.html" invoke="urlContents">
+			<cx:let name="tmpl" value="$tmpl" invoke="stringByReplacingOccurrencesOfRegex:withString:" arg0="<!--.*?-->" arg1="$nil">
+				<cx:include template="$tmpl"/>
+			</cx:let>
+		</cx:let>
 	</cx:bare-string-format>
 	
 	<cx:if condition="$errorInvoices.count > 0 OR $warningInvoices.count > 0">
@@ -45,18 +45,23 @@
 			<script src="http://sales.carerix.com/templates/facturen/controllers/template.js"></script>
 			<script src="http://sales.carerix.com/templates/facturen/models/jsObjectExtensions.js"></script>
 			<cx:includeParsedScript script="http://sales.carerix.com/templates/facturen/models/CxSystem.js"/>
+			
 			<cx:includeParsedScript script="http://sales.carerix.com/templates/facturen/controllers/CxProjects2JSONInvoice.js"/>
 			
 			<script src="http://sales.carerix.com/templates/facturen/bulk/overview.js"></script>
 			<script src="http://sales.carerix.com/templates/facturen/pages/invoices.js"></script>
 			<script src="http://sales.carerix.com/templates/facturen/pages/export.js"></script>
 			<script src="http://sales.carerix.com/templates/facturen/pages/mail.js"></script>
+			
+			<script src="http://sales.carerix.com/templates/facturen/pages/exportMailAdresses.js"></script>
+			
 			<script type="text/html" id="invoices_template">
 				<cx:includeHtml page="http://sales.carerix.com/templates/facturen/pages/invoice.html"/>
 			</script>
 			<script type="text/html" id="mails_template">
 				<cx:includeHtml page="http://sales.carerix.com/templates/facturen/pages/mail.html"/>
 			</script>
+		
 		</head>
 		<body/>
 	</cx:else>
