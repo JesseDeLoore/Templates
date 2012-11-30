@@ -149,17 +149,26 @@ dd ul {
 	/**
 	 * Handles the sorting of each tbody
 	 */
-	function tableSort(id, column) {
+	function tableSort(id, column, column2) {
 		var order = [], $tbody = $('#' + id).find('tbody'), newHTML = '';
 		
 		// put all the values of column 3 in an array
 		$tbody.find('tr').find('> td:eq(' + column + ')').each(function() {
 			var value = $.trim($(this).html());
-			order.push({value: value == '' ? -1 : parseInt(value), it: this.parentNode.rowIndex - 1});
+			var obj = {value: value == '' ? -1 : parseInt(value), it: this.parentNode.rowIndex - 1};
+			if ( typeof column2 !== typeof undefined ) {
+				obj.value2 = $.trim($(this).closest('tr').find('> td:eq(' + column2 + ')').html());
+			}
+			order.push(obj);
 		});
 		
 		// sort the array by the values descending 
-		order.sort(function(a, b){ return a.value < b.value ? 1 : -1; });
+		order.sort(function(a, b){
+			if ( a.value === b.value && typeof a.value2 !== typeof undefined ) {
+				return a.value2 < b.value2 ? 1 : -1;
+			}
+			return a.value < b.value ? 1 : -1; 
+		});
 		
 		// order the table itself into a new HTML code
 		$.each(order, function() {
@@ -190,11 +199,9 @@ dd ul {
 				</dl>
 			</td>
 			<td class="rt">
-				<cx:let name="logo" value="$activity.owner.agency.attachments"
-					invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
+				<cx:let name="logo" value="$activity.owner.agency.attachments" invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
 					<cx:if condition="$logo.count > 0">
-						<img style="max-height: 60px;" border="0" alt="logo"
-							src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif"/>
+						<img style="max-height:60px;" border="0" alt="logo" src="data:image/gif;base64,<cx:write value='$logo.toAttachmentData.content.@first.base64String'/>"/>
           </cx:if>
 					<cx:else>
 						<img style="max-height: 60px;" border="0" alt="logo"
@@ -269,7 +276,10 @@ dd ul {
 				<cx:write value="$group.visitAddress.lines.@at.1"/>
 			</cx:if>
 			<cx:else>
-				<cx:write value="$group" invoke="$_title"/>
+				<cx:let name="value" value="$group" invoke="$_title">
+					<cx:if condition="$value = nil or $value = ''">Geen</cx:if>
+					<cx:else><cx:write value="$value"/></cx:else>
+				</cx:let>
 			</cx:else>
 		</cx:element>
 		
@@ -338,7 +348,7 @@ dd ul {
 	<cx:vacancyTBody group="toCompany" by="companyID" title="complexAddress" withgroups="yes"/>
 	</tbody>
 </table>
-<script type="text/javascript">tableSort('aanvragen_per_opdrachtgever', 5);</script>
+<script type="text/javascript">tableSort('aanvragen_per_opdrachtgever', 1, 5);</script>
 <dl>
 	<dt>Opmerking</dt>
 	<dd>Deze tabel betreft vacatures die aangemaakt zijn in <b><cx:write value="$y"/></b></dd>
@@ -625,7 +635,7 @@ if (!Array.prototype.indexOf) {
 		<cx:foreach list="$changes" item="change">
 			<cx:let name="filter" expand="" value="@filter.companyID=${change.id1}">
 			<cx:let name="company" value="$companies" invoke="$filter">
-			changeMade(<cx:write value="$company.@first.toStatusNode.dataNodeID"/>+0, <cx:write value="$change.attributeValue.dataNodeID"/>);
+			changeMade(<cx:write value="$company.@first.toStatusNode.dataNodeID"/>+0, <cx:write value="$change.attributeValue.dataNodeID"/>+0);
 			</cx:let>
 			</cx:let>
 		</cx:foreach>
@@ -858,7 +868,10 @@ if (!Array.prototype.indexOf) {
 		<tbody>
 			<tr>
 				<th class="sub left-align">
-					<cx:write value="$total.@first.toCompany.toBrancheLevel1.value"/>
+					<cx:let name="value" value="$total.toCompany.toBrancheLevel1.value.@first">
+						<cx:if condition="$value = nil or $value = ''">Geen</cx:if>
+						<cx:else><cx:write value="$value"/></cx:else>
+					</cx:let>
 				</th>
 				<th class="sub"><cx:percentage number="$total.count" total="$vacancies.count"/></th>
 				<th class="sub"><cx:write value="$total.count"/></td>
@@ -919,7 +932,7 @@ var total, it, it2, charts = [], indices={}, totals={}, chart = {
 	<cx:let name="vacanciesBySector" value="$selectedVacancies.@group.toCompany.toBrancheLevel1.dataNodeID" >
 	<cx:foreach list="$vacanciesBySector" item="bySector" index="it">
 		index = chart.data.length;
-		chart.data.push(['<cx:write value="$bySector.@first.toCompany.toBrancheLevel1.value"/>']);
+		chart.data.push(['<cx:write value="$bySector.@first.toCompany.toBrancheLevel1.value"/>'||'Geen']);
 		<cx:let name="vacanciesByYear" value="$bySector.@group.creationDate.yearOfCommonEra">
 		<cx:foreach list="$vacanciesByYear" item="byYear">
 			totals.y<cx:write value="$byYear.@first.creationDate.yearOfCommonEra"/> += <cx:write value="$byYear.count"/>;

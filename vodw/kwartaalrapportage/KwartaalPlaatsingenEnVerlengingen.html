@@ -222,7 +222,7 @@ td.allow_space {
 					<!-- Display the logo of the customer, if it does not exist show the standard Carerix logo using JS -->
 					<cx:let name="logo" value="$activity.owner.agency.attachments" invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
 						<cx:if condition="$logo.count > 0">
-							<img style="max-height: 60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif"/>
+							<img style="max-height:60px;" border="0" alt="logo" src="data:image/gif;base64,<cx:write value='$logo.toAttachmentData.content.@first.base64String'/>"/>
 						</cx:if>
 						<!-- If the logo is not present, display the uploaded logo, if that one is also not present, display the standard cx logo -->
 						<cx:else>
@@ -272,7 +272,7 @@ td.allow_space {
 		</span>
 	</p> -->
 	
-	<h4 class="page-break">Ontwikkeling afgelopen 5 kwartalen</h4>
+	<h4>Ontwikkeling afgelopen 5 kwartalen</h4>
 	<p class="allow_space" id="placements_barchart">
 		<code>Hier komt barchart: "Ontwikkeling van de invulling van plaatsingen"</code>
 		<!-- Opmerking: percentage op secundaire (rechtse) as en het liefste altijd hoger dan het aantal in de bars. 
@@ -287,7 +287,7 @@ td.allow_space {
 		<dd>Bovenstaande overzichten betreffen plaatsingen met een startdatum in dit kwartaal</dd>
 	</dl>
 	
-	<h4 class="page-break">Ontwikkeling van tarieven</h4>
+	<h4>Ontwikkeling van tarieven</h4>
 	<!-- Opmerkingen:
 	•	In ieder plaatsingdossier is een verkooptarief en eventueel ook inkooptarief genoteerd. Ieder tarief heeft een 
 		begin- en einddatum. De begindatum van de plaatsingen bepaalt het kwartaal waarin iedere plaatsing valt.
@@ -305,6 +305,10 @@ td.allow_space {
 	<p class="allow_space" id="purchase_chart">
 		<code>Hier komt barchart: "Ontwikkeling van de inkooptarieven"</code>
 	</p>
+	<dl>
+		<dt/>
+		<dd>Het gemiddelde tarief per kwartaal wordt berekend door de starttarieven te nemen van de plaatsingen die in het betreffende kwartaal starten. Nieuwe tarieven binnen plaatsingen worden hier dus niet meegenomen.</dd>
+	</dl>
 </div>
 <script type="text/javascript">
 var charts = [], chart;

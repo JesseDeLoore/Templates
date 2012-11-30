@@ -167,7 +167,7 @@ aggregates.sort(function(a,b) {
 					<!-- Display the logo of the customer, if it does not exist show the standard Carerix logo using JS -->
 					<cx:let name="logo" value="$activity.owner.agency.attachments" invoke="@filter.toTypeNode.parentNodes.value='PhotoTag' AND label='templateHeaderLogo'">
 						<cx:if condition="$logo.count > 0">
-							<img style="max-height: 60px;" border="0" alt="logo" src="http://<cx:write value="$utilities.userDefaults.Customer"/>.carerix.com/images/logo.gif"/>
+							<img style="max-height:60px;" border="0" alt="logo" src="data:image/gif;base64,<cx:write value='$logo.toAttachmentData.content.@first.base64String'/>"/>
 						</cx:if>
 						<!-- If the logo is not present, display the uploaded logo, if that one is also not present, display the standard cx logo -->
 						<cx:else>
@@ -187,25 +187,25 @@ aggregates.sort(function(a,b) {
 			</tr>
 			<tr id="tablenumbers">
 				<script type="text/html" id="tablenumbers_tmpl">
+<th class="sub">Totaal<br/>(kandidaten)</th>
 <%
 	for ( it = 1; it <= obj.length; it++ ) { 
 		print("<th class='sub'>", it, "</th>"); 
 	}
 %>
-<th class="sub">Totaal</th>
 				</script>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr id="total">
 				<script type="text/html" id="total_tmpl">
-<th class="left-align">Totaal</th>
+<th class="left-align">Totaal (expertises)</th>
+<th><%=tot%></th>
 <%
 $.each(obj, function() {
 	print("<td>", this.total, "</td>");
 });
 %>
-<th><%=tot%></th>
 				</script>
 			</tr>
 		</tfoot>
@@ -213,13 +213,14 @@ $.each(obj, function() {
 			<script language="text/html" id="statusses_tmpl">
 				<tr>
 					<th class="sub left-align"><%=value%></th>
+					<td style="background-color: #F0F0F0; font-weight: bold;"><%=total%></td>
 <%
 var template = tmpl('aggregate_tmpl');
 for ( it = 0; it < expertises.length; it++ ) {
 	print(template(aggregates[obj.row * expertises.length + it]));
 } 
 %>
-					<td style="background-color: #F0F0F0"><%=total%></th>
+					
 				</tr>
 			</script>
 			<script language="text/html" id="aggregate_tmpl"><td><%=total||""%></td></script>
