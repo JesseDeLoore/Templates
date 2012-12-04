@@ -15,6 +15,12 @@
 			<cx:write value="\n--"/>></script>
 		</cx:define>
 		
+		<cx:define tag="includeParsedHtml">
+			<cx:let name="tmpl" value="$_page" invoke="urlContents">
+				<cx:include template="$tmpl"/>
+			</cx:let>
+		</cx:define>
+		
 		<cx:define tag="includeHtml">
 			<cx:let name="tmpl" value="$_page" invoke="urlContents">
 				<cx:write value="$tmpl" html="1"/>
@@ -29,7 +35,7 @@
 	</cx:bare-string-format>
 	
 	<cx:if condition="$errorInvoices.count > 0 OR $warningInvoices.count > 0">
-		<cx:includeHtml page="http://sales.carerix.com/templates/facturen/pages/controle.html"/>
+		<cx:includeParsedHtml page="http://sales.carerix.com/templates/facturen/pages/controle.html"/>
 	</cx:if>
 	
 	<cx:else>

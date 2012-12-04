@@ -1,0 +1,123 @@
+<cx:bare-string-format>
+<cx:header name="content-type" value="application/force-download"/>
+"Projectcode"<cx:write value="\t"/>
+"Relatie"<cx:write value="\t"/>
+"Relatie debiteurnummer"<cx:write value="\t"/>
+"Startdatum"<cx:write value="\t"/>
+"Einddatum"<cx:write value="\t"/>
+"Gebruikers"<cx:write value="\t"/>
+"Per mnd"<cx:write value="\t"/>
+"Korting"<cx:write value="\t"/>
+"Netto"<cx:write value="\t"/>
+"Status"<cx:write value="\t"/>
+"Verantwoordelijke"<cx:write value="\t"/>
+"Overeenkomst"<cx:write value="\t"/>
+"Land"<cx:write value="\t"/>
+"8201"<cx:write value="\t"/>
+"8202"<cx:write value="\t"/>
+"8203"<cx:write value="\t"/>
+"8204"<cx:write value="\t"/>
+"8205"<cx:write value="\t"/>
+"8206"<cx:write value="\t"/>
+"8207"<cx:write value="\t"/>
+"8208"<cx:write value="\t"/>
+"8209"<cx:write value="\t"/>
+"8210"<cx:write value="\t"/>
+"Regelnummer"<cx:write value="\t"/>
+<cx:write value="Regel geldt per"/><cx:write value="\t"/>
+<cx:write value="Factuur email adres"/><cx:write value="\t"/>
+
+<cx:write value="\n"/>
+
+<cx:define tag="funneldata">
+	<cx:let name="_funnel" value="$_project.salesFunnel.@first">
+	<cx:let name='prmnd' value='$_funnel.estimatedAmount.numberValue' invoke='numberByDividingBy:' arg0='$_funnel.estimatedDays.numberValue'>
+		<cx:let condition='prmnd.numberValue!=0' iftrue='$prmnd' iffalse='0' name='prm'>
+			"<cx:write value="$prm" numberFormat="#,##0.00" language="Dutch"/>"<cx:write value="\t"/>
+			
+			<cx:let condition='$_funnel.successRatePercentage!="<null>"' iftrue='$_funnel.successRatePercentage' iffalse='0' name='successRatePer'>
+				<cx:let value='$successRatePer.numberValue' invoke='numberByDividingBy:' arg0='100' numberFormat='##.##' name='srPer'>
+					<cx:if condition='srPer!=NIL'>
+						"<cx:write value="$srPer" language="Dutch" numberFormat="#,##0.00"/>"
+					</cx:if>
+					<cx:else>
+						"<cx:write value='0'/>"
+					</cx:else>
+				</cx:let><cx:write value="\t"/>
+				
+				<cx:if condition='successRatePer.numberValue!=0'>
+					<cx:let value='$successRatePer.numberValue' invoke='numberByDividingBy:' arg0='100' name='rate'>
+						<cx:let value='$1' invoke='numberBySubtracting:' arg0='$rate' name='oneMinusRate'>
+							<cx:let name='netto' value='$prm.numberValue' invoke='numberByMultiplyingBy:' arg0='$oneMinusRate'>
+								"<cx:write value="$netto" numberFormat="#,##0.00" language="Dutch"/>"
+							</cx:let>
+						</cx:let>
+					</cx:let>
+				</cx:if>
+				<cx:else>
+					"<cx:write value='$prm' numberFormat="#,##0.00" language="Dutch"/>"
+				</cx:else>
+			</cx:let>
+		</cx:let>
+	</cx:let><cx:write value="\t"/>
+	"<cx:write value='$_funnel.toStatusNode.value'/>"<cx:write value="\t"/>
+	</cx:let>
+</cx:define>
+
+<cx:define tag="funnelinfo">
+	<cx:let name="nummer" value="$it" invoke="numberByAdding:" arg0="1">
+		"<cx:write value="$nummer"/>"<cx:write value="\t"/>
+	</cx:let>
+	<cx:let name="startdate" value="${_funnel.effective}:00" expand="">
+		<cx:let name="startdate" value="$startdate" invoke="dateValue">
+			"<cx:write value="$startdate" dateFormat='%d-%m-%y'/>"<cx:write value="\t"/>
+		</cx:let>
+	</cx:let>
+</cx:define>
+
+<cx:define tag="grootboekCodes">
+	<cx:let name="valString" value="$_project.groups.value" invoke="componentsJoinedByString:" arg0="|">
+		"<cx:if condition="valString containsString: '8201'">X</cx:if>" <cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8202'">X</cx:if>" <cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8203'">X</cx:if>"	<cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8204'">X</cx:if>"	<cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8205'">X</cx:if>" <cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8206'">X</cx:if>"	<cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8207'">X</cx:if>"	<cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8208'">X</cx:if>" <cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8209'">X</cx:if>"	<cx:write value="\t"/>
+		"<cx:if condition="valString containsString: '8210'">X</cx:if>"	<cx:write value="\t"/>
+	</cx:let>
+</cx:define>
+
+<cx:define tag="tsvRow">
+	"<cx:write value='$_project.vacancyNo'/>"<cx:write value="\t"/>
+	"<cx:write value='$_project.toCompany.name'/>"<cx:write value="\t"/>
+	"<cx:write value='$_project.toCompany.debtorNumber' />"<cx:write value="\t"/>
+	"<cx:write value='$_project.startDate' dateFormat='%d-%m-%y'/>"<cx:write value="\t"/>
+	"<cx:write value='$_project.endDate' dateFormat='%d-%m-%y'/>"<cx:write value="\t"/>
+	
+	"<cx:write value='$_funnel.numberOfVacancies'/>"<cx:write value="\t"/>
+	
+	<cx:funneldata funnel="$_funnel" it="$_it"/>
+	
+	"<cx:write value='$_project.owner.informalName'/>"<cx:write value="\t"/>
+	"<cx:write value='$_project.jobTitle'/>"<cx:write value="\t"/>
+	"<cx:write value='$_project.toCompany.toMailingCountryNode.value'/>"<cx:write value="\t"/>
+		
+	<cx:grootboekCodes project="$_project"/>
+	
+	<cx:funnelinfo project="$_project" funnel="$_funnel" it="$_it"/>
+	
+	<cx:write value="$_project.invoiceEmailAddress.jsEscapedString"/>
+</cx:define>
+
+<cx:fetch eospec="$activity.toFetchSpecification.enterpriseFetchSpecification" list="result">
+  <cx:foreach list="$result" item="project">
+  	<cx:foreach list="$project.salesFunnel" item="funnel" index="it">
+   		<cx:tsvRow project="$project" funnel="$funnel" it="$it"/><cx:write value="\n"/>
+    </cx:foreach>
+  </cx:foreach>
+</cx:fetch>
+
+</cx:bare-string-format>

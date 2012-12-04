@@ -4,7 +4,7 @@ if ( !$.actual ) {
 
 ; (function($) {
 	var $container = null;
-	if ( !console ) console = {log: $.noop};
+	if ( typeof console === typeof undefined ) console = {log: $.noop};
 	
 
 	/**
