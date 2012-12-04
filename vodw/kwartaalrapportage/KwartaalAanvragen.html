@@ -370,6 +370,15 @@ td.allow_space {
 		<dt>Succesratio</dt>
 		<dd>(#ingevuld / #aanvragen) * 100%</dd>
 	</dl>
+	
+	<h4 class="page-break">Aanvragen per functieniveau</h4>
+	<p>
+		<span class="allow_space" id="niveau_chart">
+			<code>Hier komt een barchart: "Ontwikkeling van aanvragen per functieniveau"</code>
+			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
+		</span>
+	</p>
+	
 	<!-- TODO: Hier willen we eigenlijk alle mogelijkheden zien van de combinatie 
 		van opdrachtgever groepen. We hebben nu alleen de key-accounts maar we gaan 
 		spoedig al preferred suppliers toevoegen. Dan is de derde categorie dus 
@@ -378,7 +387,7 @@ td.allow_space {
 		key-account.
 	-->
 	<!-- TODO: Gesorteerd op aantal aanvragen, groot naar klein. -->
-	<table class="wideborder center-align-th center-align-td" id="bron">
+	<table class="wideborder center-align-th center-align-td no-page-break" id="bron">
 		<caption><h4>Aanvragen per Bron</h4></caption>
 		<thead>
 			<tr>
@@ -479,15 +488,6 @@ td.allow_space {
 		<dd>(#ingevuld / #aanvragen) * 100%</dd>
 	</dl>
 	
-	<h4 class="page-break">Aanvragen per functieniveau</h4>
-	<p>
-		<span class="allow_space" id="niveau_chart">
-			<code>Hier komt een barchart: "Ontwikkeling van aanvragen per functieniveau"</code>
-			<!-- TODO: Insert barcharts "De ontwikkeling van de aanvragen per opdrachtgevergroep" here! -->
-		</span>
-	</p>
-	
-
 </div>
 <script type="text/javascript">
 var charts = [], chart;

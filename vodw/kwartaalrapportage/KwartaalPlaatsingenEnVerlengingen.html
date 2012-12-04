@@ -241,9 +241,9 @@ td.allow_space {
 				<th/>
 				<th colspan="3" style="width: 20%; text-align: center;">Vast</th>
 				<th colspan="3" style="width: 20%; text-align: center;">Freelance</th>
-				<th rowspan="2" style="width: 10%; text-align: right;">Totaal</th>
+				<th rowspan="1" style="width: 10%; text-align: right;">Totaal</th>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<th/>
 				<th class="sub" style="width: 10%; text-align: right;">#</th>
 				<th class="sub">&nbsp;</th>
@@ -251,7 +251,7 @@ td.allow_space {
 				<th class="sub" style="width: 10%; text-align: right;">#</th>
 				<th class="sub">&nbsp;</th>
 				<th class="sub" style="width: 10%;">%</th>
-			</tr>
+			</tr> -->
 		</thead>
 		<tbody>
 			<tr id="placements">
@@ -320,13 +320,13 @@ function percentage(num, tot) {
 with ( stats.Q<cx:write value="$date.quarterOfYear"/>_<cx:write value="$date.yearOfCommonEra"/> ) {
 	var tot = vast.placements + freelance.placements;
 	if ( tot ) {
-		$('#placements').append("<td style='text-align: right;'>" + (vast.placements) + "</td>")
+		$('#placements').append("<td style='text-align: right; width: 13%'>" + (vast.placements) + "</td>")
 										.append("<td/>")
-										.append("<td>" + parseInt(100 * (vast.placements / tot)) + " %</td>")
-										.append("<td style='text-align: right;'>" + (freelance.placements) + "</td>")
+										.append("<td style='width: 13%'>" + parseInt(100 * (vast.placements / tot)) + " %</td>")
+										.append("<td style='text-align: right; width: 13%'>" + (freelance.placements) + "</td>")
 										.append("<td/>")
-										.append("<td>" + parseInt(100 * (freelance.placements / tot)) + " %</td>")
-										.append("<th class='sub' style='text-align: right;'>" + tot + "</th>");
+										.append("<td style='width: 13%'>" + parseInt(100 * (freelance.placements / tot)) + " %</td>")
+										.append("<th class='sub' style='text-align: right; width: 13%'>" + tot + "</th>");
 	} else {
 		$('#placements').append("<td/><td/><td/><td/><td/><td/><th class='sub'>0</th>");
 	}
