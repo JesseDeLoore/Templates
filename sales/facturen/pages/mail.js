@@ -5,7 +5,6 @@ if ( !$.actual ) {
 ; (function($) {
 	var $container = null;
 	if ( typeof console === typeof undefined ) console = {log: $.noop};
-	
 
 	/**
 	 * When the document has been created: build the table
@@ -30,6 +29,10 @@ if ( !$.actual ) {
 					+ 'table#invoiceMailingsTable button.inactive {'
 						+ 'color: #ccc;'
 					+ '}'
+					+ 'table#invoiceMailingsTable .wait {'
+						+ 'background: url(http://sales.carerix.com/templates/facturen/pages/loading.gif) no-repeat 0 0;'
+						+ 'padding-left: 20px;'
+					+ '}'
 					+ '@media print {'
 						+ 'table#invoiceMailingsTable button {'
 							+ 'border: none;'
@@ -47,12 +50,14 @@ if ( !$.actual ) {
 				+ '<table id="invoiceMailingsTable" class="border">'
 					+ '<thead>'
 						+ '<tr>'
-							+ '<th/>'
+							+ '<th style="display: none"/>'
+							+ '<th>Project</th>'
 							+ '<th>Bedrijf</th>'
 							+ '<th>Email adres</th>'
 							+ '<th>Bedrag</th>'
-							+ '<th/>'
-							+ '<th/>'
+							+ '<th style="color: transparent; padding-left: 20px;">Wordt verstuurd</th>'
+							+ '<th>&nbsp;</th>'
+							+ '<th>&nbsp;</th>'
 						+ '</tr>'
 					+ '</thead>'
 					+ '<tbody/>'
@@ -74,10 +79,9 @@ if ( !$.actual ) {
 		);
 		
 		// generate the mail templates, so they are available when required
-		$container = $('<div id="mails" style="display: none"/>');
-		$('body').append($container);
-		$container.tmpl(getInvoices());
-		
+		var $tmp = $('<div id="mails" style="display: none"/>');
+		$('body').append($tmp);
+		$tmp.tmpl(getInvoices());
 	});
 	
 	/**
@@ -85,24 +89,28 @@ if ( !$.actual ) {
 	 */
 	function _buildRow(it) {
 		var $row;
-		if ( it<=1 && this.company.invoiceEmail !== '' ) { // TODO: remove it condition
+		if ( this.company.invoiceEmail !== '' ) {
 			$row = $('<tr data-role="invoice-export-row">'
-					+ '<th class="sub"><input type="checkbox" checked="checked"/></th>'
+					+ '<th class="sub" style="display: none"><input type="checkbox" checked="checked"/></th>'
+					+ '<td>' + this.agreement.id + '</td>'
 					+ '<td>' + this.company.name + '</td>'
 					+ '<td>' + this.company.invoiceEmail + '</td>'  
 					+ '<td>&#x20ac; ' + this.getParsedSubtotal() + '</td>'  
-					+ '<td><button data-role="send-mailing">Versturen</button></td>'
+					+ '<td data-role="sent-reporting"></td>'
+					+ '<td><button data-role="send-mailing" style="display: none">Versturen</button></td>'
 					+ '<td><button data-role="download-invoice">Downloaden</button></td>'
 				+ '</tr>'
 			);
 			$row.appendTo($container);
 		} else {
-			$row = $('<tr data-role="invoice-export-row">'
-					+ '<th class="sub"><input type="checkbox" disabled="disabled"/></th>'
+			$row = $('<tr data-role="invoice-export-row" style="background: #ffa500">'
+					+ '<th class="sub" style="display: none"><input type="checkbox" checked="checked"/></th>'
+					+ '<td>' + this.agreement.id + '</td>'
 					+ '<td>' + this.company.name + '</td>'
-					+ '<td>GEEN ADRES BESCHIKBAAR</td>'  
-					+ '<td>&#x20ac; ' + this.getParsedSubtotal() + '</td>'  
-					+ '<td><button class="inactive">Versturen</button></td>'
+					+ '<td style="text-decoration: blink;">GEEN ADRES BESCHIKBAAR</td>'  
+					+ '<td>&#x20ac; ' + this.getParsedSubtotal() + '</td>'
+					+ '<td data-role="sent-reporting"></td>'
+					+ '<td><button class="inactive" style="display: none">Versturen</button></td>'
 					+ '<td><button data-role="download-invoice">Downloaden</button></td>'
 				+ '</tr>'
 			);
@@ -120,7 +128,11 @@ if ( !$.actual ) {
 				invoice = $this.data('invoice'),
 				id = invoice.id,
 				invoiceHTML,
+				args,
+				user = new CxUser(),
 				mailHTML;
+
+		$this.find('[data-role=sent-reporting]').addClass('wait').html('Wordt verstuurd');
 		
 		// remove contentEditables in order to not have them be "changeable" in CX
 		$('[data-invoice-id=' + id + ']')
@@ -135,14 +147,14 @@ if ( !$.actual ) {
 		mailHTML = _getMailHTML(invoice);
 			
 		// send a mail
-		_sendMail({
+		args = {
 					type:			'DELAY'
 				, subject:	'Factuur ' + invoice.getInvoiceNumber() + ' voor het gebruik van het Carerix systeem'
-				, from:			'"' + (new CxUser()).name + ' | Carerix" <finance@carerix.com>'
-//					, from:			'jasper@carerix.com'
-				, to:				'jasper@carerix.com'
-//					, to:				'reinald@carerix.com'
+				, from:			'"' + user.name + ' | Carerix" <finance@carerix.com>'
+				, to:				invoice.company.invoiceEmail != '' ? invoice.company.invoiceEmail : user.email
+//				, to:				invoice.company.invoiceEmail != '' ? 'reinald@carerix.com' : user.email
 				, delay: 		$('#send_email_delay').val()
+				, bindTo: invoice.bindings
 				, content: 	{
 						text: mailHTML
 					, isHTML: true
@@ -153,7 +165,9 @@ if ( !$.actual ) {
 							, filename: 'factuur_' + invoice.getInvoiceNumber() + '.html'
 						}
 				]
-		}).success(function(response) {
+		};
+		
+		_sendMail(args).success(function(response) {
 			// Finally: report the fact that this email has been sent.
 			$this.trigger('set-send');	
 		});
@@ -239,12 +253,16 @@ if ( !$.actual ) {
 //	    			+ '<toCompany><CRAttachmentData id="19117"></toCompany>'
 		;
 		
+		for ( it in args.bindTo ) {
+			xml += '<to' + it + '><CR' + it + ' id="'+ args.bindTo[it] + '"/></to' + it + '>';  			
+		} // for
+		
 		if ( args.type === 5 || args.type === 6 ) {
-			xml += '<toStatusNode><CRDataNode id="3214"/></toStatusNode>' // NOG TE VERZENDEN STATUS
+			xml += '<toStatusNode><CRDataNode id="3214"/></toStatusNode>'; // NOG TE VERZENDEN STATUS
 		}
 
 		if ( typeof args.replyTo !== typeof undefined ) { 
-			xml += '<replyToAddress>' + args.replyTo + '</replyToAddress>'
+			xml += '<replyToAddress>' + args.replyTo + '</replyToAddress>';
 		}
 		
 		if ( typeof args.delay !== typeof undefined ) { // but also include <delay> and <toDelayUnitNode> node
@@ -270,7 +288,7 @@ if ( !$.actual ) {
 		}
 		
 		xml += '</CRToDo>';
-						
+
 		return $.ajax({
 				url: url + 'save'
 			, type: 'POST'
@@ -319,6 +337,7 @@ if ( !$.actual ) {
 	function _setSend() {
 		var $this = $(this);
 		$this.find(':checkbox').attr('checked', 'checked').attr('disabled', 'disabled');
+		$this.find('[data-role=sent-reporting]').removeClass('wait').html('Verstuurd');
 		$this.find('[data-role=send-mailing]').html('Verstuurd').addClass('inactive');
 	} // _setSend();
 	
@@ -341,9 +360,17 @@ if ( !$.actual ) {
 	 * triggering each of their send-email events.
 	 */
 	function _sendAllMails() {
-		$container.find(':checkbox:checked:not(:disabled)').each(function() {
-			$(this).closest('[data-role="invoice-export-row"]').trigger('send-email');
-		});
+		var $allToBeSend = $container.find('[data-role="invoice-export-row"]').has(':checkbox:checked:not(:disabled)'),
+				it = 0;
+		
+		!function __sendNext() {
+			$allToBeSend.eq(it).trigger('send-email');
+			it++;
+			setTimeout(__sendNext, 100);
+		}();
+//		$container.find(':checkbox:checked:not(:disabled)').each(function() {
+//			$(this).closest('[data-role="invoice-export-row"]').trigger('send-email');
+//		});
 	} // _sendAllMails
 	
 	/**

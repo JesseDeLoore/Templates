@@ -1,3 +1,7 @@
+document.write('<script type="text/javascript" src="http://sales.carerix.com/templates/facturen/models/jquery.cookie.js"></script>');
+//initialize the invoicenumber
+var	initialInvoiceNumber = 0;
+
 $(document).ready(function() {
 	
 	/**
@@ -51,6 +55,13 @@ $(document).ready(function() {
 	 * Add gui and events for updating the initial invoice number
 	 */
 	function addInvoicenumberUpdater() {
+		var 	cookiename = 'initialInvoiceNumber'
+				, cookieval;	
+	
+		if ( $.isNumeric(cookieval = $.cookie(cookiename)) ) {
+			initialInvoiceNumber = parseInt(cookieval);
+		}
+		
 		// create the gui
 		$overview.append('<label>Cre&euml;er factuur vanaf nr<input type="number" id="invoice-number" value="' + (initialInvoiceNumber||0) + '"/></label>');
 		
@@ -62,9 +73,13 @@ $(document).ready(function() {
 		
 		// handle the triggering of the update
 		$(document).on('invoicenumber_update', function() {
+			// reset the cookie value
+			var num = 0;
 			$('[data-role=invoicenumber]').each(function(it) {
-				$(this).html(initialInvoiceNumber + it);	
+				$(this).html(initialInvoiceNumber + it);
+				num++;
 			});
+			$.cookie(cookiename, cookieval = initialInvoiceNumber + num, {path: '/', expires: 365});
 		});
 	} // addInvoicenumberUpdater();
 	

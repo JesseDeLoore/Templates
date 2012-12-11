@@ -6,6 +6,8 @@ $(document).ready(function() {
 					+ 'overflow: auto;'
 					+ 'padding: 1px;'
 					+ 'background: #fff;' 
+					+ 'width: 50%;'
+					+ 'height: 30em;' 
 					+ 'min-width: 50%;'
 					+ 'min-height: 30em;' 
 					+ 'color: #555;'

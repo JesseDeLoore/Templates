@@ -15,8 +15,12 @@
 		<span contentEditable="true">
 			<b><%=company.name%></b><br/>
 			<i><%=(i18n.isDutch?'T.a.v.':'Attn.')%> <%=addressee%></i><br/>
-			<%=company.invoiceStreet%> <%=company.invoiceHousenumber%><br/>
-			<%=company.invoicePostalCode%> <%=company.invoiceCity.toUpperCase()%>
+			<% if ( company.invoiceAddress == '' ) { %>
+				<%=company.invoiceStreet%> <%=company.invoiceHousenumber%><br/>
+				<%=company.invoicePostalCode%> <%=company.invoiceCity.toUpperCase()%>
+			<% } else { %>
+				<%=company.invoiceAddress%>
+			<% } %>
 		</span><br/>
 		<br/>
 		<!-- Toon 'peildatum' als het project-relatie een groep heeft 'facturatie op basis van peildatum' -->

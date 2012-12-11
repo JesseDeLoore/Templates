@@ -65,7 +65,7 @@
 	/**
 	 * Parse a grootboek code as per the exportCode provided in the project's group
 	 */
-	function _parseGrootboekCode(code, prefix) {
+	function _parseGrootboekCode(code, isInternational) {
 		var ret = {
 						code: 'INCOMPLETE',
 						costtype: 'INCOMPLETE',
@@ -80,10 +80,12 @@
 			return ret;
 		}
 		
-		switch ( Math.min(pieces.length, 4) ) {
-			case 4 : ret.costlocation = pieces[3]; // nobreak
-			case 3 : ret.costtype = pieces[2]; // nobreak
-			case 2 : ret.code = prefix + pieces[1]; // nobreak
+		switch ( Math.min(pieces.length, 5) ) {
+			case 5:	ret.costlocation = pieces[4]; // nobreak
+			case 4:	ret.costtype = pieces[3]; // nobreak
+			case 3:	ret.code = pieces[isInternational ? 2 : 1];
+							break;
+			case 2:	ret.code = pieces[1]; // nobreak
 		} // switch
 		
 		if ( ret.costlocation === 'INCOMPLETE' ) {
@@ -144,6 +146,7 @@
 			// Details of the company
 			,	company: {
 					name: "<cx:write value="$project.toCompany.name.jsEscapedString"/>"
+				, invoiceAddress: "<cx:write value="$project.invoiceAddress.htmlString.jsEscapedString"/>"
 				, invoiceCity: "<cx:write value="$project.toCompany.invoiceCity.jsEscapedString"/>"
 				, invoiceStreet: "<cx:write value="$project.toCompany.invoiceStreet.jsEscapedString"/>"
 				, invoiceHousenumber: "<cx:write value="$project.toCompany.invoiceNumber"/> <cx:write value="$project.toCompany.invoiceNumberSuffix.jsEscapedString"/>" 
@@ -157,46 +160,31 @@
 			
 			
 			// Grootboek prefix (???)
+			 
+			<cx:let name="grootboekGroups" value="$project.groups" invoke="@filter.exportCode hasPrefix: 'GROOTBOEK;'">
+			
 			,	grootboek:	<cx:bare-string-format>
 											_parseGrootboekCode(
-												"<cx:foreach list="$project.groups" item="group">
-													<cx:let name="isGrootboek" value="$group.exportCode" invoke="substringWithMaxLength:" arg0="10">
-														<cx:if condition="$isGrootboek='GROOTBOEK;'">
-															<cx:write value="$group.exportCode.jsEscapedString"/>;
-														</cx:if>
-													</cx:let>
+												"<cx:foreach list="$grootboekGroups" item="group">
+													<cx:write value="$group.exportCode.jsEscapedString"/>
 												</cx:foreach>", 
-												<cx:let name="grootBoekPrefix" condition="$NL='0'" iftrue="83" iffalse="82"><cx:write value="$grootBoekPrefix"/></cx:let>
+												<cx:let name="isInternational" condition="$NL='0'" iftrue="true" iffalse="false"><cx:write value="$isInternational"/></cx:let>
 											)
 										</cx:bare-string-format>
-										/*
-										<cx:bare-string-format>
-											<cx:let name="grootBoekPrefix" condition="$NL='0'" iftrue="83" iffalse="82">
-												<cx:let name="groups" value="$project.groups">
-													<cx:let name="g" value="$groups.dataNodeID">
-														<cx:if condition="$g=4630 OR $g=4628 OR $g=4631 OR $g=4629 OR $g=4730 OR $g=4731 OR $g=4732 OR $g=4669 OR $g=4733 OR $g=4734">
-															<cx:if condition="$g=4630"><cx:write value="$grootBoekPrefix"/>01</cx:if>
-															<cx:if condition="$g=4628"><cx:write value="$grootBoekPrefix"/>02</cx:if>
-															<cx:if condition="$g=4631"><cx:write value="$grootBoekPrefix"/>03</cx:if>
-															<cx:if condition="$g=4629"><cx:write value="$grootBoekPrefix"/>04</cx:if>
-															<cx:if condition="$g=4730"><cx:write value="$grootBoekPrefix"/>05</cx:if>
-															<cx:if condition="$g=4731"><cx:write value="$grootBoekPrefix"/>06</cx:if>
-															<cx:if condition="$g=4732"><cx:write value="$grootBoekPrefix"/>07</cx:if>
-															<cx:if condition="$g=4669"><cx:write value="$grootBoekPrefix"/>08</cx:if>
-															<cx:if condition="$g=4733"><cx:write value="$grootBoekPrefix"/>09</cx:if>
-															<cx:if condition="$g=4734"><cx:write value="$grootBoekPrefix"/>10</cx:if>
-														</cx:if>
-														<cx:else>'NOGROUP'</cx:else>
-													</cx:let>
-												</cx:let>
-											</cx:let>
-										</cx:bare-string-format>
-										*/
+			, grootboekName: <cx:if condition="$grootboekGroups.count > 1">
+													"<cx:write value="$project.jobTitle.jsEscapedString"/>"
+												</cx:if>
+												<cx:else>
+													<cx:foreach list="$grootboekGroups" item="group">
+														"<cx:write value="$group.value.jsEscapedString"/>".substr(6)
+													</cx:foreach> 
+												</cx:else>
+			</cx:let>
 									
 			// the invoice itself
 			, frequency: (<cx:write value="$project.estimatedDays"/>+0) || 1
 			, agreement: {
-					id: <cx:write value="$project.vacancyNo"/> + 0
+					id: '<cx:write value="$project.vacancyNo"/>'
 				, name: "<cx:write value="$project.jobTitle.jsEscapedString"/>"
 				, numberOfUsers: <cx:write value="$project.numberOfVacancies"/> + 0
 			}
@@ -207,7 +195,7 @@
 			, automated: <cx:let condition="$project.toCompany.toPaymentPeriodNode.value='Automatische Incasso'" iftrue="true" iffalse="false" name="v"><cx:write value="$v"/></cx:let>
 			, paymentPeriod: parseInt("<cx:write value="$project.toCompany.toPaymentPeriodNode.value"/>".replace(_regexp.nonDigits, '')) 
 			, addressee: "<cx:write value="$project.invoiceAttention.jsEscapedString"/>" || "<cx:write value="$project.toSignAuthority.informalName.jsEscapedString"/>"
-			, addresseeShort: "<cx:write value="$project.toSignAuthority.formalOpening.jsEscapedString"/>"
+			, addresseeShort: "<cx:write value="$project.toSignAuthority.lessFormalName.jsEscapedString"/>"
 			, startDate:_getDate('<cx:write value="$project.startDate"/>')
 			, firstLineOfNotes: "<cx:write value="$project.notes.line1.jsEscapedString"/>"
 			, title: {
@@ -215,6 +203,10 @@
 				, sub: ''
 			}
 			, lines: []
+			, bindings: {
+					'Vacancy': 	<cx:write value="$project.vacancyID"/> + 0
+				, 'Company': 	<cx:write value="$project.toCompany.companyID"/> + 0
+			}
 		});
 	</cx:define>
 	

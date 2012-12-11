@@ -192,7 +192,7 @@ TODO: Dashboardize
                                 </cx:if>
 
                                 <!-- Status -->
-                                <cx:if condition="$f.toStatusNode.dataNodeID != 3315 AND $f.toStatusNode.dataNodeID != 3318 AND $f.toStatusNode.dataNodeID != 3319 AND $f.toStatusNode.dataNodeID != 4470 ">
+                                <cx:if condition="$f.toStatusNode.dataNodeID != 3315 AND $f.toStatusNode.dataNodeID != 3318 AND $f.toStatusNode.dataNodeID != 3319 AND $f.toStatusNode.dataNodeID != 4770 ">
                                   <tr>
                                     <td class="error"><b>Project.status</b></td>
                                     <td class="error"><b>Verkeerde status!</b></td>
@@ -282,25 +282,33 @@ TODO: Dashboardize
                                   OR dataNodeID = 4669">
 
                                   <cx:let name="g" value="$edition.dataNodeID">
-                                    <cx:if condition="($g!=4630 AND $g!=4628 AND $g!=4631 AND $g!=4629 AND $g!=4730 AND $g!=4731 AND $g!=4732 AND $g!=4669 AND $g!=4733 AND $g!=4734) OR $g.count=0 OR $g.count > 1">
-                                      <tr>
-                                        <td class="error"><b>Project.groepen.Editie</b></td>
-                                        <td class="error">
-                                          <b>Editie is niet ingevuld, of meerdere edities!</b>
-                                          <cx:if condition="$g=4630"><br>- <cx:write value="8201: Corporate edition"/></cx:if>
-                                          <cx:if condition="$g=4628"><br>- <cx:write value="8202: Recruitment edition"/></cx:if>
-                                          <cx:if condition="$g=4631"><br>- <cx:write value="8203: Staffing edition"/></cx:if>
-                                          <cx:if condition="$g=4629"><br>- <cx:write value="8204: Standard edition"/></cx:if>
-                                          <cx:if condition="$g=4730"><br>- <cx:write value="Outsource edition"/></cx:if>
-                                          <cx:if condition="$g=4731"><br>- <cx:write value="CRM edition"/></cx:if>
-                                          <cx:if condition="$g=4732"><br>- <cx:write value="E-Recruitment edition"/></cx:if>
-                                          <cx:if condition="$g=4669"><br>- <cx:write value="Hosting domein"/></cx:if>
-                                          <cx:if condition="$g=4733"><br>- <cx:write value="Datadump (periodiek)"/></cx:if>
-                                          <cx:if condition="$g=4734"><br>- <cx:write value="Testomgeving"/></cx:if>
-                                        </td>
-                                        <td class="error">Vul één editie in!</td>
-                                      </tr>
-                                    </cx:if>
+                                  	<cx:let name="gCombined" value="$g.@sortAscending" invoke="componentsJoinedByString:" arg0="--">
+	                                    <cx:if condition="
+	                                    					$g.count = 0
+	                                    					OR ( $g.count = 1 AND ($g!=4630 AND $g!=4628 AND $g!=4631 AND $g!=4629 AND $g!=4730 AND $g!=4731 AND $g!=4732 AND $g!=4669 AND $g!=4733 AND $g!=4734))
+	                                    					OR ($g.count = 2 AND $gCombined != '4669--4750')
+	                                    					OR $g.count > 2
+	                                    					">
+	                                      <tr>
+	                                        <td class="error"><b>Project.groepen.Editie</b></td>
+	                                        <td class="error">
+	                                          <b>Editie is niet ingevuld, of meerdere edities!</b>
+	                                          <cx:if condition="$g=4630"><br>- <cx:write value="8201: Corporate edition"/></cx:if>
+	                                          <cx:if condition="$g=4628"><br>- <cx:write value="8202: Recruitment edition"/></cx:if>
+	                                          <cx:if condition="$g=4631"><br>- <cx:write value="8203: Staffing edition"/></cx:if>
+	                                          <cx:if condition="$g=4629"><br>- <cx:write value="8204: Standard edition"/></cx:if>
+	                                          <cx:if condition="$g=4730"><br>- <cx:write value="Outsource edition"/></cx:if>
+	                                          <cx:if condition="$g=4731"><br>- <cx:write value="CRM edition"/></cx:if>
+	                                          <cx:if condition="$g=4732"><br>- <cx:write value="E-Recruitment edition"/></cx:if>
+	                                          <cx:if condition="$g=4669"><br>- <cx:write value="Hosting"/></cx:if>
+	                                          <cx:if condition="$g=4750"><br>- <cx:write value="Domein"/></cx:if>
+	                                          <cx:if condition="$g=4733"><br>- <cx:write value="Datadump (periodiek)"/></cx:if>
+	                                          <cx:if condition="$g=4734"><br>- <cx:write value="Testomgeving"/></cx:if>
+	                                        </td>
+	                                        <td class="error">Vul één editie in! <cx:write value="$gCombined"/> <cx:write value="$g.count"/></td>
+	                                      </tr>
+	                                    </cx:if>
+                                  	</cx:let>
                                   </cx:let>
                                 </cx:let>
 
@@ -464,5 +472,3 @@ TODO: Dashboardize
   </div>
 
 </body>
-
-</html>

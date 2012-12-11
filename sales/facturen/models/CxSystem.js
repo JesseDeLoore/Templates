@@ -4,5 +4,6 @@
 	this.appname = '<cx:write value="$utilities.userDefaults.Customer"/>';
 	this.wosid = '<cx:write value="$wosid"/>';
 	this.xmlPass = '<cx:write value="$settings.xmlapi.xmlPassword"/>'; 
+	this.email = '<cx:write value="$activity.owner.emailAddress"/>'; 
 };
 var cxuser = new CxUser(); 

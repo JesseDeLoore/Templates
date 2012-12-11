@@ -49,8 +49,9 @@ Invoice.prototype.setDefaultTitle = function() {
 			break;
 		case 12:
 			var end = start.prevMonth();
+			end.setFullYear(start.getFullYear()+1);
 			this.setTitle((this.i18n.isDutch ? 'Jaarfactuur ' : 'Annual invoice ')
-						+ end.setFullYear(start.getFullYear()+1) + start_BY + tm 
+						+ start_BY + tm 
 						+ end.get_BY(this.i18n.isDutch)
 			);
 			break;
@@ -71,13 +72,13 @@ Invoice.prototype.setDefaultInvoiceLines = function() {
 				title: (this.i18n.isDutch 
 						? 'Registratie inclusief domein naam, email & website hosting voor '
 								: 'Registration including domain name, e-mail & website hosting for '
-					) + this.agreement.name
+					) + this.grootboekName
 			, currency: '€'
 			, amount: this.amount
 		});
 	} else {
 		this.lines.push({
-				title: this.agreement.name + ' (' + (this.i18n.isDutch?'inclusief':'including')
+				title: this.grootboekName + ' (' + (this.i18n.isDutch?'inclusief':'including')
 							+ ' ' + this.agreement.numberOfUsers + ' users)'
 			, currency: '€'
 			, amount: this.amount
@@ -133,12 +134,7 @@ Invoice.prototype.getVATPercentage = function() {
  * Parse an amount to the dutch presentation
  */
 Invoice.prototype.parseAmount = function(amount) {
-	amount = (parseInt(amount * 100)/100);
-	if ( parseInt(amount) !== amount ) {
-		return parseInt(amount) + ',' + parseInt(Math.abs(amount)*100)%100; 
-	} else {
-		return amount + ',00';
-	} 
+	return (parseInt(parseFloat(amount) * 100) + '').replace(/(..)$/, ',$1'); 
 }; // parseAmount();
 
 /**

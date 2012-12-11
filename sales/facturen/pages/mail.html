@@ -53,7 +53,7 @@
 			<td bgcolor="#ffffff" style="line-height: 120% !important" align="left">
 <% 
 
-	if ( i18n.isNL || i18n.isBE ) { 
+	if ( i18n.isDutch ) { 
 
 %>Geachte <%=addresseeShort%>,<br/>
 <br/>
@@ -69,19 +69,18 @@ Conform de overeenkomst <%=agreement.id%> ten behoeve van <%=company.name%> word
 </table><br/>
 <span style="color: #FF0000"><b>Gelieve het bedrag <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> over te maken voor <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> op onderstaande rekening onder vermelding van het referentie nummer <%=company.debtorNumber%>.</b></span><br/>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
-<% if ( i18n.isNL ) { %>
-<tr><td width="200">Bankrekeningnummer:</td><td width="2">&nbsp;</td><td>50.82.29.871, tnv Carerix te Delft</td></tr>
-<tr><td width="200">Bank:</td><td width="2">&nbsp;</td><td>ABNAMRO</td></tr>
-<tr><td width="200">IBAN:</td><td width="2">&nbsp;</td><td>NL30ABNA0508229871</td></tr>
-<tr><td width="200">BIC/Swift:</td><td width="2">&nbsp;</td><td>ABNANL2A</td></tr>
-<tr><td width="200">BTW nummer:</td><td width="2">&nbsp;</td><td>NL.8135.77.287.B.01</td></tr>
-<tr><td width="200">KVK nummer:</td><td width="2">&nbsp;</td><td>Delft 27270911</td></tr>
-<% } else { %>
-<table>
+<% if ( i18n.isBE ) { %>
 <tr><td width="200">Bankrekeningnummer:</td><td width="2">&nbsp;</td><td>BE54736001856097, tnv Carerix te Delft</td></tr>
 <tr><td width="200">Bank:</td><td width="2">&nbsp;</td><td>KBC Bank</td></tr>
 <tr><td width="200">IBAN:</td><td width="2">&nbsp;</td><td>BE54736001856097</td></tr>
 <tr><td width="200">BIC/Swift:</td><td width="2">&nbsp;</td><td>KREDBEBB</td></tr>
+<tr><td width="200">BTW nummer:</td><td width="2">&nbsp;</td><td>NL.8135.77.287.B.01</td></tr>
+<tr><td width="200">KVK nummer:</td><td width="2">&nbsp;</td><td>Delft 27270911</td></tr>
+<% } else { %>
+<tr><td width="200">Bankrekeningnummer:</td><td width="2">&nbsp;</td><td>50.82.29.871, tnv Carerix te Delft</td></tr>
+<tr><td width="200">Bank:</td><td width="2">&nbsp;</td><td>ABNAMRO</td></tr>
+<tr><td width="200">IBAN:</td><td width="2">&nbsp;</td><td>NL30ABNA0508229871</td></tr>
+<tr><td width="200">BIC/Swift:</td><td width="2">&nbsp;</td><td>ABNANL2A</td></tr>
 <tr><td width="200">BTW nummer:</td><td width="2">&nbsp;</td><td>NL.8135.77.287.B.01</td></tr>
 <tr><td width="200">KVK nummer:</td><td width="2">&nbsp;</td><td>Delft 27270911</td></tr>
 <% } %>
@@ -117,12 +116,21 @@ In accordance with the agreement <%=agreement.id%> for <%=company.name%>, the fo
 </table><br/>
 <span style="color: #FF0000">Please transfer the amount of <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> before <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> to the bank account number below, with transaction reference <%=company.debtorNumber%>.</span><br/>
 <table>
+<% if ( i18n.isBE ) { %>
+<tr><td width="200">Bank account:</td><td width="2">&nbsp;</td><td>BE54736001856097, Carerix in Delft</td></tr>
+<tr><td width="200">Bank:</td><td width="2">&nbsp;</td><td>KBC Bank</td></tr>
+<tr><td width="200">IBAN:</td><td width="2">&nbsp;</td><td>BE54736001856097</td></tr>
+<tr><td width="200">BIC/Swift:</td><td width="2">&nbsp;</td><td>KREDBEBB</td></tr>
+<tr><td width="200">VAT number:</td><td width="2">&nbsp;</td><td>NL.8135.77.287.B.01</td></tr>
+<tr><td width="200">KVK number:</td><td width="2">&nbsp;</td><td>Delft 27270911</td></tr>
+<% } else { %>
 <tr><td width="200">Bank account:</td><td width="2">&nbsp;</td><td>50.82.29.871, Carerix in Delft</td></tr>
 <tr><td width="200">Bank:</td><td width="2">&nbsp;</td><td>ABNAMRO</td></tr>
 <tr><td width="200">IBAN:</td><td width="2">&nbsp;</td><td>NL30ABNA0508229871</td></tr>
 <tr><td width="200">BIC/Swift:</td><td width="2">&nbsp;</td><td>ABNANL2A</td></tr>
 <tr><td width="200">VAT number:</td><td width="2">&nbsp;</td><td>NL.8135.77.287.B.01</td></tr>
 <tr><td width="200">KVK number:</td><td width="2">&nbsp;</td><td>Delft 27270911</td></tr>
+<% } %>
 </table><br/>
 For your convenience the complete invoice is attached to this email. In the case of questions, please contact our office you at phone number +31 15 268 2560 or email us at <a href="mailto:finance@carerix.com">finance@carerix.com</a>.<br/>
 <br/>

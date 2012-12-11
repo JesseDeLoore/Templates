@@ -63,7 +63,7 @@ Use the following variables:
                                                         <!-- Create all invoices that have errors in them -->
                                                         <cx:let name="InvoicesErrorsFilterd1" value="$alleFacturen" invoke="@filter.jobTitle=nil
                                                         OR (vacancyNo = nil OR vacancyNo = ' ')
-                                                        OR (toStatusNode.dataNodeID != 3315 AND toStatusNode.dataNodeID != 3318 AND toStatusNode.dataNodeID != 3319 )
+                                                        OR (toStatusNode.dataNodeID != 3315 AND toStatusNode.dataNodeID != 3318 AND toStatusNode.dataNodeID != 3319  AND toStatusNode.dataNodeID != 4770)
                                                         OR estimatedAmount = nil
                                                         OR (estimatedDays != 1 AND estimatedDays != 3 AND estimatedDays != 6 AND estimatedDays != 12)
                                                         OR (numberOfVacancies = nil OR numberOfVacancies < 0)
