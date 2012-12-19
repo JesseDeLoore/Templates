@@ -211,9 +211,9 @@ Invoice.prototype.getInvoiceNumber = function() {
 }; // getInvoiceNumber();
 
 /**
- * Return the calculated invoicenumber of this invoice
+ * Setter for what. Sets it to value. Couldn't be simpler.
  * 
- * @returns integer
+ * @returns Invoice (self)
  */
 Invoice.prototype.set = function(what, value) {
 	this[what] = value;

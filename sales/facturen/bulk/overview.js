@@ -88,11 +88,20 @@ $(document).ready(function() {
 	 */
 	function addInvoiceTypeGUI() {
 		// add the various holders for the number and listing of the invoices
+		
+		$overview.append(
+				'<label>'
+					+ '<input class="readonly twice" readonly="readonly" value="Bedrag incl BTW"/>'
+					+ '<input class="readonly twice" readonly="readonly" value="Aantal"/>'
+				+ '</label>'
+		);
+		
 		$.each([['month','Maand'], ['quarter','Kwartaal'], ['halfyear','Halfjaar'], ['year','Jaar']], function() {
 			$overview.append(
 					'<label data-click-toggle="report_' + this[0] + '_invoices" title="Toon / Verberg alle ' + this[1].toLowerCase() + 'facturen">'
 						+ '' + this[1] + 'facturen'
-						+ '<input class="readonly" readonly="readonly" value="0"/>'
+						+ '<input class="readonly twice" readonly="readonly" data-parse-type="amount" value="0"/>'
+						+ '<input class="readonly twice" readonly="readonly" value="0"/>'
 					+ '</label>'
 					+ '<ul data-role="report_' + this[0] + '_invoices" style="display:none;"></ul>'
 			);	
@@ -101,6 +110,7 @@ $(document).ready(function() {
 		// fill the reporters
 		$.each(getInvoices(), function() {
 			var type = 'month',
+					invoice = this,
 					insert = '<li>' + this.company.name; 
 					
 			if ( this.frequency === 3 ) type="quarter";
@@ -113,7 +123,20 @@ $(document).ready(function() {
 			insert += "</li>";
 			$container = $("[data-role=report_" + type + "_invoices]").append(insert);
 
-			$container.prev('label').find('input').val($container.find('li').length);
+			$container.prev('label').find('input').each(function(it) {
+				switch ( it ) {
+				case 0 :
+						this.value = parseFloat(this.value) + invoice.getSubtotal() + invoice.getVAT();
+						break;
+					case 1 :
+					default : 
+						this.value = $container.find('li').length;
+				} // switch
+			});
+		});
+		
+		$overview.find('[data-parse-type=amount]').each(function() {
+			this.value = '€ ' + Invoice.prototype.parseAmount(parseFloat(this.value));
 		});
 		
 		// toggler for the types of invoices

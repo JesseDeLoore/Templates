@@ -21,7 +21,7 @@
 			<td bgcolor="white" align="left">
 				<table width="100%" cellpadding="0" cellspacing="0" border="0">
 					<tr>
-						<td style="vertical-align: middle;"><h3 style="margin: 0">Factuur <%=obj.getInvoiceNumber()%>, <%=(new Date()).get_BY()%></h3></td>
+						<td style="vertical-align: middle;"></td>
 						<td width="150" align="right"><img alt="Carerix" height="30" width="150" src="http://www.carerix.com/wp-content/themes/carerix/assets/images/logo_carerix.png"/></td>
 					</tr>
 				</table>
@@ -55,19 +55,30 @@
 
 	if ( i18n.isDutch ) { 
 
-%>Geachte <%=addresseeShort%>,<br/>
+%>Tav <%=addressee%>,<br/>
 <br/>
-Bijgaand treft u de factuur aan voor het gebruik van het Carerix systeem voor de maand <%=(new Date()).get_BY()%>.<br/>
+Bijgaand treft u de factuur aan voor het gebruik van het Carerix systeem voor de maand <%=(new Date()).nextMonth().get_BY(true)%>.<br/>
 <br/>
 Conform de overeenkomst <%=agreement.id%> ten behoeve van <%=company.name%> wordt het volgende in rekening gebracht:<br/>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr><td width="200">Maandbedrag <%=(i18n.isNL?'inclusief':'exclusief')%> BTW:</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
+<tr><td width="200"><% 
+switch ( frequency ) {
+	case -1: print('Eenmalig bedrag'); break;
+	case 3: print('Kwartaalbedrag'); break;
+	case 6: print('Halfjaarbedrag'); break;
+	case 12:print('Jaarbedrag'); break;
+	case 1: 
+	default:print('Maandbedrag'); break;
+}%> <%=(i18n.isNL?'inclusief':'exclusief')%> BTW:</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
 <tr><td width="200">&nbsp;</td><td width="2">&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td width="200">Factuurnummer:</td><td width="2">&nbsp;</td><td><%=obj.getInvoiceNumber()%></td></tr>
 <tr><td width="200">Factuur datum:</td><td width="2">&nbsp;</td><td><%=(new Date()).get_eBY(i18n.isDutch)%></td></tr>
-<tr><td width="200">Onze referentie:</td><td width="2">&nbsp;</td><td><%=company.debtorNumber%></td></tr>
 </table><br/>
-<span style="color: #FF0000"><b>Gelieve het bedrag <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> over te maken voor <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> op onderstaande rekening onder vermelding van het referentie nummer <%=company.debtorNumber%>.</b></span><br/>
+<% if ( automated ) { %>
+<span style="color: #FF0000">U heeft ons gemachtigd om een automatische incasso uit te voeren. Het bedrag zal omstreeks de 20e van <%=(new Date()).getTranslatedMonthName(true)%> worden geïncasseerd.</span><br/>
+<% } else { %>
+<span style="color: #FF0000"><b>Gelieve het bedrag <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> over te maken voor <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> op onderstaande rekening onder vermelding van het factuurnummer <%=obj.getInvoiceNumber()%>.</b></span><br/>
+<% } %>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
 <% if ( i18n.isBE ) { %>
 <tr><td width="200">Bankrekeningnummer:</td><td width="2">&nbsp;</td><td>BE54736001856097, tnv Carerix te Delft</td></tr>
@@ -85,7 +96,7 @@ Conform de overeenkomst <%=agreement.id%> ten behoeve van <%=company.name%> word
 <tr><td width="200">KVK nummer:</td><td width="2">&nbsp;</td><td>Delft 27270911</td></tr>
 <% } %>
 </table><br/>
-In de bijlage vindt de complete factuur voor uw administratie. Mocht u vragen hebben, neemt u dan contact op met onze financiële administratie op telefoonnummer +31 15 268 2560 of email ons op <a href="mailto:finance@carerix.com">finance@carerix.com</a>.<br/>
+<b>In de bijlage vindt u de complete factuur voor uw administratie.</b> Mocht u vragen hebben, neemt u dan contact op met onze financiële administratie op telefoonnummer +31 15 268 2560 of email ons op <a href="mailto:finance@carerix.com">finance@carerix.com</a>.<br/>
 <br/>
 Met vriendelijke groet,<br/>
 <br/>
@@ -102,19 +113,30 @@ Nederland
 
 
 	
-%>Dear <%=addresseeShort%>,<br/>
+%>Attn. <%=addressee%>,<br/>
 <br/>
-Attached is the invoice for the use of the Carerix system for the period <%=(new Date()).get_BY()%>.<br/>
+Attached is the invoice for the use of the Carerix system for the period  <%=(new Date()).nextMonth().get_BY(false)%>.<br/>
 <br/>
 In accordance with the agreement <%=agreement.id%> for <%=company.name%>, the following amount will be charged:<br/>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr><td width="200">Monthly fee excluding VAT:</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
+<tr><td width="200"><% 
+switch ( frequency ) {
+	case -1: print('One-time'); break;
+	case 3: print('Quarterly'); break;
+	case 6: print('Biannual'); break;
+	case 12:print('Year'); break;
+	case 1:
+	default:print('Monthly'); break;
+}%> fee excluding VAT:</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
 <tr><td width="200">&nbsp;</td><td width="2">&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td width="200">Invoice number:</td><td width="2">&nbsp;</td><td><%=obj.getInvoiceNumber()%></td></tr>
 <tr><td width="200">Invoice Date:</td><td width="2">&nbsp;</td><td><%=(new Date()).get_eBY(i18n.isDutch)%></td></tr>
-<tr><td width="200">Our reference:</td><td width="2">&nbsp;</td><td><%=company.debtorNumber%></td></tr>
 </table><br/>
-<span style="color: #FF0000">Please transfer the amount of <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> before <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> to the bank account number below, with transaction reference <%=company.debtorNumber%>.</span><br/>
+<% if ( automated ) { %>
+<span style="color: #FF0000">You have a pre-authorized debet subscription with us. A withdrawal from your bankaccount is scheduled for <%=(new Date()).getTranslatedMonthName(false)%> 20th.</span><br/>
+<% } else { %> 
+<span style="color: #FF0000">Please transfer the amount of <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> before <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> to the bank account number below, with transaction number <%=obj.getInvoiceNumber()%>.</span><br/>
+<% } %>
 <table>
 <% if ( i18n.isBE ) { %>
 <tr><td width="200">Bank account:</td><td width="2">&nbsp;</td><td>BE54736001856097, Carerix in Delft</td></tr>
@@ -132,7 +154,7 @@ In accordance with the agreement <%=agreement.id%> for <%=company.name%>, the fo
 <tr><td width="200">KVK number:</td><td width="2">&nbsp;</td><td>Delft 27270911</td></tr>
 <% } %>
 </table><br/>
-For your convenience the complete invoice is attached to this email. In the case of questions, please contact our office you at phone number +31 15 268 2560 or email us at <a href="mailto:finance@carerix.com">finance@carerix.com</a>.<br/>
+<b>For your convenience the complete invoice is attached to this email.</b> In the case of questions, please contact our office you at phone number +31 15 268 2560 or email us at <a href="mailto:finance@carerix.com">finance@carerix.com</a>.<br/>
 <br/>
 Kind regards,<br/>
 <br/>

@@ -74,7 +74,7 @@
 				},
 				pieces = code.split(';'),
 				it;
-		
+
 		if ( code === "" ) {
 			ret.exception = 'NOGROUP';
 			return ret;
@@ -166,7 +166,7 @@
 			,	grootboek:	<cx:bare-string-format>
 											_parseGrootboekCode(
 												"<cx:foreach list="$grootboekGroups" item="group">
-													<cx:write value="$group.exportCode.jsEscapedString"/>
+													<cx:write value="$group.exportCode.jsEscapedString"/>;
 												</cx:foreach>", 
 												<cx:let name="isInternational" condition="$NL='0'" iftrue="true" iffalse="false"><cx:write value="$isInternational"/></cx:let>
 											)

@@ -49,6 +49,9 @@ fieldset#overview label input.readonly {
 	background: transparent;
 	border: 0px;
 }
+fieldset#overview label input.twice {
+	width: 5em;
+}
 fieldset#overview  button {
 	cursor: pointer;
 	float: right;

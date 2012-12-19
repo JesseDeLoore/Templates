@@ -149,10 +149,12 @@ if ( !$.actual ) {
 		// send a mail
 		args = {
 					type:			'DELAY'
-				, subject:	'Factuur ' + invoice.getInvoiceNumber() + ' voor het gebruik van het Carerix systeem'
+				, subject:	(invoice.i18n.isDutch 
+							? ('Factuur ' + invoice.getInvoiceNumber() + ' voor het gebruik van het Carerix systeem ') 
+							: ('Invoice ' + invoice.getInvoiceNumber() + ' for the use of the Carerix system ')
+						) + (new Date()).nextMonth().get_BY(invoice.i18n.isDutch)
 				, from:			'"' + user.name + ' | Carerix" <finance@carerix.com>'
 				, to:				invoice.company.invoiceEmail != '' ? invoice.company.invoiceEmail : user.email
-//				, to:				invoice.company.invoiceEmail != '' ? 'reinald@carerix.com' : user.email
 				, delay: 		$('#send_email_delay').val()
 				, bindTo: invoice.bindings
 				, content: 	{
@@ -382,5 +384,6 @@ if ( !$.actual ) {
 	$(document).on('click', '[data-role=send-mailing]', _triggerSendMail);
 	$(document).on('click', '[data-role=download-invoice]', _triggerDownloadInvoicePDF);
 	$(document).on('click', '[data-role=send-all-email]', _sendAllMails); 
+	$(document).on('invoicenumber_update', function() { $('#mails').tmpl(getInvoices()); });
 	
 })(jQuery);
