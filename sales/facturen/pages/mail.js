@@ -154,7 +154,8 @@ if ( !$.actual ) {
 							: ('Invoice ' + invoice.getInvoiceNumber() + ' for the use of the Carerix system ')
 						) + (new Date()).nextMonth().get_BY(invoice.i18n.isDutch)
 				, from:			'"' + user.name + ' | Carerix" <finance@carerix.com>'
-				, to:				invoice.company.invoiceEmail != '' ? invoice.company.invoiceEmail : user.email
+//				, to:				invoice.company.invoiceEmail != '' ? invoice.company.invoiceEmail : user.email
+				, to:				'jasper@carerix.com'
 				, delay: 		$('#send_email_delay').val()
 				, bindTo: invoice.bindings
 				, content: 	{
@@ -322,6 +323,8 @@ if ( !$.actual ) {
 							+ '<input name="rightmargin" value="15"/>'
 						+ '</form>');
 				
+		//console.log($form.serialize());
+
 		if ( iframe.length === 0 ) {
 			iframe = $('<iframe id="tmpIframe" name="tmpIframe" style="display: none"/>').appendTo('body');
 		}

@@ -4,19 +4,19 @@
 <tr>
 	<td align="center" bgcolor="#ececec">
 	<table width="800" cellpadding="0" cellspacing="0" border="0" align="center">
-	<tr><td height="2" bgcolor="#004780" style="border-top: 1px solid silver; border-left: 1px solid silver;"></td>
-			<td height="2" bgcolor="#004780" style="border-top: 1px solid silver;"></td>
-			<td height="2" bgcolor="#004780" style="border-top: 1px solid silver;"></td>
-			<td height="2" bgcolor="#004780" style="border-top: 1px solid silver;"></td>
-			<td height="2" bgcolor="#004780" style="border-right: 1px solid silver; border-top: 1px solid silver;"></td>
+	<tr><td height="2" bgcolor="#FFFFFF" style="border-top: 1px solid silver; border-left: 1px solid silver;"></td>
+			<td height="2" bgcolor="#FFFFFF" style="border-top: 1px solid silver;"></td>
+			<td height="2" bgcolor="#FFFFFF" style="border-top: 1px solid silver;"></td>
+			<td height="2" bgcolor="#FFFFFF" style="border-top: 1px solid silver;"></td>
+			<td height="2" bgcolor="#FFFFFF" style="border-right: 1px solid silver; border-top: 1px solid silver;"></td>
 	</tr>
-	<tr><td width="2" height="10" bgcolor="#004780" style="border-left: 1px solid silver;"></td>
+	<tr><td width="2" height="10" bgcolor="#FFFFFF" style="border-left: 1px solid silver;"></td>
 			<td bgcolor="white"></td>
 			<td bgcolor="white"></td>
 			<td bgcolor="white"></td>
-			<td bgcolor="#004780" style="border-right: 1px solid silver;"></td>
+			<td bgcolor="#FFFFFF" style="border-right: 1px solid silver;"></td>
 	</tr>
-	<tr><td width="2" bgcolor="#004780" style="border-left: 1px solid silver;"></td>
+	<tr><td width="2" bgcolor="#FFFFFF" style="border-left: 1px solid silver;"></td>
 			<td width="18" bgcolor="white"></td>
 			<td bgcolor="white" align="left">
 				<table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -27,37 +27,45 @@
 				</table>
 			</td>
 			<td width="18" bgcolor="white"></td>
-			<td width="2" bgcolor="#004780" style="border-right: 1px solid silver;"></td>
+			<td width="2" bgcolor="#FFFFFF" style="border-right: 1px solid silver;"></td>
 	</tr>
-	<tr><td width="2" height="10" bgcolor="#004780" style="border-left: 1px solid silver;"></td>
+	<tr><td width="2" height="10" bgcolor="#FFFFFF" style="border-left: 1px solid silver;"></td>
 			<td bgcolor="white"></td>
 			<td bgcolor="white"></td>
 			<td bgcolor="white"></td>
-			<td bgcolor="#004780" style="border-right: 1px solid silver;"></td>
+			<td bgcolor="#FFFFFF" style="border-right: 1px solid silver;"></td>
 	</tr>
-	<tr><td height="2" bgcolor="#004780" style="border-left: 1px solid silver;"></td>
-			<td height="2" bgcolor="#004780"></td>
-			<td height="2" bgcolor="#004780"></td>
-			<td height="2" bgcolor="#004780"></td>
-			<td height="2" bgcolor="#004780" style="border-right: 1px solid silver;"></td>
+	<tr><td height="2" bgcolor="#FFFFFF" style="border-left: 1px solid silver;"></td>
+			<td height="2" bgcolor="#FFFFFF"></td>
+			<td height="2" bgcolor="#FFFFFF"></td>
+			<td height="2" bgcolor="#FFFFFF"></td>
+			<td height="2" bgcolor="#FFFFFF" style="border-right: 1px solid silver;"></td>
 	</tr>
 	
-	<tr><td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver; border-left: 1px solid silver;"></td>
-			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver;"></td>
-			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver;"></td>
-			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver;"></td>
-			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid silver; border-right: 1px solid silver;"></td>
+	<tr><td height="10" bgcolor="#ffffff" style="border-top: 1px solid white; border-left: 1px solid silver;"></td>
+			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid white;"></td>
+			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid white;"></td>
+			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid white;"></td>
+			<td height="10" bgcolor="#ffffff" style="border-top: 1px solid white; border-right: 1px solid silver;"></td>
 	</tr>
 	<tr><td width="2" bgcolor="#ffffff" style="border-left: 1px solid silver;"></td>
 			<td width="18" bgcolor="#ffffff"></td>
 			<td bgcolor="#ffffff" style="line-height: 120% !important" align="left">
-<% 
+			
+<b><%=company.name%></b><br/>
+<i><%=(i18n.isDutch?'T.a.v.':'Attn.')%> <%=addressee%></i><br/>
+<% if ( company.invoiceAddress == '' ) { %>
+	<%=company.invoiceStreet%> <%=company.invoiceHousenumber%><br/>
+	<%=company.invoicePostalCode%> <%=company.invoiceCity.toUpperCase()%>
+<% } else { %>
+	<%=company.invoiceAddress%>
+<% } %></span><br/>
+<br/><% 
 
 	if ( i18n.isDutch ) { 
 
-%>Tav <%=addressee%>,<br/>
-<br/>
-Bijgaand treft u de factuur aan voor het gebruik van het Carerix systeem voor de maand <%=(new Date()).nextMonth().get_BY(true)%>.<br/>
+%><br/>
+In de bijlage treft u de factuur aan voor het gebruik van het Carerix systeem voor de maand <%=(new Date()).nextMonth().get_BY(true)%>.<br/>
 <br/>
 Conform de overeenkomst <%=agreement.id%> ten behoeve van <%=company.name%> wordt het volgende in rekening gebracht:<br/>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -72,10 +80,10 @@ switch ( frequency ) {
 }%> <%=(i18n.isNL?'inclusief':'exclusief')%> BTW:</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
 <tr><td width="200">&nbsp;</td><td width="2">&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td width="200">Factuurnummer:</td><td width="2">&nbsp;</td><td><%=obj.getInvoiceNumber()%></td></tr>
-<tr><td width="200">Factuur datum:</td><td width="2">&nbsp;</td><td><%=(new Date()).get_eBY(i18n.isDutch)%></td></tr>
+<tr><td width="200">Factuurdatum:</td><td width="2">&nbsp;</td><td><%=(new Date()).get_eBY(i18n.isDutch)%></td></tr>
 </table><br/>
 <% if ( automated ) { %>
-<span style="color: #FF0000">U heeft ons gemachtigd om een automatische incasso uit te voeren. Het bedrag zal omstreeks de 20e van <%=(new Date()).getTranslatedMonthName(true)%> worden geïncasseerd.</span><br/>
+<span style="color: #FF0000">U heeft ons gemachtigd om een automatische incasso uit te voeren. Het bedrag zal omstreeks de 20 <%=(new Date()).getTranslatedMonthName(true)%> worden geïncasseerd.</span><br/>
 <% } else { %>
 <span style="color: #FF0000"><b>Gelieve het bedrag <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> over te maken voor <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> op onderstaande rekening onder vermelding van het factuurnummer <%=obj.getInvoiceNumber()%>.</b></span><br/>
 <% } %>
@@ -96,7 +104,7 @@ switch ( frequency ) {
 <tr><td width="200">KVK nummer:</td><td width="2">&nbsp;</td><td>Delft 27270911</td></tr>
 <% } %>
 </table><br/>
-<b>In de bijlage vindt u de complete factuur voor uw administratie.</b> Mocht u vragen hebben, neemt u dan contact op met onze financiële administratie op telefoonnummer +31 15 268 2560 of email ons op <a href="mailto:finance@carerix.com">finance@carerix.com</a>.<br/>
+<b>De overige informatie treft u aan in de bijgevoegde factuur. De bijlage kunt u gebruiken voor uw administratie.</b> Mocht u vragen hebben, neemt u dan contact op met onze financiële administratie op telefoonnummer +31 15 268 2560 of email ons op <a href="mailto:finance@carerix.com">finance@carerix.com</a>.<br/>
 <br/>
 Met vriendelijke groet,<br/>
 <br/>
@@ -113,8 +121,7 @@ Nederland
 
 
 	
-%>Attn. <%=addressee%>,<br/>
-<br/>
+%><br/>
 Attached is the invoice for the use of the Carerix system for the period  <%=(new Date()).nextMonth().get_BY(false)%>.<br/>
 <br/>
 In accordance with the agreement <%=agreement.id%> for <%=company.name%>, the following amount will be charged:<br/>
@@ -124,7 +131,7 @@ switch ( frequency ) {
 	case -1: print('One-time'); break;
 	case 3: print('Quarterly'); break;
 	case 6: print('Biannual'); break;
-	case 12:print('Year'); break;
+	case 12:print('Yearly'); break;
 	case 1:
 	default:print('Monthly'); break;
 }%> fee excluding VAT:</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
@@ -135,9 +142,9 @@ switch ( frequency ) {
 <% if ( automated ) { %>
 <span style="color: #FF0000">You have a pre-authorized debet subscription with us. A withdrawal from your bankaccount is scheduled for <%=(new Date()).getTranslatedMonthName(false)%> 20th.</span><br/>
 <% } else { %> 
-<span style="color: #FF0000">Please transfer the amount of <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> before <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> to the bank account number below, with transaction number <%=obj.getInvoiceNumber()%>.</span><br/>
+<span style="color: #FF0000">Please transfer the amount of <%=obj.lines[0].currency%> <%=obj.getParsedTotal()%> before <%=(new Date()).nextMonth().get_eBY(i18n.isDutch)%> to the bank account number below, with invoice number <%=obj.getInvoiceNumber()%>.</span><br/>
 <% } %>
-<table>
+<br/><table>
 <% if ( i18n.isBE ) { %>
 <tr><td width="200">Bank account:</td><td width="2">&nbsp;</td><td>BE54736001856097, Carerix in Delft</td></tr>
 <tr><td width="200">Bank:</td><td width="2">&nbsp;</td><td>KBC Bank</td></tr>
