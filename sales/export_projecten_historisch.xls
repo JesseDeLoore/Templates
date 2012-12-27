@@ -26,6 +26,8 @@
 "Regelnummer"<cx:write value="\t"/>
 <cx:write value="Regel geldt per"/><cx:write value="\t"/>
 <cx:write value="Factuur email adres"/><cx:write value="\t"/>
+Projectcode<cx:write value="\t"/>
+<cx:write value="Frequentie (in maanden)"/>
 
 <cx:write value="\n"/>
 
@@ -109,15 +111,22 @@
 	
 	<cx:funnelinfo project="$_project" funnel="$_funnel" it="$_it"/>
 	
-	<cx:write value="$_project.invoiceEmailAddress.jsEscapedString"/>
+	<cx:write value="$_project.invoiceEmailAddress"/><cx:write value="\t"/>
+	<cx:write value="$_project.vacancyNo"/><cx:write value="\t"/>
+	<cx:write value="$_project.estimatedDays"/>
 </cx:define>
 
+<cx:let name="startDate" value="(NSCalendarDate)'${utilities.currentDate.nextYear}'" expand="" keep=""/>
+<cx:let name="projectFilter" value="@filter.startDate <= ${startDate}" expand="" keep=""/>
+
 <cx:fetch eospec="$activity.toFetchSpecification.enterpriseFetchSpecification" list="result">
-  <cx:foreach list="$result" item="project">
-  	<cx:foreach list="$project.salesFunnel" item="funnel" index="it">
-   		<cx:tsvRow project="$project" funnel="$funnel" it="$it"/><cx:write value="\n"/>
-    </cx:foreach>
-  </cx:foreach>
+	<cx:let name="result" value="$result" invoke="$projectFilter">
+	  <cx:foreach list="$result" item="project">
+	  	<cx:foreach list="$project.salesFunnel" item="funnel" index="it">
+	   		<cx:tsvRow project="$project" funnel="$funnel" it="$it"/><cx:write value="\n"/>
+	    </cx:foreach>
+	  </cx:foreach>
+	 </cx:let>
 </cx:fetch>
 
 </cx:bare-string-format>
