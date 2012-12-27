@@ -31,6 +31,7 @@ td.border {
 
 td.rt {
 	color: black;
+    vertical-align: bottom;
 }
 
 td.LeftBorder {

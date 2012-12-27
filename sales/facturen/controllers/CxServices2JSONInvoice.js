@@ -112,7 +112,7 @@
 			</cx:let>
 		</cx:let>
 	</cx:let>
-	
+
 	<cx:define tag="project">
 		_project = new Invoice({
 				id: <cx:write value="$it"/>+0
@@ -160,11 +160,11 @@
 
 			
 			// Grootboek prefix (???)
-			 
 
-<cx:let name="grootboekGroups" value="$project.invoiceLines" invoke="@filter.toServiceNode.exportCode hasPrefix: 'GROOTBOEK;'"/>
 
-			, grootboek: <cx:bare-string-format>
+<cx:let name="grootboekGroups" value="$project.invoiceLines" invoke="@filter.toServiceNode.exportCode hasPrefix: 'GROOTBOEK;'">
+
+, grootboek: <cx:bare-string-format>
 _parseGrootboekCode(
 "<cx:foreach list="$grootboekGroups" item="group">
 <cx:write value="$group.toServiceNode.exportCode.jsEscapedString"/>;
@@ -172,9 +172,16 @@ _parseGrootboekCode(
 <cx:let name="isInternational" condition="$NL='0'" iftrue="true" iffalse="false"><cx:write value="$isInternational"/></cx:let>
 )
 </cx:bare-string-format>
-
- // (check)
-			, grootboekName: '<cx:write value="$project.invoiceLines.@First.info"/>' // check this
+, grootboekName: <cx:if condition="$grootboekGroups.count > 0">
+<cx:if condition="$grootboekGroups.count > 1">
+"<cx:write value="$group.toServiceNode.value.jsEscapedString"/>"
+</cx:if>
+<cx:else>
+<cx:foreach list="$grootboekGroups" item="group">
+"<cx:write value="$group.toServiceNode.value.jsEscapedString"/>".substr(6)
+</cx:foreach>
+</cx:else>
+</cx:let></cx:if><cx:else>""</cx:else>
 
 
             	// the invoice itself
@@ -198,7 +205,13 @@ id: 0
 					main: ' '
 				, sub: '<cx:let name="isInternational" condition="$language='Dutch'" iftrue="Factuur" iffalse="Invoice"><cx:write value="$isInternational"/></cx:let>'
 			}
-			, lines: []
+			, lines: [<cx:foreach list="$project.invoiceLines" item="invoiceLine" index="i"><cx:let name="end" value="$i" invoke="numberByAdding:" arg0="1"><cx:if condition="i!=0 AND i!=$end"><cx:write value=","/></cx:if></cx:let>
+                    {
+                    title: '<b><cx:write value="$invoiceLine.toServiceNode.value"/></b><br /><cx:write value="$invoiceLine.info"/>'
+                    , currency: "&euro;"
+                    , amount: <cx:write value="$invoiceLine.total"/>
+                    }
+                    </cx:foreach>]
 			, bindings: {
 				 'Company': 	<cx:write value="$project.toCompany.companyID"/> + 0
 			}

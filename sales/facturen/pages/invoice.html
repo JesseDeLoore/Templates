@@ -77,7 +77,7 @@
 					<span contentEditable="true"><%=(i18n.isDutch?'Onze referentie':'Our reference')%></span>
 				</td>
 				<td>
-					<span contentEditable="true" data-role="invoice-cx-reference"><%=company.debtorNumber%>&nbsp;&nbsp;(<%=grootboek.code%>)</span>
+					<span contentEditable="true" data-role="invoice-cx-reference"><%=company.debtorNumber%><% if ( (agreement.id!==0) ) {  %>&nbsp;&nbsp;(<%=company.companyID%>)<% }%></span>
 				</td>
 			</tr>
 		</table>
@@ -116,7 +116,7 @@
 								if ( i18n.isDutch ) {
 									print(span + 'Op de tarieven is per ' 
 										+ indexDate + ' een verhoging toegepast van ' 
-										+ indexPercentage + '% (conform de consumentenprijsindex ' 
+										+ indexPercentage + '% (conform de consumentenprijsindex '
 										+ indexYear + ' vastgesteld door het CBS). Dit is in 
 										overeenstemming met artikel 11.3 van de algemene 
 										leveringsvoorwaarden van Carerix.' + spanEnd
@@ -134,11 +134,11 @@
 					%>
 				
 					<span contenteditable="true">
-						<% if ( agreement.id ) { if ( i18n.isDutch ) { %>
+						<% if ( (agreement.id!==0) ) { if ( i18n.isDutch ) { %>
 							Conform overeenkomst <b><%=agreement.id%></b> ten behoeve van <b><%=company.name%></b> brengen wij u het volgende in rekening:
 						<% } else { %>
 							In accordance with agreement <b><%=agreement.id%></b>	on behalf of <b><%=company.name%></b> we charge you with the following:
-						<% } } %>
+						<% } }%>
 					</span>
 				</td>
 			</tr>
@@ -148,7 +148,7 @@
 						<%
 							switch ( frequency ) {
 								case -1:
-									print('&nbsp;');
+									print(i18n.isDutch ? 'eenmalige kosten' : 'one-time costs');
 									break;
 								case 1:
 									print(i18n.isDutch ? 'maandelijkse kosten' : 'monthly costs');
