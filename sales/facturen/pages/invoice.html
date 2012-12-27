@@ -74,10 +74,10 @@
 				<td><span contentEditable="true" data-role="invoicenumber"><%=obj.getInvoiceNumber()%></span></td>
 				<td>&nbsp;</td>
 				<td>
-					<span contentEditable="true"><%=(i18n.isDutch?'Onze referentie':'Our reference')%></span>
+					<span contentEditable="true"><% if ( company.debtorNumber ) { print(i18n.isDutch?'Onze referentie':'Our reference'); }%></span>
 				</td>
 				<td>
-					<span contentEditable="true" data-role="invoice-cx-reference"><%=company.debtorNumber%><% if ( (agreement.id!==0) ) {  %>&nbsp;&nbsp;(<%=company.companyID%>)<% }%></span>
+					<span contentEditable="true" data-role="invoice-cx-reference"><% if ( company.debtorNumber ) { print(company.debtorNumber); if ( (agreement.id!==0) ) { %>&nbsp;&nbsp;(<%=agreement.id%>)<% } }%></span>
 				</td>
 			</tr>
 		</table>
@@ -112,7 +112,7 @@
 									span = '<span contenteditable="true" style="font-size: .75em;">',
 									spanEnd = '</span><br/><br/>';
 						
-							if ( startDate < checkDate && month <= frequency ) {
+							if ( journalCode === 'VRK' && startDate < checkDate && month <= frequency ) {
 								if ( i18n.isDutch ) {
 									print(span + 'Op de tarieven is per ' 
 										+ indexDate + ' een verhoging toegepast van ' 
@@ -134,11 +134,19 @@
 					%>
 				
 					<span contenteditable="true">
-						<% if ( (agreement.id!==0) ) { if ( i18n.isDutch ) { %>
-							Conform overeenkomst <b><%=agreement.id%></b> ten behoeve van <b><%=company.name%></b> brengen wij u het volgende in rekening:
+						<% if ( agreement.id ) { %> 
+							<% if ( i18n.isDutch ) { %>
+								Conform overeenkomst <b><%=agreement.id%></b> ten behoeve van <b><%=company.name%></b> brengen wij u het volgende in rekening:
+							<% } else { %>
+								In accordance with agreement <b><%=agreement.id%></b>	on behalf of <b><%=company.name%></b> we charge you with the following:
+							<% } %>
 						<% } else { %>
-							In accordance with agreement <b><%=agreement.id%></b>	on behalf of <b><%=company.name%></b> we charge you with the following:
-						<% } }%>
+							<% if ( i18n.isDutch ) { %>
+								Conform uw opdracht<%=obj.getParsedLineIds(true)%> wordt het volgende in rekening gebracht:
+							<% } else { %>
+								Based on your order<%=obj.getParsedLineIds(true)%>, we charge you with the following:
+							<% } %>
+						<% } %>
 					</span>
 				</td>
 			</tr>
@@ -148,7 +156,7 @@
 						<%
 							switch ( frequency ) {
 								case -1:
-									print(i18n.isDutch ? 'eenmalige kosten' : 'one-time costs');
+									print('&nbsp;');
 									break;
 								case 1:
 									print(i18n.isDutch ? 'maandelijkse kosten' : 'monthly costs');
@@ -257,7 +265,7 @@
 			Calculate and show the final payment date as per the payment period
  -->		
 			<tr>
-				<td colspan="3" rowspan="3" style="vertical-align: middle;width:250px;">
+				<td colspan="3" rowspan="3" style="vertical-align: middle;width:385px;">
 					<span contenteditable="true">
 						<%
 							(function() {

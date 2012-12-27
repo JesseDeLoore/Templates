@@ -24,6 +24,53 @@ Invoice.prototype.setDefaults = function() {
 }; // setDefaults();
 
 /**
+ * Returns an array containin all invoiceline ids, where set.
+ * @returns {Array}
+ */
+Invoice.prototype.getLineIds = function() {
+	var ret = [],
+			it;
+	
+	for ( it = 0; it < this.lines.length; it++ ) {
+		if ( typeof this.lines[it].id !== typeof undefined && this.lines[it].id ) {
+			ret.push(this.lines[it].id);
+		}
+	} // for
+	
+	return ret;
+}; // getParsedLineIds();
+
+/**
+ * Returns a string containing all invoice line IDs, separated by a comma (,), 
+ * with the last ID shown with a localized AND string. If addPluralLetter is 
+ * added, and the number of invoicelineIDs is larger than 1, a localized letter
+ * will be added to the start of the string, such that the word before the 
+ * string becomes its plural (eg: if true, 'order' + this.getParsedLineIds(true)
+ * becomes 'orders 12, 15 and 19')
+ * 
+ * @param boolean [addPluralLetter]
+ * @returns {String}
+ */
+Invoice.prototype.getParsedLineIds = function(addPluralLetter) {
+	var ids = this.getLineIds(),
+			ret = '',
+			tmp = '';
+	
+	if ( ids.length > 1 ) {
+		if ( addPluralLetter ) {
+			ret += this.i18n.isDutch ? 'en' : 's';
+		}
+		tmp = (this.i18n.isDutch ? ' en ' : ' and ') + ids.pop();
+	} 
+	
+	if ( addPluralLetter ) {
+		ret += ' ';
+	}
+	
+	return ret + ids.join(', ') + tmp;
+}; // getParsedLineIds(); 
+
+/**
  * Sets the title of the object to the default value (as per the frequency
  * @returns {Invoice}
  */
@@ -195,6 +242,7 @@ Invoice.prototype.getPeriod = function() {
  */
 Invoice.prototype.getInvoiceType = function() {
 	switch ( this.frequency ) {
+		case -1:	return 'Eenmalig';
 		case 12:	return 'Jaar'; 
 		case 6:		return 'Half jaar'; 
 		case 3:		return 'Kwartaal';

@@ -117,6 +117,7 @@
 		_project = new Invoice({
 				id: <cx:write value="$project.vacancyID"/>+0
 			, it: <cx:write value="$it"/>+0
+			, journalCode: 'VRK'
 				
 			// language of the project's invoice
 			, i18n: {
@@ -131,7 +132,7 @@
 						isNL: false,
 						isBE: true,
 						isDutch: false,
-						<cx:let name="language" value="Dutch" keep=""/>
+						<cx:let name="language" value="English" keep=""/>
 					</cx:if>
 					<cx:else>
 						isNL: false,

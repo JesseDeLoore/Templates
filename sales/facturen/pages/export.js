@@ -26,8 +26,8 @@ $(document).ready(function() {
 	var $textarea=$('#export'),
 			columns = [
 					{header: 'Bladzijdenr.',				field: function(invoice, it)	{ return it; }}
-				, {header: 'Dagboek',							field: function()							{ return 'VRK'; }}
-				, {header: 'Omschrijving',				field: function(invoice)			{ return invoice.company.name + ',' + invoice.getInvoiceType(); } } 
+				, {header: 'Dagboek',							field: function(invoice)			{ return invoice.journalCode; }}
+				, {header: 'Omschrijving',				field: function(invoice)			{ return invoice.company.name + ', ' + invoice.getInvoiceType(); } } 
 				, {header: 'Factuurdatum',				field: function() 						{ return (new Date()).get_dmY();} } 
 				, {header: 'Grootboeknummer',			field: function(invoice)			{ return invoice.grootboek.code; } } 
 				, {header: 'Debiteurennummer',		field: function(invoice)			{ return invoice.company.debtorNumber; } } 

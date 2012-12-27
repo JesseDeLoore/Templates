@@ -65,13 +65,19 @@
 	if ( i18n.isDutch ) { 
 
 %><br/>
+<% if ( journalCode === 'VRK' ) { %>
 In de bijlage treft u de factuur aan voor het gebruik van het Carerix systeem voor de maand <%=(new Date()).nextMonth().get_BY(true)%>.<br/>
 <br/>
 Conform de overeenkomst <%=agreement.id%> ten behoeve van <%=company.name%> wordt het volgende in rekening gebracht:<br/>
+<% } else { %>
+In de bijlage treft u de factuur aan voor de overeengekomen werkzaamheden.<br/>
+<br/>
+Conform uw opdracht<%=obj.getParsedLineIds(true)%> wordt het volgende in rekening gebracht:<br/>
+<% } %>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td width="200"><% 
 switch ( frequency ) {
-	case -1: print('Eenmalig bedrag'); break;
+	case -1: print('Bedrag'); break;
 	case 3: print('Kwartaalbedrag'); break;
 	case 6: print('Halfjaarbedrag'); break;
 	case 12:print('Jaarbedrag'); break;
@@ -122,19 +128,25 @@ Nederland
 
 	
 %><br/>
+<% if ( journalCode === 'VRK' ) { %>
 Attached is the invoice for the use of the Carerix system for the period  <%=(new Date()).nextMonth().get_BY(false)%>.<br/>
 <br/>
 In accordance with the agreement <%=agreement.id%> for <%=company.name%>, the following amount will be charged:<br/>
+<% } else { %>
+Attached is the invoice for the earlier agreed activities.<br/>
+<br/>
+Based on your order<%=obj.getParsedLineIds(true)%>, the following amount will be charged:<br/>
+<% } %>
 <br/><table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td width="200"><% 
 switch ( frequency ) {
-	case -1: print('One-time'); break;
-	case 3: print('Quarterly'); break;
-	case 6: print('Biannual'); break;
-	case 12:print('Yearly'); break;
+	case -1: print('Amount'); break;
+	case 3: print('Quarterly fee'); break;
+	case 6: print('Biannual fee'); break;
+	case 12:print('Yearly fee'); break;
 	case 1:
-	default:print('Monthly'); break;
-}%> fee excluding VAT:</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
+	default:print('Monthly fee'); break;
+}%> excluding VAT:</td><td width="2">&nbsp;</td><td><%=obj.lines[0].currency%> <%=obj.getParsedTotal()%></td></tr>
 <tr><td width="200">&nbsp;</td><td width="2">&nbsp;</td><td>&nbsp;</td></tr>
 <tr><td width="200">Invoice number:</td><td width="2">&nbsp;</td><td><%=obj.getInvoiceNumber()%></td></tr>
 <tr><td width="200">Invoice Date:</td><td width="2">&nbsp;</td><td><%=(new Date()).get_eBY(i18n.isDutch)%></td></tr>
