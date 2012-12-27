@@ -78,8 +78,11 @@ Invoice.prototype.setDefaultInvoiceLines = function() {
 		});
 	} else {
 		this.lines.push({
-				title: this.grootboekName + ' (' + (this.i18n.isDutch?'inclusief':'including')
-							+ ' ' + this.agreement.numberOfUsers + ' users)'
+				title: this.grootboekName +
+						( this.agreement.numberOfUsers  
+							? ' (' + (this.i18n.isDutch?'inclusief':'including') + ' ' + this.agreement.numberOfUsers + ' users)'
+							: ''
+						)
 			, currency: '€'
 			, amount: this.amount
 		});

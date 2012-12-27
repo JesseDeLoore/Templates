@@ -126,11 +126,7 @@ if ( !$.actual ) {
 	function _sendMailFromInvoice() {
 		var $this = $(this).closest('tr'),
 				invoice = $this.data('invoice'),
-				id = invoice.id,
-				invoiceHTML,
-				args,
-				user = new CxUser(),
-				mailHTML;
+				id = invoice.id;
 
 		$this.find('[data-role=sent-reporting]').addClass('wait').html('Wordt verstuurd');
 		
@@ -140,39 +136,53 @@ if ( !$.actual ) {
 				.removeAttr('contentEditable')
 				.removeAttr('contenteditable');
 		
-		// gather the invoice HTML
-		invoiceHTML = _getInvoiceHTML(invoice);
-				
-		// gather the mail HTML
-		mailHTML = _getMailHTML(invoice);
-			
-		// send a mail
-		args = {
-					type:			'DELAY'
-				, subject:	(invoice.i18n.isDutch 
-							? ('Factuur ' + invoice.getInvoiceNumber() + ' voor het gebruik van het Carerix systeem ') 
-							: ('Invoice ' + invoice.getInvoiceNumber() + ' for the use of the Carerix system ')
-						) + (new Date()).nextMonth().get_BY(invoice.i18n.isDutch)
-				, from:			'"' + user.name + ' | Carerix" <finance@carerix.com>'
-//				, to:				invoice.company.invoiceEmail != '' ? invoice.company.invoiceEmail : user.email
-				, to:				'jasper@carerix.com'
-				, delay: 		$('#send_email_delay').val()
-				, bindTo: invoice.bindings
-				, content: 	{
-						text: mailHTML
-					, isHTML: true
-				}
-				, attachments: [
-						{ 	content: invoiceHTML
-							, label: 'factuur'
-							, filename: 'factuur_' + invoice.getInvoiceNumber() + '.html'
-						}
-				]
-		};
+		// get the contents of the PDF and, once done, trigger mailing it
+		_getInvoicePDF(invoice, function(data, textStatus, xhr) {
+			var blob = new Blob([new Uint8Array(data)]),
+					fileReader = new FileReader();
+
+			// when the fileReader is loaded, send the data
+			fileReader.onload = function ( e ) {
+				var args,
+				user = new CxUser();
 		
-		_sendMail(args).success(function(response) {
-			// Finally: report the fact that this email has been sent.
-			$this.trigger('set-send');	
+				// send a mail
+				args = {
+						type:			'DELAY'
+					, subject:	(invoice.i18n.isDutch 
+								? ('Factuur ' + invoice.getInvoiceNumber() + ' voor het gebruik van het Carerix systeem ') 
+								: ('Invoice ' + invoice.getInvoiceNumber() + ' for the use of the Carerix system ')
+							) + (new Date()).nextMonth().get_BY(invoice.i18n.isDutch)
+					, from:			'"' + user.name + ' | Carerix" <finance@carerix.com>'
+		//			, to:				invoice.company.invoiceEmail != '' ? invoice.company.invoiceEmail : user.email
+					, to:				'jasper@carerix.com'
+					, delay: 		$('#send_email_delay').val()
+					, bindTo: invoice.bindings
+					, content: 	{
+							text: _getMailHTML(invoice)
+						, isHTML: true
+					}
+					, attachments: [
+							{ 	content: _getInvoiceHTML(invoice)
+								, label: 'factuur'
+								, filename: 'factuur_' + invoice.getInvoiceNumber() + '.html'
+							}
+						, {		content: e.target.result.substr(e.target.result.indexOf(',')+1)
+								, label: 'factuur'
+								, filename: 'factuur_' + invoice.getInvoiceNumber() + '.pdf'
+								, isBase64Encoded: true
+							}
+						]
+				};
+				
+				_sendMail(args).success(function(response) {
+					// Finally: report the fact that this email has been sent.
+					$this.trigger('set-send');	
+				});
+			};
+			
+			// Load blob as Data URL, which is base64encoded
+      fileReader.readAsDataURL(blob);
 		});
 		
 	} // _sendMailFromInvoice();
@@ -215,6 +225,36 @@ if ( !$.actual ) {
 					+ "</html>"
 			;
 	} // _getMailHTML();
+	
+	/**
+	 * Gets the invoice PDF.
+	 */
+	function _getInvoicePDF(invoice, callback) {
+		var $form = _createPdfForm(invoice),
+				request = new XMLHttpRequest(),
+				params = $form.serialize();
+		
+		request.open('POST', $form.attr('action'), true);
+		request.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+		request.responseType = 'arraybuffer';
+		request.onreadystatechange = function() {
+			if ( this.readyState == 4 && this.status === 200 ) {
+				callback(this.response, this.statusText, this);
+			}
+		};
+		request.send(params);
+		/*
+		return $.ajax({
+				type: 'POST'
+			, url: $form.attr('action')
+			, data: $form.serialize()
+			, dataType: 'text'
+			, xhrFields: {
+//					responseType: 'arraybuffer'
+			}
+		});
+		*/
+	} // _getInvoicePDF();
 
 	/**
 	 * Send a single mail as per the args
@@ -278,7 +318,7 @@ if ( !$.actual ) {
 			xml +='<attachments>';
 			$.each(args.attachments, function() {
   	  	xml	+= '<CRAttachment>'
-  	  					+ '<content>' + this.content.base64encode() + '</content>'
+  	  					+ '<content>' + (this.isBase64Encoded ? this.content : this.content.base64encode()) + '</content>'
   	  					+ '<label>' + this.label + '</label>'
   	  					+ '<filePath>CRToDo/' + this.filename + '</filePath>'
   	  					+ '<valid>0</valid>'
@@ -309,22 +349,9 @@ if ( !$.actual ) {
 	function _downloadInvoicePDF() {
 		var $this = $(this),
 				invoice = $this.data('invoice'),
-				$invoice = $('[data-invoice-id=' + invoice.id + ']'),
-				invoiceHTML = _getInvoiceHTML(invoice),
 				iframe = $('#tmpIFrame'),
-				url = 'http://tools.carerix.com/cxconverter/run.php', // endpoint uri for the CxConverter
-				$form = $('<form method="post" action="' + url + '" target="tmpIframe" style="display: none">'
-							+ '<textarea name="url">' + invoiceHTML + '</textarea>'
-							+ '<input name="pdf_name" value="' + invoice.getInvoiceNumber() + '"/>'
-							+ '<input name="media" value="A4"/>'
-							+ '<input name="cssmedia" value="print"/>'
-							+ '<input name="pixels" value="' + ($invoice.find('.noborder').actual('width')+10) + 'x' + ($invoice.actual('height')+10) + '"/>'
-							+ '<input name="leftmargin" value="15"/>'
-							+ '<input name="rightmargin" value="15"/>'
-						+ '</form>');
+				$form = _createPdfForm(invoice);
 				
-		//console.log($form.serialize());
-
 		if ( iframe.length === 0 ) {
 			iframe = $('<iframe id="tmpIframe" name="tmpIframe" style="display: none"/>').appendTo('body');
 		}
@@ -335,6 +362,26 @@ if ( !$.actual ) {
 			setTimeout($form.remove, 1);
 		}, 100);
 	} // _downloadInvoicePDF();
+	
+	/**
+	 * Creates the form used for creating the PDF
+	 */
+	function _createPdfForm(invoice) {
+		var $invoice = $('[data-invoice-id=' + invoice.id + ']'),
+				invoiceHTML = _getInvoiceHTML(invoice),
+//				url = 'http://tools.carerix.com/cxconverter/run.php', // endpoint uri for the CxConverter
+				url = 'http://' + cxuser.appname + '.carerix.net/cgi-bin/nph-proxy.cgi/h0/http/tools.carerix.com/cxconverter/run.php';
+		
+		return $('<form method="post" action="' + url + '" target="tmpIframe" style="display: none">'
+				+ '<textarea name="url">' + invoiceHTML + '</textarea>'
+				+ '<input name="pdf_name" value="' + invoice.getInvoiceNumber() + '"/>'
+				+ '<input name="media" value="A4"/>'
+				+ '<input name="cssmedia" value="print"/>'
+				+ '<input name="pixels" value="' + ($invoice.find('.noborder').actual('width')+10) + 'x' + ($invoice.actual('height')+10) + '"/>'
+				+ '<input name="leftmargin" value="15"/>'
+				+ '<input name="rightmargin" value="15"/>'
+			+ '</form>');
+	} // _createPdfForm();
 	
 	/**
 	 * Set the presentation of this row to "mail sent"
@@ -369,9 +416,12 @@ if ( !$.actual ) {
 				it = 0;
 		
 		!function __sendNext() {
-			$allToBeSend.eq(it).trigger('send-email');
-			it++;
-			setTimeout(__sendNext, 100);
+			var $sendNow = $allToBeSend.eq(it); 
+			if ( $sendNow && $sendNow.length ) {
+				$sendNow.trigger('send-email');
+				it++;
+				setTimeout(__sendNext, 100);
+			}
 		}();
 //		$container.find(':checkbox:checked:not(:disabled)').each(function() {
 //			$(this).closest('[data-role="invoice-export-row"]').trigger('send-email');

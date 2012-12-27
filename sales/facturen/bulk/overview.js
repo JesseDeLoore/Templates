@@ -96,7 +96,7 @@ $(document).ready(function() {
 				+ '</label>'
 		);
 		
-		$.each([['month','Maand'], ['quarter','Kwartaal'], ['halfyear','Halfjaar'], ['year','Jaar']], function() {
+		$.each([['single','Eenmalige '], ['month','Maand'], ['quarter','Kwartaal'], ['halfyear','Halfjaar'], ['year','Jaar']], function() {
 			$overview.append(
 					'<label data-click-toggle="report_' + this[0] + '_invoices" title="Toon / Verberg alle ' + this[1].toLowerCase() + 'facturen">'
 						+ '' + this[1] + 'facturen'
@@ -113,6 +113,7 @@ $(document).ready(function() {
 					invoice = this,
 					insert = '<li>' + this.company.name; 
 					
+			if ( this.frequency === -1 ) type="single";
 			if ( this.frequency === 3 ) type="quarter";
 			if ( this.frequency === 6 ) type="halfyear";
 			if ( this.frequency === 12 ) type="year";

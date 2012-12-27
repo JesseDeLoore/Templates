@@ -134,11 +134,11 @@
 					%>
 				
 					<span contenteditable="true">
-						<% if ( i18n.isDutch ) { %>
+						<% if ( agreement.id ) { if ( i18n.isDutch ) { %>
 							Conform overeenkomst <b><%=agreement.id%></b> ten behoeve van <b><%=company.name%></b> brengen wij u het volgende in rekening:
 						<% } else { %>
 							In accordance with agreement <b><%=agreement.id%></b>	on behalf of <b><%=company.name%></b> we charge you with the following:
-						<% } %>
+						<% } } %>
 					</span>
 				</td>
 			</tr>
@@ -147,6 +147,9 @@
 					<span contenteditable="true">
 						<%
 							switch ( frequency ) {
+								case -1:
+									print('&nbsp;');
+									break;
 								case 1:
 									print(i18n.isDutch ? 'maandelijkse kosten' : 'monthly costs');
 									break;
@@ -160,7 +163,7 @@
 									print(i18n.isDutch ? 'jaarlijkse kosten' : 'annual costs');
 									break;
 								default:
-									print("<font color=red><i>" + string + "</i></font>");
+									print("<font color=red><b><i>Frequentie onbekend: " + frequency + ". Aanvullen graag</i></b></font>");
 									break;
 							}
 						%>

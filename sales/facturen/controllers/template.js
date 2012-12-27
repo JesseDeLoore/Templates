@@ -49,7 +49,7 @@
 	  		var fn = cache[$container.attr('id')];
 		   
 		    // Provide some basic currying to the user
-		    html = fn(data);
+  			html = fn(data);
 	  	};
 	  	
   		$container.html(html);

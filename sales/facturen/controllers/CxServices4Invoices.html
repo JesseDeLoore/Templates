@@ -1,0 +1,85 @@
+<!--Changelog
+
+Created: 12-04-2011 / [PK]
+Edit #1: 05-05-2011 / [PK] / Added new condition 'more than one group' checked. The 'InvoicesWithCorrectEdition' are exteneded with new group datanodes. Also the filter has been extended to make sure only one of these groups is checked,
+and not two or more. But it ignores group datanodeID's that have nothing to do with the invoices. It has become a rather complex filter.
+Edit #2: 05-05-2011 / [PK] / Bugfix, annual invoices were not inclueded in the results. This was accidently ommitted.
+-----------------------------------------------------------------------------
+This file creates the invoices that are to be used in the following reports:
+- cxfactuur_controle.html
+- cxfactuurTotaalWithExport.html
+
+Use the following variables:
+- $correctInvoices (contains all correct invoices)
+- $warningInvoices (contains all invoices that have warnings in them, can be invoiced but certain values are 'guessed'.)
+- $errorInvoices (contains all invoices that have errors in them, must not be invoiced!)
+ -->
+
+  <!-- Create the startdate -->
+  <cx:let name="start" value="$utilities.currentDate.nextMonth.firstDayOfMonth.midnight">
+
+    <!-- Alle invoices ophalen met status = "Definitief" -->
+    <cx:let name="actieveProjecten" value="$activity.selectedItems" keep="1">
+        <!-- Create current date -->
+            <cx:let name="currentDate" value="$utilities.currentDate">
+
+            <!-- Create all invoices that have errors in them -->
+                                                        <cx:let name="InvoicesErrorsFilterd1" value="$alleFacturen" invoke="@filter.estimatedAmount = nil
+                                                        OR startDate = nil
+                                                        OR (invoiceAddress = nil OR invoiceAddress.length < 1)
+                                                        OR toCompany.toInvoiceCountryNode.value = nil
+                                                        OR invoiceAddress = nil
+                                                        OR toCompany.debtorNumber = nil
+                                                        OR (toCompany.taxNumber = nil AND toCompany.toInvoiceCountryNode.dataNodeID != 49)
+                                                        OR (toSignAuthority.lessFormalName = nil AND invoiceAttention = nil)">
+
+
+                                                          <cx:let name="InvoicesWithCorrectEdition" value="$alleFacturen">
+
+
+                                                            <!-- Create invoices that do NOT have one of the above groups, by inverting the above array -->
+                                                            <cx:let name="InvoicesWithoutCorrectEdition" value="$alleFacturen" invoke="arrayByRemovingObjectsInArray:" arg0="$InvoicesWithCorrectEdition">
+
+                                                              <!-- Now, we add these wrong invoices to our list of error invoices -->
+                                                              <cx:let name="fFacturen" value="$InvoicesErrorsFilterd1" invoke="arrayByAddingObjectsFromArray:" arg0="$InvoicesWithoutCorrectEdition">
+
+                                                                <!-- Finally we remove all duplicates that might have occurred by the above procedure -->
+                                                                <cx:let name="errorInvoices" value="$fFacturen.@self.arrayByRemovingDuplicateObjects" keep="1">
+
+                                                                  <!-- ===================================================================================================== -->
+
+                                                                  <!-- Create all invoices that have warnings in them -->
+                                                                  <cx:let name="wFacturen" value="$alleFacturen" invoke="@filter.estimatedDays = 0
+                                                                  OR toSignAuthority.lessFormalName = nil">
+
+                                                                    <!-- Filter the invoices that already have errors in them, out of this list -->
+                                                                    <cx:let name="warningInvoices" value="$wFacturen" invoke="arrayByRemovingObjectsInArray:" arg0="$errorInvoices" keep="1">
+
+                                                                      <!-- ===================================================================================================== -->
+
+                                                                        <!-- Create array that contains all correct invoices -->
+                                                                        <cx:let name="correctInvoicesTemp" value="$alleFacturen" invoke="arrayByRemovingObjectsInArray:" arg0="$errorInvoices">
+                                                                          <cx:let name="correctInvoices" value="$correctInvoicesTemp" invoke="arrayByRemovingObjectsInArray:" arg0="$warningInvoices" keep="1">
+
+                                                                          </cx:let>
+                                                                        </cx:let>
+
+                                                                    </cx:let>
+
+                                                                  </cx:let>
+
+                                                                </cx:let>
+
+                                                              </cx:let>
+
+                                                            </cx:let>
+
+                                                          </cx:let>
+
+                                                        </cx:let>
+                                                      </cx:let>
+                                                    </cx:let>
+                                                  </cx:let>
+
+
+
