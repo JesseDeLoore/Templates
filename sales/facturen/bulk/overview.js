@@ -140,6 +140,10 @@ $(document).ready(function() {
 			this.value = '€ ' + Invoice.prototype.parseAmount(parseFloat(this.value));
 		});
 		
+		$overview.find('label').has('> [data-parse-type=amount] + input[value=0]').each(function() {
+			$(this).hide();
+		});
+		
 		// toggler for the types of invoices
 		$(document).on('click', '[data-click-toggle]', function() {
 			$('[data-role=' + $(this).data('click-toggle') + ']').toggle();
