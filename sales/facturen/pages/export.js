@@ -27,7 +27,13 @@ $(document).ready(function() {
 			columns = [
 					{header: 'Bladzijdenr.',				field: function(invoice, it)	{ return it; }}
 				, {header: 'Dagboek',							field: function(invoice)			{ return invoice.journalCode; }}
-				, {header: 'Omschrijving',				field: function(invoice)			{ return invoice.company.name + ', ' + invoice.getInvoiceType(); } } 
+				, {header: 'Omschrijving',				field: function(invoice)			{ 
+						var ret = [invoice.company.name, invoice.getInvoiceType()];
+						if ( invoice.agreement.id ) {
+							ret.push(invoice.agreement.id);
+						}
+						return ret.join(', '); 
+					}}
 				, {header: 'Factuurdatum',				field: function() 						{ return (new Date()).get_dmY();} } 
 				, {header: 'Grootboeknummer',			field: function(invoice)			{ return invoice.grootboek.code; } } 
 				, {header: 'Debiteurennummer',		field: function(invoice)			{ return invoice.company.debtorNumber; } } 

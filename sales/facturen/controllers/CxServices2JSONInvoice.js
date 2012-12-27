@@ -117,7 +117,7 @@
 		_project = new Invoice({
 				id: <cx:write value="$it"/>+0
 			, it: <cx:write value="$it"/>+0
-			, journalCode: 'IETSANDERS'
+			, journalCode: 'OVE'
 
 			// language of the project's invoice
 			, i18n: {
