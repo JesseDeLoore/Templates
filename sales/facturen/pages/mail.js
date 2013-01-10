@@ -74,6 +74,7 @@ if ( !$.actual ) {
 		$('#overview_actions').append(
 				'<span data-role="mailing" style="display: none;">'
 					+ '<label>Vertraging (in minuten)<input type="number" value="15" id="send_email_delay"/></label>'
+					+ '<label><input type="checkbox" value="1" checked="checked" id="send_email_test_adress" class="cb"/> Versturen naar testadres </label>'
 					+ '<button data-role="send-all-email">Alle factuurmails versturen</button>'
 				+ '</span>'
 		);
@@ -143,19 +144,32 @@ if ( !$.actual ) {
 
 			// when the fileReader is loaded, send the data
 			fileReader.onload = function ( e ) {
-				var args,
-				user = new CxUser();
+				var args
+					, user = new CxUser()
+					, toAddress = (
+									$('#send_email_test_adress').is(':checked') 
+								|| invoice.company.invoiceEmail == ''
+						) ? user.email : invoice.company.invoiceEmail
+				;
 		
 				// send a mail
 				args = {
 						type:			'DELAY'
-					, subject:	(invoice.i18n.isDutch 
-								? ('Factuur ' + invoice.getInvoiceNumber() + ' voor het gebruik van het Carerix systeem ') 
-								: ('Invoice ' + invoice.getInvoiceNumber() + ' for the use of the Carerix system ')
-							) + (new Date()).nextMonth().get_BY(invoice.i18n.isDutch)
+					, subject:	
+							invoice.journalCode === 'VRK' ? (
+									(invoice.i18n.isDutch 
+										? ('Factuur ' + invoice.getInvoiceNumber() + ' voor het gebruik van het Carerix systeem') 
+										: ('Invoice ' + invoice.getInvoiceNumber() + ' for the use of the Carerix system')
+									) + (new Date()).nextMonth().get_BY(invoice.i18n.isDutch)
+								) : (
+									(invoice.i18n.isDutch 
+										? ('Factuur ' + invoice.getInvoiceNumber() + ' voor de uitgevoerde werkzaamheden aan het Carerix systeem') 
+										: ('Invoice ' + invoice.getInvoiceNumber() + ' for the work provided on the Carerix system')
+									)
+								)
 					, from:			'"' + user.name + ' | Carerix" <finance@carerix.com>'
 		//			, to:				invoice.company.invoiceEmail != '' ? invoice.company.invoiceEmail : user.email
-					, to:				'jasper@carerix.com'
+					, to:				toAddress
 					, delay: 		$('#send_email_delay').val()
 					, bindTo: invoice.bindings
 					, content: 	{
@@ -163,17 +177,21 @@ if ( !$.actual ) {
 						, isHTML: true
 					}
 					, attachments: [
-							{ 	content: _getInvoiceHTML(invoice)
+/*							{ 	content: _getInvoiceHTML(invoice)
 								, label: 'factuur'
 								, filename: 'factuur_' + invoice.getInvoiceNumber() + '.html'
 							}
-						, {		content: e.target.result.substr(e.target.result.indexOf(',')+1)
+						, */
+							{		content: e.target.result.substr(e.target.result.indexOf(',')+1)
 								, label: 'factuur'
 								, filename: 'factuur_' + invoice.getInvoiceNumber() + '.pdf'
 								, isBase64Encoded: true
 							}
 						]
 				};
+				
+				console.log(args);
+				return;
 				
 				_sendMail(args).success(function(response) {
 					// Finally: report the fact that this email has been sent.

@@ -71,7 +71,7 @@
 				<td>
 					<span contentEditable="true"><%=(i18n.isDutch?'Factuurnummer':'Invoice number')%></span>
 				</td>
-				<td><span contentEditable="true" data-role="invoicenumber"><%=obj.getInvoiceNumber()%></span></td>
+				<td><span contentEditable="true" data-role="invoicenumber<%=(typeof obj.fixedInvoiceNumber===typeof undefined)?'':'fixed'%>"><%=obj.getInvoiceNumber()%></span></td>
 				<td>&nbsp;</td>
 				<td>
 					<span contentEditable="true"><% if ( company.debtorNumber ) { print(i18n.isDutch?'Onze referentie':'Our reference'); }%></span>
@@ -142,9 +142,9 @@
 							<% } %>
 						<% } else { %>
 							<% if ( i18n.isDutch ) { %>
-								Conform uw opdracht<%=obj.getParsedLineIds(true)%> wordt het volgende in rekening gebracht:
+								Conform uw opdracht(en) wordt het volgende in rekening gebracht:
 							<% } else { %>
-								Based on your order<%=obj.getParsedLineIds(true)%>, we charge you with the following:
+								Based on your order(s), we charge you with the following:
 							<% } %>
 						<% } %>
 					</span>

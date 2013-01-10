@@ -81,14 +81,14 @@
 		}
 		
 		switch ( Math.min(pieces.length, 5) ) {
-			case 5:	ret.costlocation = pieces[4]; // nobreak
-			case 4:	ret.costtype = pieces[3]; // nobreak
+			case 5:	ret.costtype = pieces[4]; // nobreak
+			case 4:	ret.costlocation = pieces[3]; // nobreak
 			case 3:	ret.code = pieces[isInternational ? 2 : 1];
 							break;
 			case 2:	ret.code = pieces[1]; // nobreak
 		} // switch
 		
-		if ( ret.costlocation === 'INCOMPLETE' ) {
+		if ( ret.costtype === 'INCOMPLETE' ) {
 			ret.exception = 'NOCOMPLETECODE';
 		}
 		
@@ -126,6 +126,7 @@
 					isBE: false,
 					isDutch: true,
 					<cx:let name="language" value="Dutch" keep=""/>
+					<cx:let name="isInternational" value="0" keep=""/>
 				</cx:if>
 				<cx:else>
 					<cx:if condition="project.toInvoiceCountryNode.value='Belgi&euml;' OR project.toInvoiceCountryNode.value='Belgium'">
@@ -133,12 +134,14 @@
 						isBE: true,
 						isDutch: false,
 						<cx:let name="language" value="English" keep=""/>
+						<cx:let name="isInternational" value="1" keep=""/>
 					</cx:if>
 					<cx:else>
 						isNL: false,
 						isBE: false,
 						isDutch: false,
 						<cx:let name="language" value="English" keep=""/>
+						<cx:let name="isInternational" value="1" keep=""/>
 					</cx:else>
 				</cx:else>
 				isEU: <cx:let condition="project.toInvoiceCountryNode.notes='EU'" iftrue="true" iffalse="false" name="v"><cx:write value="$v"/></cx:let>
@@ -169,7 +172,7 @@
 												"<cx:foreach list="$grootboekGroups" item="group">
 													<cx:write value="$group.exportCode.jsEscapedString"/>;
 												</cx:foreach>", 
-												<cx:let name="isInternational" condition="$NL='0'" iftrue="true" iffalse="false"><cx:write value="$isInternational"/></cx:let>
+												<cx:let name="tmp" condition="$isInternational='1'" iftrue="true" iffalse="false"><cx:write value="$tmp"/></cx:let>
 											)
 										</cx:bare-string-format>
 			, grootboekName: <cx:if condition="$grootboekGroups.count > 1">

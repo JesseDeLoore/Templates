@@ -1,0 +1,528 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<cx:let name="invoice" condition="$activity.toInvoice != nil" iftrue="$activity.toInvoice" iffalse="$invoice">
+<html>
+<head>
+<title>Invoice details</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<style type="text/css">
+.TDDefault, .TDToAddress, .TDFromAddress
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:left;
+vertical-align:top;}
+
+.TDName
+{padding:2px;
+color:#333333;
+font-size:18.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+font-family:Arial, sans-serif;
+text-align:left;
+vertical-align:bottom;}
+
+.TDInvoice
+{padding:2px;
+color:#D8E4E8;
+font-size:28.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+font-family:"Arial Black", sans-serif;
+text-align:left;
+text-transform:uppercase;
+vertical-align:bottom;
+white-space:nowrap;}
+
+.TDTag
+{padding:2px;
+font-size:18.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+font-family:Arial, sans-serif;
+color: red;
+text-align:center;
+text-transform:uppercase;
+vertical-align:middle;
+white-space:nowrap;}
+
+.TDLabel
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+font-family:Arial, sans-serif;
+text-align:left;
+text-transform:uppercase;
+vertical-align:bottom;
+white-space:nowrap;
+width:100px;}
+
+.TDInvoiceNumber
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:left;
+vertical-align:bottom;
+white-space:nowrap;}
+
+.TDToLabel
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+font-family:Arial, sans-serif;
+text-align:left;
+text-transform:uppercase;
+vertical-align:bottom;
+white-space:nowrap;}
+
+.TDInvLineRight
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:left;
+vertical-align:top;
+white-space:nowrap;}
+
+.TDInvHeadAmount
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+font-family:Arial, sans-serif;
+text-align:center;
+text-transform:uppercase;
+vertical-align:middle;
+border-top:.5pt solid #333333;
+border-right:.5pt solid #333333;
+border-bottom:.5pt solid #333333;
+border-left:none;
+background:#D8E4E8;
+white-space:nowrap;}
+
+.TDInvHeadRate
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+font-family:Arial, sans-serif;
+text-align:center;
+text-transform:uppercase;
+vertical-align:middle;
+border:.5pt solid #333333;
+background:#D8E4E8;
+white-space:nowrap;}
+
+.TDInvHeadDescription
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+font-family:Arial, sans-serif;
+text-align:center;
+text-transform:uppercase;
+vertical-align:middle;
+border-top:.5pt solid #333333;
+border-right:none;
+border-bottom:.5pt solid #333333;
+border-left:.5pt solid #333333;
+background:#D8E4E8;
+white-space:nowrap;}
+
+.TDInvLineVATAmount
+{padding:2px;
+padding-left:10px;
+padding-right:4px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:right;
+text-transform:uppercase;
+vertical-align:middle;
+border-top:none;
+border-right:.5pt solid #333333;
+border-bottom:.5pt solid #333333;
+border-left:.5pt solid #333333;
+background:#EAEAEA;
+white-space:nowrap;}
+
+.TDInvLineTotal
+{padding:2px;
+padding-left:10px;
+padding-right:4px;
+color:#333333;
+font-size:10.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+text-transform:uppercase;
+font-family:Arial, sans-serif;
+text-align:right;
+vertical-align:middle;
+white-space:nowrap;}
+
+.TDInvLineGAccount
+{padding:2px;
+padding-left:10px;
+padding-right:4px;
+color:red;
+font-size:10.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+text-transform:none;
+font-family:Arial, sans-serif;
+text-align:right;
+vertical-align:middle;
+white-space:nowrap;}
+
+.TDInvLineGAccountTotal
+{padding:2px;
+padding-left:10px;
+padding-right:4px;
+color:red;
+font-size:10.0pt;
+font-weight:700;
+font-style:normal;
+text-decoration:none;
+text-transform:none;
+font-family:Arial, sans-serif;
+text-align:right;
+vertical-align:middle;
+white-space:nowrap;}
+
+.TDInvLineTotalsLeft
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:left;
+vertical-align:middle;
+white-space:nowrap;}
+
+.TDInvLineTotalsFiller
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:right;
+vertical-align:middle;
+white-space:nowrap;}
+
+.TDInvLineVATRate
+{padding:2px;
+padding-left:10px;
+padding-right:4px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:right;
+vertical-align:middle;
+border-top:none;
+border-right:.5pt solid #333333;
+border-bottom:.5pt solid #333333;
+border-left:.5pt solid #333333;
+white-space:nowrap;}
+
+.TDInvLineAmount
+{padding:2px;
+padding-left:10px;
+padding-right:4px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:right;
+vertical-align:top;
+border-top:none;
+border-right:.5pt solid #333333;
+border-bottom:none;
+border-left:none;
+background:#EAEAEA;
+white-space:nowrap;}
+
+.TDInvLineAmountFirst
+{padding:2px;
+mso-ignore:padding;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:right;
+vertical-align:top;
+border-top:.5pt solid #333333;
+border-right:.5pt solid #333333;
+border-bottom:none;
+border-left:none;
+background:#EAEAEA;
+white-space:nowrap;}
+
+.TDInvLineSubtotal
+{padding:2px;
+padding-left:10px;
+padding-right:4px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:right;
+vertical-align:top;
+border:.5pt solid #333333;
+background:#EAEAEA;
+white-space:nowrap;}
+
+.TDInvLineFirst
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:center;
+vertical-align:top;
+border-top:.5pt solid #333333;
+border-right:.5pt solid #333333;
+border-bottom:none;
+border-left:.5pt solid #333333;
+white-space:nowrap;}
+
+.TDInvLine
+{padding:2px;
+padding-left:10px;
+padding-right:4px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:right;
+vertical-align:top;
+border-top:none;
+border-right:.5pt solid #333333;
+border-bottom:none;
+border-left:.5pt solid #333333;
+white-space:nowrap;}
+
+.TDInvLineLast
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:center;
+vertical-align:top;
+border-top:none;
+border-right:.5pt solid #333333;
+border-bottom:.5pt solid #333333;
+border-left:.5pt solid #333333;
+white-space:nowrap;}
+
+.TDInvLineDescriptionFirst
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:left;
+vertical-align:middle;
+border-top:.5pt solid #333333;
+border-right:none;
+border-bottom:none;
+border-left:.5pt solid #333333;
+white-space:wrap;}
+
+.TDInvLineDescription
+{padding:2px;
+padding-left:4px;
+padding-right:8px;
+width:60%;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:left;
+vertical-align:middle;
+border-top:none;
+border-right:none;
+border-bottom:none;
+border-left:.5pt solid #333333;
+white-space:wrap;}
+
+.TDInvLineDescriptionLast
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:left;
+vertical-align:middle;
+border-top:none;
+border-right:none;
+border-bottom:.5pt solid #333333;
+border-left:.5pt solid #333333;
+white-space:wrap;}
+
+.TDDate
+{padding:2px;
+color:#333333;
+font-size:10.0pt;
+font-weight:400;
+font-style:normal;
+text-decoration:none;
+font-family:Arial;
+text-align:left;
+vertical-align:bottom;
+white-space:nowrap;}
+	</style>
+</head>
+
+<body>
+	
+	<div id="CarerixInvoice" align="center">
+		<div style="width: 748px;text-align: left;">
+			<h3>Factuursamenvatting <cx:write value="$invoice.invoiceID"/></h3>
+			<p>
+				<b style="color:red"">Let op:</b> Onderstaande informatie is niet de 
+				echte factuur, maar slechts een samenvatting!<br/>
+				De echte factuur kan je vinden via het tabblad "Activiteiten" van de 
+				corresponderende opdrachtgever.
+			</p>
+		</div>
+		<cx:let value="$invoice.invoiceLines.discountPercentage.@max" name="discount">
+			<table style="border-collapse: collapse; width: 748px;" border="0" cellpadding="0" cellspacing="0">
+				<tbody>
+					<tr>
+						<td class="TDInvHeadDescription"><cx:write value="Beschrijving" localize="1"/></td>
+						<td class="TDInvHeadDescription"><cx:write value="Aantal" localize="1"/></td>
+						<td class="TDInvHeadRate"><cx:write value="Tarief" localize="1"/></td>
+						<cx:if condition="$discount>0"><td class="TDInvHeadRate"><cx:write value="Korting" localize="1"/></td></cx:if>
+						<td class="TDInvHeadAmount"><cx:write value="Bedrag" localize="1"/></td>
+						<td class="TDInvLineRight"></td>
+					</tr>
+					<tr>
+						<td class="TDInvLineDescriptionFirst">&nbsp;</td>
+						<td class="TDInvLineFirst">&nbsp;</td>
+						<td class="TDInvLineFirst">&nbsp;</td>
+						<cx:if condition="$discount>0"><td class="TDInvLineFirst">&nbsp;</td></cx:if>
+						<td class="TDInvLineAmountFirst"></td>
+						<td class="TDInvLineRight"></td>
+					</tr>
+	
+					<!-- the following row is the repeatable cx invoice line	-->
+					<cx:foreach list="$invoice.invoiceLines.@sortAscending.toWeekHour.weekMondayDate" item="invoiceLine">
+						<tr>
+							<td class="TDInvLineDescription"><b><cx:write value="$invoiceLine.toServiceNode.value" html=""/></b><br/><cx:write value="$invoiceLine.info" html=""/></td>
+							<td class="TDInvLine"><cx:write value="$invoiceLine.numberOfTimes" numberformat="#,##0.00" localize="1"/> <cx:write value="$invoiceLine.unit.lowercaseString" localize="1" content="default"><cx:write value="uur" localize="1"/></cx:write></td>
+							<td class="TDInvLine"><cx:write value="$invoiceLine.amount" numberformat="#,##0.00" localize="1"/> <cx:write value="$invoiceLine.toCurrencyNode.value"/></td>
+							<cx:if condition="$discount>0"><td class="TDInvLine"><cx:write value="$invoiceLine.discountPercentage" numberformat="#0.00%" localize="1"/></td></cx:if>
+							<td class="TDInvLineAmount"><cx:write value="$invoiceLine.total" numberformat="#,##0.00" localize="1"/> <cx:write value="$invoiceLine.toCurrencyNode.value"/></td>
+							<td class="TDInvLineRight"></td>
+						</tr>
+					</cx:foreach>
+<!--  
+					<tr>
+						<td class="TDInvLineDescriptionLast">&nbsp;</td>
+						<td class="TDInvLineLast">&nbsp;</td>
+						<td class="TDInvLineLast">&nbsp;</td>
+						<cx:if condition="$discount>0"><td class="TDInvLineLast">&nbsp;</td></cx:if>
+						<td class="TDInvLineAmount">&nbsp;</td>
+						<td class="TDInvLineRight"></td>
+					</tr>
+					<tr>
+						<td class="TDInvLineTotalsLeft"></td>
+						<cx:if condition="$discount>0"><td class="TDInvLineRight"></td></cx:if>
+						<td class="TDInvLineTotalsFiller" colspan="2"><cx:write value="Subtotaal" localize="1"/>&nbsp;</td>
+						<td class="TDInvLineSubtotal"><cx:write value="$invoice.total" numberformat="#,##0.00" localize="1"/> <cx:write value="$invoice.currency"/></td>
+						<td class="TDInvLineRight"></td>
+					</tr>
+					<tr>
+					<td class="TDInvLineTotalsLeft"></td>
+						<cx:if condition="$discount>0"><td class="TDInvLineRight"></td></cx:if>
+						<td class="TDInvLineTotalsFiller" colspan="2"><cx:write value="BTW-percentage" localize="1"/>&nbsp;</td>
+						<td class="TDInvLineVATRate"><cx:write value="$invoice.taxPercentage" numberformat="#0.00%" localize="1"/></td>
+						<td class="TDInvLineRight"></td>
+					</tr>
+					<tr>
+						<td class="TDInvLineTotalsLeft"></td>
+						<cx:if condition="$discount>0"><td class="TDInvLineRight"></td></cx:if>
+						<td class="TDInvLineTotalsFiller" colspan="2"><cx:write value="BTW-bedrag" localize="1"/>&nbsp;</td>
+						<td class="TDInvLineVATAmount"><cx:write value="$invoice.taxAmount" numberformat="#,##0.00" localize="1"/> <cx:write value="$invoice.currency"/></td>
+						<td class="TDInvLineRight"></td>
+					</tr>
+					<tr>
+						<td class="TDInvLineRight"></td>
+						<cx:if condition="$discount>0"><td class="TDInvLineRight"></td></cx:if>
+						<td class="TDInvLineTotal" colspan="2"><cx:write value="Totaal" localize="1"/>&nbsp;</td>
+						<td class="TDInvLineSubtotal"><cx:write value="$invoice.totalWithTax" numberformat="#,##0.00" localize="1"/> <cx:write value="$invoice.currency"/></td>
+						<td class="TDInvLineRight"></td>
+					</tr>
+-->
+					<tr>
+						<td class="TDDefault" colspan="5">&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="TDDefault" colspan="5">&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+		</cx:let>
+	</div>
+</body>
+</html>
+</cx:let>
+</cx:let>

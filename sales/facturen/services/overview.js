@@ -62,9 +62,6 @@ $(document).ready(function() {
 			initialInvoiceNumber = parseInt(cookieval);
 		}
 		
-		// create the gui
-		$overview.append('<label>Cre&euml;er factuur vanaf nr<input type="number" id="invoice-number" value="' + (initialInvoiceNumber||0) + '"/></label>');
-		
 		// add the triggering of the update event to the document
 		$(document).on('change', '#invoice-number', function() { // trigger the update of the invoicenumber
 			initialInvoiceNumber = parseInt($(this).val());
@@ -88,6 +85,7 @@ $(document).ready(function() {
 	 */
 	function addInvoiceTypeGUI() {
 		// add the various holders for the number and listing of the invoices
+		var dynamicInvoiceIDExists = false;
 		
 		$overview.append(
 				'<label>'
@@ -111,7 +109,9 @@ $(document).ready(function() {
 		$.each(getInvoices(), function() {
 			var type = 'month',
 					invoice = this,
-					insert = '<li>' + this.company.name; 
+					insert = '<li>' + this.company.name;
+			
+			dynamicInvoiceIDExists = dynamicInvoiceIDExists || (typeof this.fixedInvoiceNumber === typeof undefined);
 					
 			if ( this.frequency === -1 ) type="single";
 			if ( this.frequency === 3 ) type="quarter";
@@ -136,6 +136,11 @@ $(document).ready(function() {
 			});
 		});
 		
+		// create the gui
+		if ( dynamicInvoiceIDExists ) {
+			$overview.prepend('<label>Cre&euml;er factuur vanaf nr<input type="number" id="invoice-number" value="' + (initialInvoiceNumber||0) + '"/></label>');
+		}
+
 		$overview.find('[data-parse-type=amount]').each(function() {
 			this.value = '€ ' + Invoice.prototype.parseAmount(parseFloat(this.value));
 		});

@@ -1,9 +1,9 @@
 ; var getInvoices, getProjects, getProjectsWithErrors, getProjectsWithoutGroup, getToday, getMonthNames;
 (function() {
-	var _project = null,
-			_projects = [],
-			_projectsWithoutGroup = [],
-			_projectsWithErrors = [],
+	var _invoice = null,
+			_invoices = [],
+			_invoicesWithoutGroup = [],
+			_invoicesWithErrors = [],
 			_monthNames = {dutch: [], english: []},
 			_regexp = {
 					nonDigits: /[^\d]/g
@@ -14,24 +14,24 @@
 	 ****************************************************************************/
 	 
 	/**
-	 * Generic getter for the projects
+	 * Generic getter for the invoices
 	 */
 	getInvoices = getProjects = function() {
-		return _projects;
-	}; // getProjects();
+		return _invoices;
+	}; // getInvoices();
 	
 	/**
-	 * Specific getter for those projects that have no valid grootboek code
+	 * Specific getter for those invoices that have no valid grootboek code
 	 */
 	getProjectsWithoutGroup = function() {
 		return [];
 	}; // getProjectsWithoutGroup();
 	
 	/**
-	 * Specific getter for those projects that have errors
+	 * Specific getter for those invoices that have errors
 	 */
 	getProjectsWithErrors = function() {
-		return _projectsWithErrors;
+		return _invoicesWithErrors;
 	}; // getProjectsWithoutGroup();
 	
 	/**
@@ -63,14 +63,14 @@
 	} // _getDate();
 
 	/**
-	 * Parse a grootboek code as per the exportCode provided in the project's group
+	 * Parse a grootboek code as per the exportCode provided in the invoice's group
 	 */
 	function _parseGrootboekCode(code, isInternational) {
 		var ret = {
 						code: "<cx:write value="$activity.toInvoiceLine.toToDo.toDoID.numberValue"/>"
-                        , costtype: 'NOG IN TE VULLEN'
-                        , costlocation: 'NOG IN TE VULLEN'
-                        , exception: null
+          , costtype: 'NOG IN TE VULLEN'
+          , costlocation: 'NOG IN TE VULLEN'
+          , exception: null
 				},
 				pieces = code.split(';'),
 				it;
@@ -81,14 +81,14 @@
 		}
 		
 		switch ( Math.min(pieces.length, 5) ) {
-			case 5:	ret.costlocation = pieces[4]; // nobreak
-			case 4:	ret.costtype = pieces[3]; // nobreak
+			case 5:	ret.costtype = pieces[4]; // nobreak
+			case 4:	ret.costlocation = pieces[3]; // nobreak
 			case 3:	ret.code = pieces[isInternational ? 2 : 1];
 							break;
 			case 2:	ret.code = pieces[1]; // nobreak
 		} // switch
 
-		if ( ret.costlocation === 'INCOMPLETE' ) {
+		if ( ret.costtype === 'INCOMPLETE' ) {
 			ret.exception = 'NOCOMPLETECODE';
 		}
 		
@@ -113,60 +113,94 @@
 		</cx:let>
 	</cx:let>
 
-	<cx:define tag="project">
-		_project = new Invoice({
+	<cx:define tag="invoice">
+		_invoice = new Invoice({
 				id: <cx:write value="$it"/>+0
+			, fixedInvoiceNumber: (<cx:write value="$invoice.number"/>+0)||'CONCEPT'
 			, it: <cx:write value="$it"/>+0
 			, journalCode: 'OVE'
 
-			// language of the project's invoice
+			// language of the invoice's invoice
 			, i18n: {
-				<cx:if condition="project.toCompany.toInvoiceCountryNode.value='Nederland' OR project.toCompany.toInvoiceCountryNode.value='Netherlands' OR project.toCompany.toInvoiceCountryNode.value='Holland' OR project.toCompany.toInvoiceCountryNode=nil">
+				<cx:if condition="invoice.toCompany.toInvoiceCountryNode.value='Nederland' OR invoice.toCompany.toInvoiceCountryNode.value='Netherlands' OR invoice.toCompany.toInvoiceCountryNode.value='Holland' OR invoice.toCompany.toInvoiceCountryNode=nil">
 					isNL: true,
 					isBE: false,
 					isDutch: true,
 					<cx:let name="language" value="Dutch" keep=""/>
+					<cx:let name="isInternational" value="0" keep=""/>
 				</cx:if>
 				<cx:else>
-					<cx:if condition="project.toCompany.toInvoiceCountryNode.value='Belgi&euml;' OR project.toCompany.toInvoiceCountryNode.value='Belgium'">
+					<cx:if condition="invoice.toCompany.toInvoiceCountryNode.value='Belgi&euml;' OR invoice.toCompany.toInvoiceCountryNode.value='Belgium'">
 						isNL: false,
 						isBE: true,
 						isDutch: false,
 						<cx:let name="language" value="English" keep=""/>
+						<cx:let name="isInternational" value="1" keep=""/>
 					</cx:if>
 					<cx:else>
 						isNL: false,
 						isBE: false,
 						isDutch: false,
 						<cx:let name="language" value="English" keep=""/>
+						<cx:let name="isInternational" value="1" keep=""/>
 					</cx:else>
 				</cx:else>
-				isEU: <cx:let condition="project.toCompany.toInvoiceCountryNode.notes='EU'" iftrue="true" iffalse="false" name="v"><cx:write value="$v"/></cx:let>
+				isEU: <cx:let condition="invoice.toCompany.toInvoiceCountryNode.notes='EU'" iftrue="true" iffalse="false" name="v"><cx:write value="$v"/></cx:let>
 			}
 
+			<cx:language value="$language">
+			 
 			// Details of the company
 			,	company: {
-					name: "<cx:write value="$project.toCompany.name.jsEscapedString"/>"
-				, invoiceAddress: "<cx:write value="$project.toCompany.invoiceAddress.htmlString.jsEscapedString"/>"
-				, invoiceCity: "<cx:write value="$project.toCompany.invoiceCity.jsEscapedString"/>"
-				, invoiceStreet: "<cx:write value="$project.toCompany.invoiceStreet.jsEscapedString"/>"
-				, invoiceHousenumber: "<cx:write value="$project.toCompany.invoiceNumber"/> <cx:write value="$project.toCompany.invoiceNumberSuffix.jsEscapedString"/>"
-				, invoicePostalCode: "<cx:write value="$project.toCompany.invoicePostalCode"/>"
-				, invoiceEmail: "<cx:write value="$project.toCompany.emailAddress.jsEscapedString"/>"
+					name: "<cx:write value="$invoice.toCompany.name.jsEscapedString"/>"
+				, invoiceAddress: "<cx:write value="$invoice.toCompany.invoiceAddress.htmlString.jsEscapedString"/>"
+				, invoiceCity: "<cx:write value="$invoice.toCompany.invoiceCity.jsEscapedString"/>"
+				, invoiceStreet: "<cx:write value="$invoice.toCompany.invoiceStreet.jsEscapedString"/>"
+				, invoiceHousenumber: "<cx:write value="$invoice.toCompany.invoiceNumber"/> <cx:write value="$invoice.toCompany.invoiceNumberSuffix.jsEscapedString"/>"
+				, invoicePostalCode: "<cx:write value="$invoice.toCompany.invoicePostalCode"/>"
+				, invoiceEmail: "<cx:bare-string-format>
+						<cx:let name="projects" value="$invoice.toCompany.vacancies">
+							<cx:let name="currProjects" value="$projects" invoke="@filter.toStatusNode.dataNodeID = 3318" keep=""/>
+							<cx:if condition="$currProjects.count > 0">
+								<cx:write value="$currProjects.@first.invoiceEmailAddress.jsEscapedString"/>
+							</cx:if><cx:else>
+								<cx:let name="currProjects" value="$projects" invoke="@filter.toStatusNode.dataNodeID = 3315" keep=""/>
+								<cx:if condition="$currProjects.count > 0">
+									<cx:write value="$currProjects.@first.invoiceEmailAddress.jsEscapedString"/>
+								</cx:if><cx:else>
+									<cx:let name="currProjects" value="$projects" invoke="@filter.toStatusNode.dataNodeID = 3319" keep=""/>
+									<cx:if condition="$currProjects.count > 0">
+										<cx:write value="$currProjects.@first.invoiceEmailAddress.jsEscapedString"/>
+									</cx:if><cx:else>
+										<cx:let name="currProjects" value="$projects" invoke="@filter.toStatusNode.dataNodeID = 3316" keep=""/>
+										<cx:if condition="$currProjects.count > 0">
+											<cx:write value="$currProjects.@first.invoiceEmailAddress.jsEscapedString"/>
+										</cx:if><cx:else>
+											<cx:let name="currProjects" value="$projects" invoke="@filter.toStatusNode.dataNodeID = 3320" keep=""/>
+											<cx:if condition="$currProjects.count > 0">
+												<cx:write value="$currProjects.@first.invoiceEmailAddress.jsEscapedString"/>
+											</cx:if><cx:else>
+											</cx:else>
+										</cx:else>
+									</cx:else>
+								</cx:else>
+							</cx:else>
+						</cx:let>
+					</cx:bare-string-format>"
 				, hasReferenceDate: false
-				, taxNumber: "<cx:write value="$project.toCompany.taxNumber"/>"
-				, paymentCode: "<cx:write value="$project.toCompany.paymentCode"/>"
-				, debtorNumber: <cx:write value="$project.toCompany.debtorNumber"/>+0
+				, taxNumber: "<cx:write value="$invoice.toCompany.taxNumber"/>"
+				, paymentCode: "<cx:write value="$invoice.toCompany.paymentCode"/>"
+				, debtorNumber: <cx:write value="$invoice.toCompany.debtorNumber"/>+0
 			}
 
 			
 			// Grootboek prefix (???)
-			<cx:let name="grootboekGroups" value="$project.invoiceLines" invoke="@filter.toServiceNode.exportCode hasPrefix: 'GROOTBOEK;'">
+			<cx:let name="grootboekGroups" value="$invoice.invoiceLines" invoke="@filter.toServiceNode.exportCode hasPrefix: 'GROOTBOEK;'">
 				, grootboek: <cx:bare-string-format>_parseGrootboekCode(
 						"<cx:foreach list="$grootboekGroups" item="group">
 							<cx:write value="$group.toServiceNode.exportCode.jsEscapedString"/>;
 						</cx:foreach>",
-						<cx:let name="isInternational" condition="$NL='0'" iftrue="true" iffalse="false"><cx:write value="$isInternational"/></cx:let>
+						<cx:let name="tmp" condition="$isInternational='1'" iftrue="true" iffalse="false"><cx:write value="$tmp"/></cx:let>
 					)</cx:bare-string-format>
 				
 				, grootboekName: <cx:if condition="$grootboekGroups.count > 0">
@@ -191,13 +225,13 @@
 				, numberOfUsers: 0 + 0
 			}
 			, includingDomain: false
-			, amount: <cx:write value="$project.total"/>
+			, amount: <cx:write value="$invoice.total"/>
 			, discount: 0+0
 			, discountAmount: 0+0
 			, automated: 0
 			, paymentPeriod: -1
-			, addressee: "<cx:write value="$project.toContact.informalName.jsEscapedString"/>" || "<cx:write value="$project.toCompany.name.jsEscapedString"/>"
-			, addresseeShort: "<cx:write value="$project.toContact.informalName.jsEscapedString"/>"
+			, addressee: "<cx:write value="$invoice.toContact.informalName.jsEscapedString"/>" || "<cx:write value="$invoice.toCompany.name.jsEscapedString"/>"
+			, addresseeShort: "<cx:write value="$invoice.toContact.informalName.jsEscapedString"/>"
 			, startDate:new Date()
 			, firstLineOfNotes: "false"
 			, title: {
@@ -205,50 +239,63 @@
 				, sub: ' '
 			}
 			, lines: [
-				<cx:foreach list="$project.invoiceLines" item="invoiceLine" index="it">
-					{
-							title: '<b><cx:write value="$invoiceLine.toServiceNode.value"/></b><br /><cx:write value="$invoiceLine.info"/>'
+				<cx:foreach list="$invoice.invoiceLines" item="invoiceLine" index="it">
+					new InvoiceLine({
+							title: '<b><cx:write value="$invoiceLine.toServiceNode.value"/></b><br /><cx:write value="$invoiceLine.info.htmlString.jsEscapedString" html="1"/>'
 						, currency: "&euro;"
 						, amount: parseFloat('<cx:write value="$invoiceLine.amount"/>') * parseFloat('<cx:write value="$invoiceLine.numberOfTimes"/>')
 						, id: <cx:write value="$invoiceLine.invoiceLineID"/>
-					}
+						, grootboek: <cx:bare-string-format>_parseGrootboekCode(
+											"<cx:write value="$invoiceLine.toServiceNode.exportCode.jsEscapedString"/>"
+										,	<cx:let name="tmp" condition="$isInternational='1'" iftrue="true" iffalse="false"><cx:write value="$tmp"/></cx:let>
+								)</cx:bare-string-format>
+						, grootboekName: "<cx:write value="$invoiceLine.toServiceNode.value.jsEscapedString"/>"
+				})
 					<cx:if condition="$invoiceLine.discountPercentage > 0">
-					, {
+				, new InvoiceLine({
 						title: '<cx:let name="discount" condition="$language='Dutch'" iftrue="Korting" iffalse="Discount"><cx:write value="$discount"/></cx:let> <cx:write value="$invoiceLine.discountPercentage"/> %'
 					, currency: "&euro;"
 					, amount: parseFloat('<cx:write value="$invoiceLine.amount"/>') 
 								* parseFloat('<cx:write value="$invoiceLine.numberOfTimes"/>') 
 								* parseFloat('<cx:write value="$invoiceLine.discountPercentage"/>')
 								/ -100
-				}
+					, grootboek: <cx:bare-string-format>_parseGrootboekCode(
+									"<cx:write value="$invoiceLine.toServiceNode.exportCode.jsEscapedString"/>"
+								,	<cx:let name="tmp" condition="$isInternational='1'" iftrue="true" iffalse="false"><cx:write value="$tmp"/></cx:let>
+						)</cx:bare-string-format>
+					, grootboekName: "<cx:write value="$invoiceLine.toServiceNode.value.jsEscapedString"/>"
+					, isDiscount: true										
+				})
 					</cx:if>
-					<cx:if condition="$it.intSucc < $project.invoiceLines.count">,</cx:if>
+					<cx:if condition="$it.intSucc < $invoice.invoiceLines.count">,</cx:if>
 				</cx:foreach>
 			]
 			, bindings: {
-				 'Company': 	<cx:write value="$project.toCompany.companyID"/> + 0
+				 'Company': 	<cx:write value="$invoice.toCompany.companyID"/> + 0
 			}
+			
+			</cx:language>
 		});
 	</cx:define>
 
 	/**
-	 * Projects
+	 * Invoices
 	 */
-	<cx:foreach list="$projects.@sortAscending.creationDate" item="project" index="it">
-		<cx:project/>
+	<cx:foreach list="$projects.@sortAscending.creationDate" item="invoice" index="it">
+		<cx:invoice/>
 
-		_projects.push(_project);
-		if ( _project.grootboek.exception !== null ) {
-			_projectsWithoutGroup.push(_project);
+		_invoices.push(_invoice);
+		if ( _invoice.grootboek.exception !== null ) {
+			_invoicesWithoutGroup.push(_invoice);
 		}
 	</cx:foreach>
 
 	/**
-	 * Projects with errors
+	 * Invoices with errors
 	 */
-	/* <cx:foreach list="$errorInvoices.@sortAscending.toCompany.name" item="project" index="it">
-		<cx:project/>
-		_projectsWithErrors.push(_project);
+	/* <cx:foreach list="$errorInvoices.@sortAscending.toCompany.name" item="invoice" index="it">
+		<cx:invoice/>
+		_invoicesWithErrors.push(_invoice);
 	</cx:foreach> */
 
 })();

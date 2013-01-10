@@ -25,26 +25,28 @@ $(document).ready(function() {
 	// define the export
 	var $textarea=$('#export'),
 			columns = [
-					{header: 'Bladzijdenr.',				field: function(invoice, it)	{ return it; }}
-				, {header: 'Dagboek',							field: function(invoice)			{ return invoice.journalCode; }}
-				, {header: 'Omschrijving',				field: function(invoice)			{ 
-						var ret = [invoice.company.name, invoice.getInvoiceType()];
-						if ( invoice.agreement.id ) {
-							ret.push(invoice.agreement.id);
+					{header: 'Bladzijdenr.',				field: function(obj)	{ return obj.it; }}
+				, {header: 'Dagboek',							field: function(obj)	{ return obj.invoice.journalCode; }}
+				, {header: 'Omschrijving',				field: function(obj)	{ 
+						var ret = [obj.invoice.company.name, obj.invoice.getInvoiceType()];
+						if ( obj.invoice.agreement.id ) {
+							ret.push(obj.invoice.agreement.id);
 						}
-						return ret.join(', '); 
+						return ret.join(','); 
 					}}
-				, {header: 'Factuurdatum',				field: function() 						{ return (new Date()).get_dmY();} } 
-				, {header: 'Grootboeknummer',			field: function(invoice)			{ return invoice.grootboek.code; } } 
-				, {header: 'Debiteurennummer',		field: function(invoice)			{ return invoice.company.debtorNumber; } } 
-				, {header: 'Naam debiteur',				field: function(invoice)			{ return invoice.company.name; } }
-				, {header: 'Periode',							field: function(invoice)			{ return invoice.getPeriod(); } }
-				, {header: 'BTW-code',						field: function(invoice)			{ return invoice.i18n.isDutch ? 1 : (invoice.i18n.isEU ? 'E' : ' '); } }
-				, {header: 'Factuurbedrag incl.',	field: function(invoice)			{ return invoice.getParsedTotal(); } } 
-				, {header: 'BTW bedrag',					field: function(invoice)			{ return invoice.getParsedVAT(); } }
-				, {header: 'Factuurnummer',				field: function(invoice)			{ return invoice.getInvoiceNumber(); } }
-				, {header: 'Kostenplaats',				field: function(invoice)			{ return invoice.grootboek.costlocation; } }
-				, {header: 'Kostensoort',					field: function(invoice)			{ return invoice.grootboek.costtype; } }
+				, {header: 'Factuurdatum',				field: function() 		{ return (new Date()).get_dmY();} } 
+				, {header: 'Grootboeknummer',			field: function(obj)	{ return obj.line.grootboek.code; } } 
+				, {header: 'Debiteurennummer',		field: function(obj)	{ return obj.invoice.company.debtorNumber; } } 
+				, {header: 'Naam debiteur',				field: function(obj)	{ return obj.invoice.company.name; } }
+				, {header: 'Periode',							field: function(obj)	{ return obj.invoice.getPeriod(); } }
+				, {header: 'BTW-code',						field: function(obj)	{ return obj.invoice.i18n.isDutch ? 1 : (obj.invoice.i18n.isEU ? 'E' : ' '); } }
+				
+				, {header: 'Factuurbedrag incl.',	field: function(obj)	{ return obj.line.getParsedAmount(obj.invoice.getVATPercentage()); } } 
+				, {header: 'BTW bedrag',					field: function(obj)	{ return obj.line.getParsedVAT(obj.invoice.getVATPercentage()); } }
+				
+				, {header: 'Factuurnummer',				field: function(obj)	{ return obj.invoice.getInvoiceNumber(); } }
+				, {header: 'Kostensoort',					field: function(obj)	{ return obj.line.grootboek.costtype; } }
+				, {header: 'Kostenplaats',				field: function(obj)	{ return obj.line.grootboek.costlocation; } }
 			];
 			
 	/**
@@ -56,10 +58,24 @@ $(document).ready(function() {
 		$.each(columns, function() { header.push('"' + this.header + '"'); });
 		$textarea.val(header.join('\t') + '\r\n\r\n');
 		
-		$.each(getInvoices(), function(it, invoice) {
-			var row = [];
-			$.each(columns, function() { row.push('"' + this.field(invoice, it) + '"'); });
-			$textarea.val($textarea.val() + row.join('\t') + '\r\n');
+		var pageNum = 0;
+		$.each(getInvoices(), function() {
+			var invoice = this;
+			$.each(this.lines, function(it) {
+				var row = [], line = this;
+				if ( line.isDiscount ) return;
+				if ( typeof invoice.lines[it+1] === typeof (new InvoiceLine) && invoice.lines[it+1].isDiscount ) {
+					line = new InvoiceLine(line);
+					line.amount += invoice.lines[it+1].amount;
+				}
+				
+				$.each(columns, function() {
+					row.push('"' + this.field({invoice: invoice, line: line, it: pageNum}) + '"'); 
+				});
+				$textarea.val($textarea.val() + row.join('\t') + '\r\n');
+				
+				++pageNum;
+			});
 		});
 	} // generateExport();
 	

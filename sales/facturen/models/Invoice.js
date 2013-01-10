@@ -115,16 +115,18 @@ Invoice.prototype.setDefaultTitle = function() {
  */
 Invoice.prototype.setDefaultInvoiceLines = function() {
 	if ( this.includingDomain ) {
-		this.lines.push({
+		this.lines.push(new InvoiceLine({
 				title: (this.i18n.isDutch 
 						? 'Registratie inclusief domein naam, email & website hosting voor '
 								: 'Registration including domain name, e-mail & website hosting for '
 					) + this.grootboekName
 			, currency: '€'
 			, amount: this.amount
-		});
+			, grootboek: this.grootboek
+			, grootboekName: this.grootboekName
+		}));
 	} else {
-		this.lines.push({
+		this.lines.push(new InvoiceLine({
 				title: this.grootboekName +
 						( this.agreement.numberOfUsers  
 							? ' (' + (this.i18n.isDutch?'inclusief':'including') + ' ' + this.agreement.numberOfUsers + ' users)'
@@ -132,23 +134,31 @@ Invoice.prototype.setDefaultInvoiceLines = function() {
 						)
 			, currency: '€'
 			, amount: this.amount
-		});
+			, grootboek: this.grootboek
+			, grootboekName: this.grootboekName 
+		}));
 	}
 	
 	if ( this.discount > 0 ) {
-		this.lines.push({
+		this.lines.push(new InvoiceLine({
 				title: ((this.i18n.isDutch?'Korting&nbsp;&nbsp;':'Discount&nbsp;&nbsp;')+this.discount + ' %')
 			, currency: '€'
 			, amount: this.discountAmount > 0 ? -Math.ceil(this.discountAmount) : 0
-		});
+			, grootboek: this.grootboek
+			, grootboekName: this.grootboekName
+			, isDiscount: true
+		}));
 	} else {
-		this.lines.push({
+		this.lines.push(new InvoiceLine({
 				title: ''
 			, currency: ''
 			, amount: 0
-		});
+			, grootboek: this.grootboek
+			, grootboekName: this.grootboekName
+			, isDiscount: true
+		}));
 	}
-	
+
 	return this;
 }; // setDefaultInvoiceLines();
 
@@ -179,12 +189,11 @@ Invoice.prototype.getVATPercentage = function() {
 	return this.vatPercentage;
 }; // getVATPercentage();
 
-
 /**
  * Parse an amount to the dutch presentation
  */
 Invoice.prototype.parseAmount = function(amount) {
-	return (parseInt(parseFloat(amount) * 100) + '').replace(/(..)$/, ',$1'); 
+	return (Math.round(parseFloat(amount) * 100) + '').replace(/(..)$/, ',$1'); 
 }; // parseAmount();
 
 /**
@@ -258,6 +267,9 @@ Invoice.prototype.getInvoiceType = function() {
  * @returns integer
  */
 Invoice.prototype.getInvoiceNumber = function() {
+	if ( typeof this.fixedInvoiceNumber !== typeof undefined ) {
+		return this.fixedInvoiceNumber;
+	}
 	return this.it + (initialInvoiceNumber || 0);
 }; // getInvoiceNumber();
 
